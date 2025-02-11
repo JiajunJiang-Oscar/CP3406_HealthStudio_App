@@ -1,5 +1,6 @@
 package com.example.healthstudio
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -30,6 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import com.example.healthstudio.ui.theme.HealthStudioTheme
 
 class MainActivity : ComponentActivity() {
@@ -38,14 +40,14 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             HealthStudioTheme {
-                AppScreen()
+                AppScreen(context = this)
             }
         }
     }
 }
 
 @Composable
-fun AppScreen() {
+fun AppScreen(context: Context) {
     var selectedTab by remember { mutableStateOf("Home") }
 
     Column(
@@ -63,7 +65,7 @@ fun AppScreen() {
             verticalArrangement = Arrangement.spacedBy(10.dp),
             modifier = Modifier.fillMaxWidth()
         ) {
-            items(getHealthData()) { card ->
+            items(getHealthData(context)) { card ->
                 CardBox(title = card.first, content = card.second, color = card.third)
             }
         }
@@ -104,7 +106,7 @@ fun MenuButton(selectedTab: String, onTabSelected: (String) -> Unit) {
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        listOf("Home", "Stats", "Settings").forEach { tab ->
+        listOf("Home", "Fitness", "Settings").forEach { tab ->
             Text(
                 text = tab,
                 fontSize = 18.sp,
@@ -116,20 +118,76 @@ fun MenuButton(selectedTab: String, onTabSelected: (String) -> Unit) {
     }
 }
 
+fun getHealthData(context: Context): List<Triple<String, String, Color>> {
+    val steps = 7790
+    val distance = 6.26
+    val heartRate = 82
+    val heartTime = "10:20 AM"
+    val sleepHours = 6
+    val sleepMinutes = 20
+    val activity = 521
+    val activityGoal = 270
+    val fitness = 32
+    val fitnessGoal = 20
+    val stand = 12
+    val standGoal = 10
 
-
-fun getHealthData(): List<Triple<String, String, Color>> {
     return listOf(
-        Triple("Steps / Distance", "Today: 7,790 Steps\nDistance: 6.26 Kilometre", Color(0xFF1E88E5)),
-        Triple("Heart Rate", "Newest: 82 Times / Minute\nTime: 10:20 AM", Color(0xFF43A047)),
-        Triple("Sleep", "Sleep Time:\n6 Hours 20 Minutes", Color(0xFFF57C00)),
-        Triple("Fitness Record", "Activity: 521/270 Kilocalorie\nFitness 32/20 Minutes\nStand 12/10 Hours", Color(0xFF6A1B9A))
+        Triple(
+            context.getString(R.string.steps_title),
+            context.getString(R.string.steps_content, steps, distance),
+            Color(ContextCompat.getColor(context, R.color.steps_color))
+        ),
+        Triple(
+            context.getString(R.string.heart_title),
+            context.getString(R.string.heart_content, heartRate, heartTime),
+            Color(ContextCompat.getColor(context, R.color.heart_color))
+        ),
+        Triple(
+            context.getString(R.string.sleep_title),
+            context.getString(R.string.sleep_content, sleepHours, sleepMinutes),
+            Color(ContextCompat.getColor(context, R.color.sleep_color))
+        ),
+        Triple(
+            context.getString(R.string.fitness_title),
+            context.getString(R.string.fitness_content, activity, activityGoal, fitness, fitnessGoal, stand, standGoal),
+            Color(ContextCompat.getColor(context, R.color.fitness_color))
+        )
     )
 }
 
+fun defaultHealthData(): List<Triple<String, String, Color>> {
+    return listOf(
+        Triple("Steps / Distance", "Today: -- Steps\nDistance: -- Kilometre", Color(0xFF1E88E5)),
+        Triple("Heart Rate", "Newest: -- Times / Minute\nTime: --", Color(0xFF43A047)),
+        Triple("Sleep", "Sleep Time:\n-- Hours -- Minutes", Color(0xFFF57C00)),
+        Triple("Fitness Record", "Activity: --/-- Kilocalorie\nFitness --/-- Minutes\nStand --/-- Hours", Color(0xFF6A1B9A))
+    )
+}
 
-@Preview (showBackground = true)
+@Preview(showBackground = true)
 @Composable
 fun PreviewUserGUI() {
-    AppScreen()
+    HealthStudioTheme {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            Text(
+                text = "Health Studio",
+                fontSize = 32.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(bottom = 50.dp)
+            )
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                items(defaultHealthData()) { card ->
+                    CardBox(title = card.first, content = card.second, color = card.third)
+                }
+            }
+        }
+    }
 }
