@@ -59,7 +59,9 @@ fun AppScreen(context: Context) {
             text = "Health Studio",
             fontSize = 32.sp,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 50.dp)
+            modifier = Modifier
+                .padding(bottom = 50.dp)
+                .padding(top = 10.dp)
         )
         LazyColumn (
             verticalArrangement = Arrangement.spacedBy(10.dp),
@@ -178,7 +180,9 @@ fun PreviewUserGUI() {
                 text = "Health Studio",
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(bottom = 50.dp)
+                modifier = Modifier
+                    .padding(bottom = 50.dp)
+                    .padding(top = 10.dp)
             )
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(10.dp),
