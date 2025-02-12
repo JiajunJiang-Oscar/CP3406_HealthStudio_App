@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -34,23 +33,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.healthstudio.ui.theme.HealthStudioTheme
 
-class MainActivity : ComponentActivity() {
+class SecondActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             HealthStudioTheme {
-                StartPage()
+                DetailPage()
             }
         }
     }
 }
 
 @Composable
-fun StartPage() {
+fun DetailPage() {
     Scaffold(
-        topBar = { TopAppBarDemo() },
-        bottomBar = { BottomAppBarDemo() },
+        topBar = { BackHomePage(onBackClick = { /* TODO: Back To Home Page */ }) },
+        bottomBar = { MenuBar() },
         content = { paddingValues ->
             Box (
                 modifier = Modifier
@@ -72,11 +71,7 @@ fun StartPage() {
                         .padding(horizontal = 10.dp)
                         .background(Color.Gray.copy(alpha = 0.1f)),
                     horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    items(defaultHealthData()) { card ->
-                        CardBox(title = card.first, content = card.second)
-                    }
-                }
+                ){ }
             }
         }
     )
@@ -84,17 +79,17 @@ fun StartPage() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBarDemo() {
+fun BackHomePage(onBackClick: () -> Unit) {
     TopAppBar(
         title = {
             Text(
-                text ="Health Studio",
+                text = "< Back To Home",
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
                 modifier = Modifier
-                    .padding(bottom = 20.dp)
-                    .padding(top = 20.dp)
+                    .padding(vertical = 20.dp)
+                    .clickable { onBackClick(/* TODO: Change Page */) }
             )
         },
         colors = androidx.compose.material3.TopAppBarDefaults.topAppBarColors(
@@ -104,7 +99,7 @@ fun TopAppBarDemo() {
 }
 
 @Composable
-fun CardBox(title: String, content: String) {
+fun InformationCard(title: String, content: String) {
     Card(
         modifier = Modifier
             .height(135.dp)
@@ -132,7 +127,7 @@ fun CardBox(title: String, content: String) {
 }
 
 @Composable
-fun BottomAppBarDemo() {
+fun MenuBar() {
     BottomAppBar(
         containerColor = Color.Black.copy(alpha = 0.6f)
     ) {
@@ -164,22 +159,10 @@ fun BottomAppBarDemo() {
     }
 }
 
-fun defaultHealthData(): List<Pair<String, String>> {
-    // Default Value for the card information
-    return listOf(
-        "Steps / Distance" to "Today: -- Steps\nDistance: -- Kilometre",
-        "Heart Rate" to "Newest: -- Times / Minute\nTime: --",
-        "Sleep" to "Sleep Time:\n-- Hours -- Minutes",
-        "Fitness Record" to "Activity: --/-- Kilocalorie\nFitness --/-- Minutes\nStand --/-- Hours",
-        "Weight" to "-- KG",
-        "Height" to "-- M"
-    )
-}
-
 @Preview(showBackground = true)
 @Composable
-fun StartPagePreview() {
+fun SecondPagePreview() {
     HealthStudioTheme {
-        StartPage()
+        DetailPage()
     }
 }

@@ -1,15 +1,3 @@
 <resources>
     <string name="app_name">HealthStudio</string>
-
-    <string name="steps_title">Steps / Distance</string>
-    <string name="steps_content">Today: %d Steps\nDistance: %.2f Kilometre</string>
-
-    <string name="heart_title">Heart Rate</string>
-    <string name="heart_content">Newest: %d Times / Minute\nTime: %s</string>
-
-    <string name="sleep_title">Sleep</string>
-    <string name="sleep_content">Sleep Time:\n%d Hours %d Minutes</string>
-
-    <string name="fitness_title">Fitness Record</string>
-    <string name="fitness_content">Activity: %d/%d Kilocalorie\nFitness %d/%d Minutes\nStand %d/%d Hours</string>
 </resources>
