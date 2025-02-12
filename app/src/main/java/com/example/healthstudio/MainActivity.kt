@@ -69,8 +69,7 @@ fun StartPage() {
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                     modifier = Modifier
                         .padding(paddingValues)
-                        .padding(horizontal = 10.dp)
-                        .background(Color.Gray.copy(alpha = 0.1f)),
+                        .padding(horizontal = 10.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     items(defaultHealthData()) { card ->

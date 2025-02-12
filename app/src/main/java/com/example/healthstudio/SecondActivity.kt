@@ -15,15 +15,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -63,16 +62,25 @@ fun DetailPage() {
                             )
                         )
                     )
+                    .padding(paddingValues)
             ) {
-                LazyColumn (
-                    verticalArrangement = Arrangement.spacedBy(10.dp),
-                    modifier = Modifier
-                        .padding(paddingValues)
-                        .padding(horizontal = 10.dp)
-                        .background(Color.Gray.copy(alpha = 0.1f)),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ){ }
+                InformationBox(
+                    title = "Your Heart Rate",
+                    details = "\n54 - 174 times/minutes\n" +
+                            "\n-------messages------\n" +
+                            "\n-------messages------\n" +
+                            "\nAbout heart rate\n" +
+                            "\nYour heart beats about 100,000 times a day, speeding up and slowing" +
+                            " down during exercise and rest. Heart rate is the number of times the" +
+                            " heart beats per minute and can be considered an indicator of " +
+                            "cardiovascular health.\n" +
+                            "\nHealth Studio displays historical heart rate data collected from your " +
+                            "smart watch or other heart rate monitoring device, allowing you to see " +
+                            "how your heart rate patterns and changes at different times and for " +
+                            "different activities.\n"
+                )
             }
+
         }
     )
 }
@@ -98,7 +106,31 @@ fun BackHomePage(onBackClick: () -> Unit) {
     )
 }
 
-
+@Composable
+fun InformationBox(title: String, details: String) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.9f))
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text(
+                text = title,
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF2196F3)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = details,
+                fontSize = 22.sp
+            )
+        }
+    }
+}
 
 @Composable
 fun MenuBar() {
