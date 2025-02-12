@@ -53,7 +53,7 @@ fun AppScreen(context: Context) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(25.dp)
     ) {
         Text(
             text = "Health Studio",
@@ -174,7 +174,7 @@ fun PreviewUserGUI() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(25.dp)
         ) {
             Text(
                 text = "Health Studio",
