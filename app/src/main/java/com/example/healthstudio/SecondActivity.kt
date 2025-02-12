@@ -98,33 +98,7 @@ fun BackHomePage(onBackClick: () -> Unit) {
     )
 }
 
-@Composable
-fun InformationCard(title: String, content: String) {
-    Card(
-        modifier = Modifier
-            .height(135.dp)
-            .clickable { /*TODO*/ },
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(15.dp)
-        ) {
-            Text(
-                text = title,
-                fontSize = 25.sp,
-                color = Color(0xFF2196F3),
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = content,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
-            )
-        }
-    }
-}
+
 
 @Composable
 fun MenuBar() {
