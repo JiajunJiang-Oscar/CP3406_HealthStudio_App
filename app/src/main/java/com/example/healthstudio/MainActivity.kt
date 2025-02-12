@@ -19,7 +19,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -27,9 +26,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -56,7 +55,15 @@ fun Greeting() {
             Box (
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.Gray)
+                    .background(
+                        Brush.linearGradient(
+                            colors = listOf(
+                                Color(0xFF2196F3),
+                                Color(0xFFBBDEFB),
+                                Color(0xFFF57C00)
+                            )
+                        )
+                    )
             ) {
                 LazyColumn (
                     verticalArrangement = Arrangement.spacedBy(10.dp),
@@ -67,7 +74,7 @@ fun Greeting() {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     items(defaultHealthData()) { card ->
-                        CardBox(title = card.first, content = card.second, color = card.third)
+                        CardBox(title = card.first, content = card.second)
                     }
                 }
             }
@@ -93,21 +100,28 @@ fun TopAppBarDemo() {
 }
 
 @Composable
-fun CardBox(title: String, content: String, color: Color) {
+fun CardBox(title: String, content: String) {
     Card(
         modifier = Modifier
             .height(135.dp)
             .clickable { /*TODO*/ },
-        colors = CardDefaults.cardColors(containerColor = color)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(10.dp)
         ) {
-            Text(text = title, fontSize = 25.sp, color = Color.White, fontWeight = FontWeight.Bold)
+            Text(
+                text = title,
+                fontSize = 25.sp,
+                fontWeight = FontWeight.Bold
+            )
             Spacer(modifier = Modifier.height(8.dp))
-            Text(text = content, fontSize = 18.sp, color = Color.White)
+            Text(
+                text = content,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
+            )
         }
     }
 }
@@ -131,14 +145,14 @@ fun BottomAppBarDemo() {
     }
 }
 
-fun defaultHealthData(): List<Triple<String, String, Color>> {
+fun defaultHealthData(): List<Pair<String, String>> {
     return listOf(
-        Triple("Steps / Distance", "Today: -- Steps\nDistance: -- Kilometre", Color(0xFF1E88E5)),
-        Triple("Heart Rate", "Newest: -- Times / Minute\nTime: --", Color(0xFF43A047)),
-        Triple("Sleep", "Sleep Time:\n-- Hours -- Minutes", Color(0xFFF57C00)),
-        Triple("Fitness Record", "Activity: --/-- Kilocalorie\nFitness --/-- Minutes\nStand --/-- Hours", Color(0xFF6A1B9A)),
-        Triple("Weight","-- KG", Color(0xFFF57C00)),
-        Triple("Height","-- M", Color(0xFFF57C00))
+        "Steps / Distance" to "Today: -- Steps\nDistance: -- Kilometre",
+        "Heart Rate" to "Newest: -- Times / Minute\nTime: --",
+        "Sleep" to "Sleep Time:\n-- Hours -- Minutes",
+        "Fitness Record" to "Activity: --/-- Kilocalorie\nFitness --/-- Minutes\nStand --/-- Hours",
+        "Weight" to "-- KG",
+        "Height" to "-- M"
     )
 }
 
