@@ -9,19 +9,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -56,8 +51,8 @@ class ThirdActivity : ComponentActivity() {
 @Composable
 fun AccountPage() {
     Scaffold(
-        topBar = { AccountTopAppBar() },
-        bottomBar = { BottomAppBarDemo() },
+        topBar = { AccountPageBar() },
+        bottomBar = { BottomBar() },
         content = { paddingValues ->
             Box(
                 modifier = Modifier
@@ -74,7 +69,7 @@ fun AccountPage() {
 
             ) {
                 Column(
-                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalArrangement = Arrangement.spacedBy(15.dp),
                     modifier = Modifier
                         .padding(paddingValues)
                         .padding(10.dp),
@@ -83,13 +78,12 @@ fun AccountPage() {
                     // User Account Info
                     UserInfoCard(username = "TestUsername", email = "Test.User.email@example.com")
                     SettingsButton(button = "Go To Login")
-
-
+                    HorizontalDivider(color = Color.Gray, thickness = 1.dp)
                     // Input Body Information
                     BodyMetricsForm()
-
-
-                    // **📌 设置按钮**
+                    SettingsButton(button = "Import")
+                    SettingsButton(button = "Import by other way")
+                    HorizontalDivider(color = Color.Gray, thickness = 1.dp)
                     SettingsButton(button = "Go To Setting")
                 }
 
@@ -100,7 +94,7 @@ fun AccountPage() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AccountTopAppBar() {
+fun AccountPageBar() {
     TopAppBar(
         title = {
             Text(
@@ -136,22 +130,21 @@ fun UserInfoCard(username: String, email: String) {
 
 @Composable
 fun BodyMetricsForm() {
-    var selectedMetric by remember { mutableStateOf("Height (cm)") } // 默认选项
-    var expanded by remember { mutableStateOf(false) } // 控制下拉菜单展开
-    var metricValue by remember { mutableStateOf("") } // 存储输入的数值
+    var selectedMetric by remember { mutableStateOf("Choice Value Type") }
+    var expanded by remember { mutableStateOf(false) }
+    var metricValue by remember { mutableStateOf("") }
 
-    val metricOptions = listOf("Height (cm)", "Weight (kg)", "BMI") // 指标选项
+    val metricOptions = listOf("Height (cm)", "Weight (kg)", "Heart Rate", "Sleep Time", "Steps") // 指标选项
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(20.dp),
     ) {
-        Text(text = "Import your information", fontSize = 22.sp, fontWeight = FontWeight.Bold)
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        // **📌 选择指标类型的复选框**
+        Text(text = "Import Your Information", fontSize = 22.sp, fontWeight = FontWeight.Bold)
+        Spacer(modifier = Modifier.height(20.dp))
+        Text("Choice information type here")
+        // Choice type check box
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -161,7 +154,6 @@ fun BodyMetricsForm() {
         ) {
             Text(text = selectedMetric, fontSize = 18.sp)
         }
-
         if (expanded) {
             Column(
                 modifier = Modifier
@@ -184,10 +176,9 @@ fun BodyMetricsForm() {
                 }
             }
         }
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        // **📌 输入数值**
+        Spacer(modifier = Modifier.height(20.dp))
+        Text("Input the value here")
+        // Input Value
         OutlinedTextField(
             value = metricValue,
             onValueChange = { metricValue = it },
@@ -200,10 +191,10 @@ fun BodyMetricsForm() {
 @Composable
 fun SettingsButton(button: String) {
     Button(
-        onClick = { /* TODO: 跳转到设置界面 */ },
+        onClick = { /* TODO: Jump to page */ },
         modifier = Modifier.fillMaxWidth()
     ) {
-        Text(text = "$button" , fontSize = 20.sp)
+        Text(text = " $button " , fontSize = 20.sp)
     }
 }
 

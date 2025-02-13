@@ -21,6 +21,7 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -51,7 +52,7 @@ class MainActivity : ComponentActivity() {
 fun StartPage() {
     Scaffold(
         topBar = { TopAppBarDemo() },
-        bottomBar = { BottomAppBarDemo() },
+        bottomBar = { BottomBar() },
         content = { paddingValues ->
             Box (
                 modifier = Modifier
@@ -113,7 +114,7 @@ fun CardBox(title: String, content: String) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(15.dp)
+                .padding(18.dp)
         ) {
             Text(
                 text = title,
@@ -121,7 +122,9 @@ fun CardBox(title: String, content: String) {
                 color = Color(0xFF2196F3),
                 fontWeight = FontWeight.Bold
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(4.dp))
+            HorizontalDivider(color = Color.White, thickness = 1.dp)
+            Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = content,
                 fontSize = 18.sp,
@@ -132,7 +135,7 @@ fun CardBox(title: String, content: String) {
 }
 
 @Composable
-fun BottomAppBarDemo() {
+fun BottomBar() {
     BottomAppBar(
         containerColor = Color.Black.copy(alpha = 0.6f)
     ) {

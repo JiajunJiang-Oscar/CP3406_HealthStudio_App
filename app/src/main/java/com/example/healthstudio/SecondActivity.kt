@@ -9,7 +9,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,10 +16,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -51,7 +50,7 @@ class SecondActivity : ComponentActivity() {
 fun DetailPage() {
     Scaffold(
         topBar = { BackHomePage(onBackClick = { /* TODO: Back To Home Page */ }) },
-        bottomBar = { MenuBar() },
+        bottomBar = { BottomBar() },
         content = { paddingValues ->
             Box (
                 modifier = Modifier
@@ -111,7 +110,7 @@ fun InformationBox(title: String, details: String) {
         colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.5f))
     ) {
         Column(
-            modifier = Modifier.padding(15.dp)
+            modifier = Modifier.padding(18.dp)
         ) {
             Text(
                 text = title,
@@ -119,43 +118,12 @@ fun InformationBox(title: String, details: String) {
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF2196F3)
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(4.dp))
+            HorizontalDivider(color = Color.White, thickness = 1.dp)
+            Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = details,
                 fontSize = 18.sp
-            )
-        }
-    }
-}
-
-@Composable
-fun MenuBar() {
-    BottomAppBar(
-        containerColor = Color.Black.copy(alpha = 0.6f)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
-            horizontalArrangement = Arrangement.SpaceAround
-        ) {
-            Text(
-                "Health", Modifier.clickable { /* TODO: Change Page */ },
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
-                color = Color.White
-            )
-            Text(
-                "Fitness", Modifier.clickable { /* TODO: Change Page */ },
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
-                color = Color.White
-            )
-            Text(
-                "Me", Modifier.clickable { /* TODO: Change Page */ },
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
-                color = Color.White
             )
         }
     }
