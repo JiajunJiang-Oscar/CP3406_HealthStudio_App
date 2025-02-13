@@ -70,7 +70,7 @@ fun StartPage() {
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                     modifier = Modifier
                         .padding(paddingValues)
-                        .padding(horizontal = 10.dp),
+                        .padding(10.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     items(defaultHealthData()) { card ->
@@ -89,7 +89,7 @@ fun TopAppBarDemo() {
         title = {
             Text(
                 text ="Health Studio",
-                fontSize = 32.sp,
+                fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
                 modifier = Modifier
@@ -107,7 +107,6 @@ fun TopAppBarDemo() {
 fun CardBox(title: String, content: String) {
     Card(
         modifier = Modifier
-            .height(135.dp)
             .clickable { /*TODO*/ },
         colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.5f))
     ) {
