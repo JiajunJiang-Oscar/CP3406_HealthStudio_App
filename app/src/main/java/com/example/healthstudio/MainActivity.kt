@@ -58,7 +58,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun StartPage() {
     Scaffold(
-        topBar = { TopAppBarDemo() },
+        topBar = { HealthStudioBar() },
         bottomBar = { BottomBar() },
         content = { paddingValues ->
             Box (
@@ -92,7 +92,7 @@ fun StartPage() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBarDemo() {
+fun HealthStudioBar() {
     TopAppBar(
         title = {
             Text(
