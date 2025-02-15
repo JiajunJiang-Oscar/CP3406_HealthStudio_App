@@ -88,7 +88,7 @@ fun BackHomePage(onBackClick: () -> Unit) {
         title = {
             Text(
                 text = "< Back To Home",
-                fontSize = 30.sp,
+                fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
                 modifier = Modifier

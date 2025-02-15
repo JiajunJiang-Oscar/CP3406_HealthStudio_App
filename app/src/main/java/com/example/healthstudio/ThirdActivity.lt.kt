@@ -4,16 +4,20 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -28,8 +32,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -103,13 +109,32 @@ fun AccountPageBar() {
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
                 modifier = Modifier
-                    .padding(bottom = 20.dp)
-                    .padding(top = 20.dp)
+                    .padding(vertical = 40.dp)
             )
         },
-        colors = androidx.compose.material3.TopAppBarDefaults.topAppBarColors(
-            containerColor = Color.Black.copy(alpha = 0.6f)
-        )
+        actions = {
+            Box(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(end = 16.dp),
+                contentAlignment = Alignment.Center
+            ){
+                Image(
+                    painter = painterResource(id = R.drawable.default_user),
+                    contentDescription = "User profile",
+                    modifier = Modifier
+                        .size(50.dp)
+                        .clip(CircleShape)
+                        .background(Color.Gray)
+                        .clickable { /* TODO: open "me" */ }
+                )
+            }
+
+        },
+            modifier = Modifier.height(150.dp),
+            colors = androidx.compose.material3.TopAppBarDefaults.topAppBarColors(
+                containerColor = Color.White.copy(alpha = 0f)
+            )
     )
 }
 
