@@ -159,7 +159,7 @@ fun BodyMetricsForm() {
     var expanded by remember { mutableStateOf(false) }
     var metricValue by remember { mutableStateOf("") }
 
-    val metricOptions = listOf("Height (cm)", "Weight (kg)", "Heart Rate", "Sleep Time", "Steps") // 指标选项
+    val metricOptions = listOf("Height (cm)", "Weight (kg)", "Heart Rate", "Sleep Time", "Steps")
 
     Column(
         modifier = Modifier
@@ -174,8 +174,10 @@ fun BodyMetricsForm() {
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { expanded = true }
-                .background(Color.LightGray.copy(alpha = 0.3f),
-                    androidx.compose.foundation.shape.RoundedCornerShape(8.dp))
+                .background(
+                    Color.LightGray.copy(alpha = 0.3f),
+                    androidx.compose.foundation.shape.RoundedCornerShape(8.dp)
+                )
                 .padding(16.dp)
         ) {
             Text(text = selectedMetric, fontSize = 18.sp)
@@ -184,7 +186,10 @@ fun BodyMetricsForm() {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color.White, androidx.compose.foundation.shape.RoundedCornerShape(8.dp))
+                    .background(
+                        Color.White,
+                        androidx.compose.foundation.shape.RoundedCornerShape(8.dp)
+                    )
                     .padding(10.dp)
             ) {
                 metricOptions.forEach { option ->
