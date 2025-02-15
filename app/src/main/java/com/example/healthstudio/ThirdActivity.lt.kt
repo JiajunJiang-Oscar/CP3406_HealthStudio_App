@@ -174,7 +174,8 @@ fun BodyMetricsForm() {
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { expanded = true }
-                .background(Color.LightGray.copy(alpha = 0.3f), androidx.compose.foundation.shape.RoundedCornerShape(8.dp))
+                .background(Color.LightGray.copy(alpha = 0.3f),
+                    androidx.compose.foundation.shape.RoundedCornerShape(8.dp))
                 .padding(16.dp)
         ) {
             Text(text = selectedMetric, fontSize = 18.sp)
