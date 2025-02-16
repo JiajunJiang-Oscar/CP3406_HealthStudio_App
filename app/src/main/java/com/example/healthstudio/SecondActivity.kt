@@ -60,7 +60,11 @@ fun DetailPage() {
                     .fillMaxSize()
                     .background(
                         Brush.linearGradient(
-                            colors = listOf(BluePrimary, BlueLight, OrangeAccent)
+                            colors = listOf(
+                                BluePrimary,
+                                BlueLight,
+                                OrangeAccent
+                            )
                         )
                     )
             ) {

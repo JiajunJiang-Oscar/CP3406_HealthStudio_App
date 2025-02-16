@@ -36,6 +36,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -68,7 +69,11 @@ fun AccountPage() {
                     .fillMaxSize()
                     .background(
                         Brush.linearGradient(
-                            colors = listOf(BluePrimary, BlueLight, OrangeAccent)
+                            colors = listOf(
+                                BluePrimary,
+                                BlueLight,
+                                OrangeAccent
+                            )
                         )
                     )
             ) {
@@ -80,15 +85,24 @@ fun AccountPage() {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     // User Account Info
-                    UserInfoCard(username = "TestUsername", email = "Test.User.email@example.com")
-                    SettingsButton(button = "Go To Login")
-                    HorizontalDivider(color = Color.Gray, thickness = 1.dp)
+                    UserInfoCard(
+                        username = "TestUsername",
+                        email = "Test.User.email@example.com"
+                    )
+                    SettingsButton(button = stringResource(id = R.string.go_to_login))
+                    HorizontalDivider(
+                        color = Color.Gray,
+                        thickness = 1.dp
+                    )
                     // Input Body Information
                     BodyMetricsForm()
-                    SettingsButton(button = "Import")
-                    SettingsButton(button = "Import by other way")
-                    HorizontalDivider(color = Color.Gray, thickness = 1.dp)
-                    SettingsButton(button = "Go To Setting")
+                    SettingsButton(button = stringResource(id = R.string.import_button))
+                    SettingsButton(button = stringResource(id = R.string.import_other_way))
+                    HorizontalDivider(
+                        color = Color.Gray,
+                        thickness = 1.dp
+                    )
+                    SettingsButton(button = stringResource(id = R.string.go_to_setting))
                 }
 
             }
