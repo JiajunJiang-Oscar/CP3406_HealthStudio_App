@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -30,6 +29,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,7 +41,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.healthstudio.ui.theme.BlueLight
+import com.example.healthstudio.ui.theme.BluePrimary
 import com.example.healthstudio.ui.theme.HealthStudioTheme
+import com.example.healthstudio.ui.theme.OrangeAccent
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,16 +64,12 @@ fun StartPage() {
         topBar = { HealthStudioBar() },
         bottomBar = { BottomBar() },
         content = { paddingValues ->
-            Box (
+            Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(
                         Brush.linearGradient(
-                            colors = listOf(
-                                Color(0xFF2196F3),
-                                Color(0xFFBBDEFB),
-                                Color(0xFFF57C00)
-                            )
+                            colors = listOf(BluePrimary, BlueLight, OrangeAccent)
                         )
                     )
             ) {
@@ -165,15 +164,15 @@ fun BottomBar() {
     BottomAppBar(
         containerColor = Color.Black.copy(alpha = 0.6f)
     ) {
+        val items = listOf("Health", "Fitness", "Me")
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(40.dp),
-            horizontalArrangement = Arrangement.Center,
+            horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val items = listOf("Health", "Fitness", "Me")
-
             items.forEachIndexed { index, item ->
                 Text(
                     text = item,
@@ -184,14 +183,11 @@ fun BottomBar() {
                 )
 
                 if (index != items.lastIndex) {
-                    Spacer(Modifier.padding(15.dp))
-                    Box(
-                        modifier = Modifier
-                            .width(1.dp)
-                            .height(20.dp)
-                            .background(Color.White.copy(alpha = 0.6f))
+                    VerticalDivider(
+                        thickness = 1.dp,
+                        color = Color.White.copy(alpha = 0.6f),
+                        modifier = Modifier.height(20.dp)
                     )
-                    Spacer(Modifier.width(35.dp))
                 }
             }
         }

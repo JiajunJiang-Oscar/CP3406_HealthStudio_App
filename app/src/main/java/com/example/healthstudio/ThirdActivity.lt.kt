@@ -40,7 +40,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.healthstudio.ui.theme.BlueLight
+import com.example.healthstudio.ui.theme.BluePrimary
 import com.example.healthstudio.ui.theme.HealthStudioTheme
+import com.example.healthstudio.ui.theme.OrangeAccent
 
 class ThirdActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,14 +68,9 @@ fun AccountPage() {
                     .fillMaxSize()
                     .background(
                         Brush.linearGradient(
-                            colors = listOf(
-                                Color(0xFF2196F3),
-                                Color(0xFFBBDEFB),
-                                Color(0xFFF57C00)
-                            )
+                            colors = listOf(BluePrimary, BlueLight, OrangeAccent)
                         )
-                    ),
-
+                    )
             ) {
                 Column(
                     verticalArrangement = Arrangement.spacedBy(15.dp),
