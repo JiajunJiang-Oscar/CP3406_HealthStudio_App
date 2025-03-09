@@ -4,18 +4,24 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,11 +29,14 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,22 +46,23 @@ import com.example.healthstudio.ui.theme.BluePrimary
 import com.example.healthstudio.ui.theme.HealthStudioTheme
 import com.example.healthstudio.ui.theme.OrangeAccent
 
-class SecondActivity : ComponentActivity() {
+class Home : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             HealthStudioTheme {
-                DetailPage()
+                StartPage()
             }
         }
     }
 }
 
 @Composable
-fun DetailPage() {
+fun StartPage() {
+
     Scaffold(
-        topBar = { BackHomePage(onBackClick = { /* TODO: Back To Home Page */ }) },
+        topBar = { HealthStudioBar() },
         bottomBar = { BottomBar() },
         content = { paddingValues ->
             Box(
@@ -68,15 +78,15 @@ fun DetailPage() {
                         )
                     )
             ) {
-                LazyColumn (
+                LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                     modifier = Modifier
                         .padding(paddingValues)
                         .padding(10.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    items(defaultDetailInformation()) { card ->
-                        InformationBox(title = card.first, details = card.second)
+                    items(defaultHealthData()) { card ->
+                        CardBox(title = card.first, content = card.second)
                     }
                 }
             }
@@ -86,72 +96,125 @@ fun DetailPage() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BackHomePage(onBackClick: () -> Unit) {
+fun HealthStudioBar() {
     TopAppBar(
         title = {
             Text(
-                text = "< Back To Home",
-                fontSize = 18.sp,
+                text ="Health Studio",
+                fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
                 modifier = Modifier
-                    .padding(vertical = 20.dp)
-                    .clickable { onBackClick(/* TODO: Change Page */) }
+                    .padding(vertical = 40.dp)
             )
         },
+        actions = {
+            Box(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(end = 16.dp),
+                contentAlignment = Alignment.Center
+            ){
+                Image(
+                    painter = painterResource(id = R.drawable.default_user),
+                    contentDescription = "User profile",
+                    modifier = Modifier
+                        .size(50.dp)
+                        .clip(CircleShape)
+                        .background(Color.Gray)
+                        .clickable { /* TODO: open "me" */ }
+                )
+            }
+
+        },
+        modifier = Modifier.height(150.dp),
         colors = androidx.compose.material3.TopAppBarDefaults.topAppBarColors(
-            containerColor = Color.Black.copy(alpha = 0.6f)
+            containerColor = Color.White.copy(alpha = 0f)
         )
     )
 }
 
 @Composable
-fun InformationBox(title: String, details: String) {
+fun CardBox(title: String, content: String) {
     Card(
         modifier = Modifier
-            .fillMaxWidth(),
+            .clickable { /*TODO*/ },
         colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.5f))
     ) {
         Column(
-            modifier = Modifier.padding(18.dp)
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(18.dp)
         ) {
             Text(
                 text = title,
                 fontSize = 25.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFF2196F3)
+                color = Color(0xFF2196F3),
+                fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(4.dp))
             HorizontalDivider(color = Color.White, thickness = 1.dp)
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = details,
-                fontSize = 18.sp
+                text = content,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
             )
         }
     }
 }
 
-fun defaultDetailInformation(): List<Pair<String, String>> {
+@Composable
+fun BottomBar() {
+    BottomAppBar(
+        containerColor = Color.Black.copy(alpha = 0.6f)
+    ) {
+        val items = listOf("Health", "Fitness", "Me")
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(40.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            items.forEachIndexed { index, item ->
+                Text(
+                    text = item,
+                    modifier = Modifier.clickable { /* TODO: Change Page */ },
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp,
+                    color = Color.White
+                )
+
+                if (index != items.lastIndex) {
+                    VerticalDivider(
+                        thickness = 1.dp,
+                        color = Color.White.copy(alpha = 0.6f),
+                        modifier = Modifier.height(20.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+
+fun defaultHealthData(): List<Pair<String, String>> {
     // Default Value for the card information
     return listOf(
-        "Heart Rate" to "Range:\nToday: 47 - 160 times/min",
-        "Latest Heart Rate" to "Today: 7:54 PM\n47 times/min",
-        "About heart rate" to "Your heart beats about 100,000 times a day, speeding up and slowing" +
-                " down during exercise and rest. Heart rate is the number of times the" +
-                " heart beats per minute and can be considered an indicator of " +
-                "cardiovascular health.\n" +
-                "\nHealth Studio displays historical heart rate data collected from your " +
-                "smart watch or other heart rate monitoring device, allowing you to see " +
-                "how your heart rate patterns and changes at different times and for " +
-                "different activities.\n",
+        "Steps / Distance" to "Today: -- Steps\nDistance: -- Kilometre",
+        "Heart Rate" to "Newest: -- Times / Minute\nTime: --",
+        "Sleep" to "Sleep Time:\n-- Hours -- Minutes",
+        "Fitness Record" to "Activity: --/-- Kilocalorie\nFitness --/-- Minutes\nStand --/-- Hours",
+        "Weight" to "-- KG",
+        "Height" to "-- M"
     )
 }
 
 @Preview(showBackground = true)
 @Composable
-fun SecondPagePreview() {
+fun StartPagePreview() {
     HealthStudioTheme {
-        DetailPage()
+        StartPage()
     }
 }

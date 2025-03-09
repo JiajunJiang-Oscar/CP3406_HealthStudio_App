@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">HealthStudio</string>
     <string name="go_to_login">Go To Login</string>
+    <string name="unlock_more_function">Unlock More Function</string>
     <string name="import_button">Import</string>
     <string name="import_other_way">Import by other way</string>
     <string name="go_to_setting">Go To Setting</string>

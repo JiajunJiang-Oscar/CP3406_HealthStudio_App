@@ -17,7 +17,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -46,7 +48,7 @@ import com.example.healthstudio.ui.theme.BluePrimary
 import com.example.healthstudio.ui.theme.HealthStudioTheme
 import com.example.healthstudio.ui.theme.OrangeAccent
 
-class ThirdActivity : ComponentActivity() {
+class Account : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -77,11 +79,13 @@ fun AccountPage() {
                         )
                     )
             ) {
+                // Add verticalScroll to get page scrolling
                 Column(
                     verticalArrangement = Arrangement.spacedBy(15.dp),
                     modifier = Modifier
                         .padding(paddingValues)
-                        .padding(10.dp),
+                        .padding(10.dp)
+                        .verticalScroll(rememberScrollState()), // 这里启用滚动
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     // User Account Info
@@ -90,6 +94,7 @@ fun AccountPage() {
                         email = "Test.User.email@example.com"
                     )
                     SettingsButton(button = stringResource(id = R.string.go_to_login))
+                    SettingsButton(button = stringResource(id = R.string.unlock_more_function))
                     HorizontalDivider(
                         color = Color.Gray,
                         thickness = 1.dp
@@ -104,7 +109,6 @@ fun AccountPage() {
                     )
                     SettingsButton(button = stringResource(id = R.string.go_to_setting))
                 }
-
             }
         }
     )
