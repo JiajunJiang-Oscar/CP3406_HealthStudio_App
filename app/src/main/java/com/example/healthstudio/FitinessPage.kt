@@ -1,5 +1,6 @@
 package com.example.healthstudio
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -32,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -111,6 +113,8 @@ fun FitnessPageBar() {
                     .padding(end = 16.dp),
                 contentAlignment = Alignment.Center
             ){
+                val context = LocalContext.current
+
                 Image(
                     painter = painterResource(id = R.drawable.default_user),
                     contentDescription = "User profile",
@@ -118,7 +122,10 @@ fun FitnessPageBar() {
                         .size(50.dp)
                         .clip(CircleShape)
                         .background(Color.Gray)
-                        .clickable { /* TODO: open "me" */ }
+                        .clickable {
+                            val intent = Intent(context, Account::class.java)
+                            context.startActivity(intent)
+                        }
                 )
             }
 

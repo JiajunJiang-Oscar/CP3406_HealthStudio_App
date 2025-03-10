@@ -1,5 +1,6 @@
 package com.example.healthstudio
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -36,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -115,6 +117,8 @@ fun HealthStudioBar() {
                     .padding(end = 16.dp),
                 contentAlignment = Alignment.Center
             ){
+                val context = LocalContext.current
+
                 Image(
                     painter = painterResource(id = R.drawable.default_user),
                     contentDescription = "User profile",
@@ -122,7 +126,10 @@ fun HealthStudioBar() {
                         .size(50.dp)
                         .clip(CircleShape)
                         .background(Color.Gray)
-                        .clickable { /* TODO: open "me" */ }
+                        .clickable {
+                            val intent = Intent(context, Account::class.java)
+                            context.startActivity(intent)
+                        }
                 )
             }
 
@@ -166,10 +173,13 @@ fun CardBox(title: String, content: String) {
 
 @Composable
 fun BottomBar() {
+    val context = LocalContext.current  // 获取上下文
+
     BottomAppBar(
         containerColor = Color.Black.copy(alpha = 0.6f)
     ) {
         val items = listOf("Health", "Fitness", "Me")
+        val activities = listOf(Home::class.java, Fitness::class.java, Account::class.java)
 
         Row(
             modifier = Modifier
@@ -181,7 +191,10 @@ fun BottomBar() {
             items.forEachIndexed { index, item ->
                 Text(
                     text = item,
-                    modifier = Modifier.clickable { /* TODO: Change Page */ },
+                    modifier = Modifier.clickable {
+                        val intent = Intent(context, activities[index])
+                        context.startActivity(intent)
+                    },
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
                     color = Color.White

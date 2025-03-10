@@ -13,15 +13,28 @@
         android:theme="@style/Theme.HealthStudio"
         tools:targetApi="31">
         <activity
-            android:name=".Account"
+            android:name=".Home"
             android:exported="true"
             android:theme="@style/Theme.HealthStudio">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Fitness Activity -->
+        <activity
+            android:name=".Fitness"
+            android:exported="true"
+            android:theme="@style/Theme.HealthStudio" />
+
+
+        <!-- Me Activity -->
+        <activity
+            android:name=".Account"
+            android:exported="true"
+            android:theme="@style/Theme.HealthStudio" />
+
     </application>
 
 </manifest>
