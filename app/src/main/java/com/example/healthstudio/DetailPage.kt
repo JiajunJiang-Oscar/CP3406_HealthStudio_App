@@ -2,6 +2,7 @@ package com.example.healthstudio
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
@@ -51,8 +52,10 @@ class Detail : ComponentActivity() {
 
 @Composable
 fun DetailPage() {
+    val activity = LocalActivity.current
+
     Scaffold(
-        topBar = { BackHomePage(onBackClick = { /* TODO: Back To Home Page */ }) },
+        topBar = { BackHomePage(onBackClick = { activity?.finish() }) },
         bottomBar = { BottomBar() },
         content = { paddingValues ->
             Box(
@@ -96,7 +99,7 @@ fun BackHomePage(onBackClick: () -> Unit) {
                 color = Color.White,
                 modifier = Modifier
                     .padding(vertical = 20.dp)
-                    .clickable { onBackClick(/* TODO: Change Page */) }
+                    .clickable { onBackClick() }
             )
         },
         colors = androidx.compose.material3.TopAppBarDefaults.topAppBarColors(

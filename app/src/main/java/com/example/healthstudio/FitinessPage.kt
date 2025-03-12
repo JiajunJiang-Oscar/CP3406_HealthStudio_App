@@ -139,9 +139,14 @@ fun FitnessPageBar() {
 
 @Composable
 fun FitnessCardBox(title: String, content: String) {
+    val context = LocalContext.current
+
     Card(
         modifier = Modifier
-            .clickable { /*TODO*/ },
+            .clickable {
+                val intent = Intent(context, Detail::class.java)
+                context.startActivity(intent)
+            },
         colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.5f))
     ) {
         Column(
