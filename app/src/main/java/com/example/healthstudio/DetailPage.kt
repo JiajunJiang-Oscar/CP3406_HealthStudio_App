@@ -56,7 +56,7 @@ fun DetailPage() {
 
     Scaffold(
         topBar = { BackHomePage(onBackClick = { activity?.finish() }) },
-        bottomBar = { BottomBar() },
+//        bottomBar = { BottomBar(navController: NavController) },
         content = { paddingValues ->
             Box(
                 modifier = Modifier

@@ -1,10 +1,6 @@
 package com.example.healthstudio
 
 import android.content.Intent
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -30,7 +26,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,29 +38,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.healthstudio.ui.theme.BlueLight
 import com.example.healthstudio.ui.theme.BluePrimary
 import com.example.healthstudio.ui.theme.HealthStudioTheme
 import com.example.healthstudio.ui.theme.OrangeAccent
 
-class Home : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            HealthStudioTheme {
-                HomePage()
-            }
-        }
-    }
-}
-
 @Composable
-fun HomePage() {
+fun HomePage(navController: NavController) {
 
     Scaffold(
         topBar = { HealthStudioBar() },
-        bottomBar = { BottomBar() },
+        bottomBar = { BottomBar(navController) },
         content = { paddingValues ->
             Box(
                 modifier = Modifier
@@ -117,8 +102,6 @@ fun HealthStudioBar() {
                     .padding(end = 16.dp),
                 contentAlignment = Alignment.Center
             ){
-                val context = LocalContext.current
-
                 Image(
                     painter = painterResource(id = R.drawable.default_user),
                     contentDescription = "User profile",
@@ -126,10 +109,7 @@ fun HealthStudioBar() {
                         .size(50.dp)
                         .clip(CircleShape)
                         .background(Color.Gray)
-                        .clickable {
-                            val intent = Intent(context, Account::class.java)
-                            context.startActivity(intent)
-                        }
+                        .clickable { /*TODO: JUMP TO SOME PAGE*/ }
                 )
             }
 
@@ -177,15 +157,13 @@ fun CardBox(title: String, content: String) {
 }
 
 @Composable
-fun BottomBar() {
-    val context = LocalContext.current  // 获取上下文
+fun BottomBar(navController: NavController) {
+    val items = listOf("home_page", "fitness_page", "account_page")
+    val labels = listOf("Health", "Fitness", "Me")
 
     BottomAppBar(
         containerColor = Color.Black.copy(alpha = 0.6f)
     ) {
-        val items = listOf("Health", "Fitness", "Me")
-        val activities = listOf(Home::class.java, Fitness::class.java, Account::class.java)
-
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -193,25 +171,20 @@ fun BottomBar() {
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            items.forEachIndexed { index, item ->
+            items.forEachIndexed { index, route ->
                 Text(
-                    text = item,
+                    text = labels[index],
                     modifier = Modifier.clickable {
-                        val intent = Intent(context, activities[index])
-                        context.startActivity(intent)
+                        navController.navigate(route) {
+                            popUpTo(navController.graph.startDestinationId) { saveState = true }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
                     },
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
                     color = Color.White
                 )
-
-                if (index != items.lastIndex) {
-                    VerticalDivider(
-                        thickness = 1.dp,
-                        color = Color.White.copy(alpha = 0.6f),
-                        modifier = Modifier.height(20.dp)
-                    )
-                }
             }
         }
     }
@@ -233,6 +206,7 @@ fun defaultHealthData(): List<Pair<String, String>> {
 @Composable
 fun StartPagePreview() {
     HealthStudioTheme {
-        HomePage()
+        val navController = rememberNavController() // 在预览模式创建一个 NavController
+        HomePage(navController)
     }
 }

@@ -1,9 +1,5 @@
 package com.example.healthstudio
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -43,29 +39,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.healthstudio.ui.theme.BlueLight
 import com.example.healthstudio.ui.theme.BluePrimary
 import com.example.healthstudio.ui.theme.HealthStudioTheme
 import com.example.healthstudio.ui.theme.OrangeAccent
 
-class Account : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            HealthStudioTheme {
-                AccountPage()
-            }
-        }
-    }
-}
-
 @Composable
-fun AccountPage() {
+fun AccountPage(navController: NavController) {
 
     Scaffold(
         topBar = { AccountPageBar() },
-        bottomBar = { BottomBar() },
+        bottomBar = { BottomBar(navController) },
         content = { paddingValues ->
             Box(
                 modifier = Modifier
@@ -250,6 +236,7 @@ fun SettingsButton(button: String) {
 @Composable
 fun AccountPagePreview() {
     HealthStudioTheme {
-        AccountPage()
+        val navController = rememberNavController() // 在预览模式创建一个 NavController
+        HomePage(navController)
     }
 }
