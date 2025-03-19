@@ -54,14 +54,14 @@ class Home : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             HealthStudioTheme {
-                StartPage()
+                HomePage()
             }
         }
     }
 }
 
 @Composable
-fun StartPage() {
+fun HomePage() {
 
     Scaffold(
         topBar = { HealthStudioBar() },
@@ -233,6 +233,6 @@ fun defaultHealthData(): List<Pair<String, String>> {
 @Composable
 fun StartPagePreview() {
     HealthStudioTheme {
-        StartPage()
+        HomePage()
     }
 }

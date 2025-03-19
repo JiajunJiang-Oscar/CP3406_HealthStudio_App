@@ -62,6 +62,7 @@ class Account : ComponentActivity() {
 
 @Composable
 fun AccountPage() {
+
     Scaffold(
         topBar = { AccountPageBar() },
         bottomBar = { BottomBar() },
