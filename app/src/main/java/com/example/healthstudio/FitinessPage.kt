@@ -35,19 +35,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.healthstudio.ui.theme.BlueLight
 import com.example.healthstudio.ui.theme.BluePrimary
 import com.example.healthstudio.ui.theme.HealthStudioTheme
 import com.example.healthstudio.ui.theme.OrangeAccent
 
 @Composable
-fun FitnessPage(navController: NavController) {
+fun FitnessPage() {
 
     Scaffold(
         topBar = { FitnessPageBar() },
-        bottomBar = { BottomBar(navController) },
         content = { paddingValues ->
             Box(
                 modifier = Modifier
@@ -65,8 +62,9 @@ fun FitnessPage(navController: NavController) {
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                     modifier = Modifier
-                        .padding(paddingValues)
-                        .padding(10.dp),
+                        .padding(top = paddingValues.calculateTopPadding()) // 应用 `Scaffold` 提供的顶部 padding
+                        .padding(bottom = 100.dp) // 为 `BottomBar` 留出空间，防止遮挡(100dp)
+                        .padding(horizontal = 15.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     items(defaultFitnessData()) { card ->
@@ -172,7 +170,6 @@ fun defaultFitnessData(): List<Pair<String, String>> {
 @Composable
 fun FitnessPageReview() {
     HealthStudioTheme {
-        val navController = rememberNavController() // 在预览模式创建一个 NavController
-        HomePage(navController)
+        HomePage()
     }
 }

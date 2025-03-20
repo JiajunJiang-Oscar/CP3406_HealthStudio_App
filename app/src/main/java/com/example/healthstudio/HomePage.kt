@@ -7,18 +7,15 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -38,19 +35,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.healthstudio.ui.theme.BlueLight
 import com.example.healthstudio.ui.theme.BluePrimary
 import com.example.healthstudio.ui.theme.HealthStudioTheme
 import com.example.healthstudio.ui.theme.OrangeAccent
 
 @Composable
-fun HomePage(navController: NavController) {
+fun HomePage() {
 
     Scaffold(
         topBar = { HealthStudioBar() },
-        bottomBar = { BottomBar(navController) },
         content = { paddingValues ->
             Box(
                 modifier = Modifier
@@ -68,8 +62,9 @@ fun HomePage(navController: NavController) {
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                     modifier = Modifier
-                        .padding(paddingValues)
-                        .padding(10.dp),
+                        .padding(top = paddingValues.calculateTopPadding()) // 应用 `Scaffold` 提供的顶部 padding
+                        .padding(bottom = 100.dp) // 为 `BottomBar` 留出空间，防止遮挡(100dp)
+                        .padding(horizontal = 15.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     items(defaultHealthData()) { card ->
@@ -156,40 +151,6 @@ fun CardBox(title: String, content: String) {
     }
 }
 
-@Composable
-fun BottomBar(navController: NavController) {
-    val items = listOf("home_page", "fitness_page", "account_page")
-    val labels = listOf("Health", "Fitness", "Me")
-
-    BottomAppBar(
-        containerColor = Color.Black.copy(alpha = 0.6f)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(40.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            items.forEachIndexed { index, route ->
-                Text(
-                    text = labels[index],
-                    modifier = Modifier.clickable {
-                        navController.navigate(route) {
-                            popUpTo(navController.graph.startDestinationId) { saveState = true }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    },
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp,
-                    color = Color.White
-                )
-            }
-        }
-    }
-}
-
 fun defaultHealthData(): List<Pair<String, String>> {
     // Default Value for the card information
     return listOf(
@@ -206,7 +167,6 @@ fun defaultHealthData(): List<Pair<String, String>> {
 @Composable
 fun StartPagePreview() {
     HealthStudioTheme {
-        val navController = rememberNavController() // 在预览模式创建一个 NavController
-        HomePage(navController)
+        HomePage()
     }
 }

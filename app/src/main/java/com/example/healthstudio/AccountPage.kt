@@ -39,19 +39,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.healthstudio.ui.theme.BlueLight
 import com.example.healthstudio.ui.theme.BluePrimary
 import com.example.healthstudio.ui.theme.HealthStudioTheme
 import com.example.healthstudio.ui.theme.OrangeAccent
 
 @Composable
-fun AccountPage(navController: NavController) {
+fun AccountPage() {
 
     Scaffold(
         topBar = { AccountPageBar() },
-        bottomBar = { BottomBar(navController) },
         content = { paddingValues ->
             Box(
                 modifier = Modifier
@@ -70,8 +67,9 @@ fun AccountPage(navController: NavController) {
                 Column(
                     verticalArrangement = Arrangement.spacedBy(15.dp),
                     modifier = Modifier
-                        .padding(paddingValues)
-                        .padding(10.dp)
+                        .padding(top = paddingValues.calculateTopPadding()) // 应用 `Scaffold` 提供的顶部 padding
+                        .padding(bottom = 100.dp) // 为 `BottomBar` 留出空间，防止遮挡(100dp)
+                        .padding(horizontal = 15.dp)
                         .verticalScroll(rememberScrollState()), // 这里启用滚动
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -236,7 +234,6 @@ fun SettingsButton(button: String) {
 @Composable
 fun AccountPagePreview() {
     HealthStudioTheme {
-        val navController = rememberNavController() // 在预览模式创建一个 NavController
-        HomePage(navController)
+        HomePage()
     }
 }
