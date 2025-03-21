@@ -23,7 +23,12 @@
         </activity>
 
         <activity
-            android:name=".Detail"
+            android:name=".HealthDetail"
+            android:exported="true"
+            android:theme="@style/Theme.HealthStudio" />
+
+        <activity
+            android:name=".FitnessDetail"
             android:exported="true"
             android:theme="@style/Theme.HealthStudio" />
 

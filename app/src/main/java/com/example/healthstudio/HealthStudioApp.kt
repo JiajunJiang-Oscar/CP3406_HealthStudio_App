@@ -42,7 +42,7 @@ class HealthStudioApp : ComponentActivity() {
                         startDestination = "home_page",
 
                     ) {
-                        composable("home_page") { HomePage() } // 传递 NavController
+                        composable("home_page") { HomePage() }
                         composable("fitness_page") { FitnessPage() }
                         composable("account_page") { AccountPage() }
                     }
@@ -58,12 +58,13 @@ fun BottomBar(navController: NavController) {
     val labels = listOf("Health", "Fitness", "Me")
 
     BottomAppBar(
-        containerColor = Color.Black.copy(alpha = 0.6f)
+        modifier = Modifier.height(90.dp),
+        containerColor = Color.White.copy(alpha = 0.7f)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(20.dp),
+                .height(30.dp),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -79,7 +80,7 @@ fun BottomBar(navController: NavController) {
                     },
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
-                    color = Color.White
+                    color = Color.Black
                 )
             }
         }

@@ -17,6 +17,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.OutlinedTextField
@@ -39,10 +40,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.healthstudio.ui.theme.BlueLight
-import com.example.healthstudio.ui.theme.BluePrimary
 import com.example.healthstudio.ui.theme.HealthStudioTheme
-import com.example.healthstudio.ui.theme.OrangeAccent
 
 @Composable
 fun AccountPage() {
@@ -53,16 +51,22 @@ fun AccountPage() {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(
-                        Brush.linearGradient(
-                            colors = listOf(
-                                BluePrimary,
-                                BlueLight,
-                                OrangeAccent
+                    .background(Color.Gray.copy(alpha = 0.2f)) // **默认背景色**
+            ) {
+                // **顶部渐变背景**
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp) // **只占据顶部 200dp**
+                        .background(
+                            Brush.verticalGradient(
+                                colors = listOf(
+                                    Color(0xFF2E8B57), // 顶部深色
+                                    Color.Transparent // 渐变到底部变透明
+                                )
                             )
                         )
-                    )
-            ) {
+                )
                 // Add verticalScroll to get page scrolling
                 Column(
                     verticalArrangement = Arrangement.spacedBy(15.dp),
@@ -176,7 +180,7 @@ fun BodyMetricsForm() {
                 .fillMaxWidth()
                 .clickable { expanded = true }
                 .background(
-                    Color.LightGray.copy(alpha = 0.3f),
+                    Color.Black.copy(alpha = 0.2f),
                     androidx.compose.foundation.shape.RoundedCornerShape(8.dp)
                 )
                 .padding(16.dp)
@@ -224,7 +228,10 @@ fun BodyMetricsForm() {
 fun SettingsButton(button: String) {
     Button(
         onClick = { /* TODO: Jump to page */ },
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color(0xFF2E8B57),
+        )
     ) {
         Text(text = " $button " , fontSize = 20.sp)
     }

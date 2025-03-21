@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -35,10 +36,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.healthstudio.ui.theme.BlueLight
 import com.example.healthstudio.ui.theme.BluePrimary
 import com.example.healthstudio.ui.theme.HealthStudioTheme
-import com.example.healthstudio.ui.theme.OrangeAccent
 
 @Composable
 fun FitnessPage() {
@@ -49,23 +48,29 @@ fun FitnessPage() {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(
-                        Brush.linearGradient(
-                            colors = listOf(
-                                BluePrimary,
-                                BlueLight,
-                                OrangeAccent
+                    .background(Color.Gray.copy(alpha = 0.2f)) // **默认背景色**
+            ) {
+                // **顶部渐变背景**
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp) // **只占据顶部 200dp**
+                        .background(
+                            Brush.verticalGradient(
+                                colors = listOf(
+                                    BluePrimary, // 顶部深色
+                                    Color.Transparent // 渐变到底部变透明
+                                )
                             )
                         )
-                    )
-            ) {
+                )
+
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                     modifier = Modifier
-                        .padding(top = paddingValues.calculateTopPadding()) // 应用 `Scaffold` 提供的顶部 padding
-                        .padding(bottom = 100.dp) // 为 `BottomBar` 留出空间，防止遮挡(100dp)
-                        .padding(horizontal = 15.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        .padding(top = paddingValues.calculateTopPadding())
+                        .padding(bottom = 95.dp)
+                        .padding(horizontal = 15.dp)
                 ) {
                     items(defaultFitnessData()) { card ->
                         FitnessCardBox(title = card.first, content = card.second)
@@ -124,10 +129,10 @@ fun FitnessCardBox(title: String, content: String) {
     Card(
         modifier = Modifier
             .clickable {
-                val intent = Intent(context, Detail::class.java)
+                val intent = Intent(context, FitnessDetail::class.java)
                 context.startActivity(intent)
             },
-        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.5f))
+        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.7f))
     ) {
         Column(
             modifier = Modifier

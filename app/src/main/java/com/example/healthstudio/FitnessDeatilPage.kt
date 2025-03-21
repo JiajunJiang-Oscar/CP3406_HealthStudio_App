@@ -6,7 +6,6 @@ import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,13 +18,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -33,53 +29,57 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.healthstudio.ui.theme.BlueLight
 import com.example.healthstudio.ui.theme.BluePrimary
 import com.example.healthstudio.ui.theme.HealthStudioTheme
-import com.example.healthstudio.ui.theme.OrangeAccent
 
-class Detail : ComponentActivity() {
+class FitnessDetail : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             HealthStudioTheme {
-                DetailPage()
+                FitnessDetailPage()
             }
         }
     }
 }
 
 @Composable
-fun DetailPage() {
+fun FitnessDetailPage() {
     val activity = LocalActivity.current
 
     Scaffold(
         topBar = { BackHomePage(onBackClick = { activity?.finish() }) },
-//        bottomBar = { BottomBar(navController: NavController) },
         content = { paddingValues ->
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(
-                        Brush.linearGradient(
-                            colors = listOf(
-                                BluePrimary,
-                                BlueLight,
-                                OrangeAccent
+                    .background(Color.Gray.copy(alpha = 0.2f)) // **默认背景色**
+            ) {
+                // **顶部渐变背景**
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp) // **只占据顶部 200dp**
+                        .background(
+                            Brush.verticalGradient(
+                                colors = listOf(
+                                    BluePrimary, // 顶部深色
+                                    Color.Transparent // 渐变到底部变透明
+                                )
                             )
                         )
-                    )
-            ) {
-                LazyColumn (
+                )
+
+                LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                     modifier = Modifier
-                        .padding(paddingValues)
-                        .padding(10.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        .padding(top = paddingValues.calculateTopPadding())
+                        .padding(bottom = 95.dp)
+                        .padding(horizontal = 15.dp)
                 ) {
-                    items(defaultDetailInformation()) { card ->
-                        InformationBox(title = card.first, details = card.second)
+                    items(defaultFitnessInfo()) { card ->
+                        FitnessIBox(title = card.first, details = card.second)
                     }
                 }
             }
@@ -87,29 +87,8 @@ fun DetailPage() {
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BackHomePage(onBackClick: () -> Unit) {
-    TopAppBar(
-        title = {
-            Text(
-                text = "< Back To Home",
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White,
-                modifier = Modifier
-                    .padding(vertical = 20.dp)
-                    .clickable { onBackClick() }
-            )
-        },
-        colors = androidx.compose.material3.TopAppBarDefaults.topAppBarColors(
-            containerColor = Color.Black.copy(alpha = 0.6f)
-        )
-    )
-}
-
-@Composable
-fun InformationBox(title: String, details: String) {
+fun FitnessIBox(title: String, details: String) {
     Card(
         modifier = Modifier
             .fillMaxWidth(),
@@ -122,7 +101,7 @@ fun InformationBox(title: String, details: String) {
                 text = title,
                 fontSize = 25.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFF2196F3)
+                color = BluePrimary
             )
             Spacer(modifier = Modifier.height(4.dp))
             HorizontalDivider(color = Color.White, thickness = 1.dp)
@@ -135,7 +114,7 @@ fun InformationBox(title: String, details: String) {
     }
 }
 
-fun defaultDetailInformation(): List<Pair<String, String>> {
+fun defaultFitnessInfo(): List<Pair<String, String>> {
     // Default Value for the card information
     return listOf(
         "Heart Rate" to "Range:\nToday: 47 - 160 times/min",
@@ -153,8 +132,8 @@ fun defaultDetailInformation(): List<Pair<String, String>> {
 
 @Preview(showBackground = true)
 @Composable
-fun SecondPagePreview() {
+fun ThirdPagePreview() {
     HealthStudioTheme {
-        DetailPage()
+        FitnessDetailPage()
     }
 }
