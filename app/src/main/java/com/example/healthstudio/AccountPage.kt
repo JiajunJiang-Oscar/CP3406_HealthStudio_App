@@ -77,26 +77,64 @@ fun AccountPage() {
                         .verticalScroll(rememberScrollState()), // 这里启用滚动
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    // User Account Info
-                    UserInfoCard(
+                    Box( // User photo
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .padding(end = 16.dp),
+                        contentAlignment = Alignment.Center
+                    ){
+                        Image(
+                            painter = painterResource(id = R.drawable.default_user),
+                            contentDescription = "User profile",
+                            modifier = Modifier
+                                .size(100.dp)
+                                .clip(CircleShape)
+                                .background(Color.Gray)
+                        )
+                    }
+                    UserInfoCard( // User Account Info
                         username = "TestUsername",
                         email = "Test.User.email@example.com"
                     )
-                    SettingsButton(button = stringResource(id = R.string.go_to_login))
-                    SettingsButton(button = stringResource(id = R.string.unlock_more_function))
-                    HorizontalDivider(
-                        color = Color.Gray,
-                        thickness = 1.dp
-                    )
-                    // Input Body Information
-                    BodyMetricsForm()
-                    SettingsButton(button = stringResource(id = R.string.import_button))
-                    SettingsButton(button = stringResource(id = R.string.import_other_way))
-                    HorizontalDivider(
-                        color = Color.Gray,
-                        thickness = 1.dp
-                    )
-                    SettingsButton(button = stringResource(id = R.string.go_to_setting))
+                    Button( // Get more info button
+                        onClick = { },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF2E8B57),
+                        )
+                    ) {
+                        Text(stringResource(id = R.string.get_info), fontSize = 20.sp)
+                    }
+                    Button( // Unlock function button
+                        onClick = { },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF2E8B57),
+                        )
+                    ) {
+                        Text(stringResource(id = R.string.unlock_more_function), fontSize = 20.sp)
+                    }
+                    HorizontalDivider(color = Color.Gray, thickness = 1.dp)
+                    BodyMetricsForm() // Input Body Information
+                    Button( // Import button
+                        onClick = { },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF2E8B57),
+                        )
+                    ) {
+                        Text(stringResource(id = R.string.import_button), fontSize = 20.sp)
+                    }
+                    HorizontalDivider(color = Color.Gray, thickness = 1.dp)
+                    Button( // Go to setting button
+                        onClick = { },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF2E8B57),
+                        )
+                    ) {
+                        Text(stringResource(id = R.string.go_to_setting), fontSize = 20.sp)
+                    }
                 }
             }
         }
@@ -117,29 +155,10 @@ fun AccountPageBar() {
                     .padding(vertical = 40.dp)
             )
         },
-        actions = {
-            Box(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .padding(end = 16.dp),
-                contentAlignment = Alignment.Center
-            ){
-                Image(
-                    painter = painterResource(id = R.drawable.default_user),
-                    contentDescription = "User profile",
-                    modifier = Modifier
-                        .size(50.dp)
-                        .clip(CircleShape)
-                        .background(Color.Gray)
-                        .clickable { /* TODO: open "me" */ }
-                )
-            }
-
-        },
-            modifier = Modifier.height(150.dp),
-            colors = androidx.compose.material3.TopAppBarDefaults.topAppBarColors(
-                containerColor = Color.White.copy(alpha = 0f)
-            )
+        modifier = Modifier.height(150.dp),
+        colors = androidx.compose.material3.TopAppBarDefaults.topAppBarColors(
+            containerColor = Color.White.copy(alpha = 0f)
+        )
     )
 }
 
@@ -151,7 +170,7 @@ fun UserInfoCard(username: String, email: String) {
         Column(
             modifier = Modifier.padding(20.dp)
         ) {
-            Text(text = "Username: $username", fontSize = 22.sp, fontWeight = FontWeight.Bold)
+            Text(text = "User Name: $username", fontSize = 22.sp, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = "Email: $email", fontSize = 18.sp)
         }
@@ -221,19 +240,6 @@ fun BodyMetricsForm() {
             label = { Text("Enter Value") },
             modifier = Modifier.fillMaxWidth()
         )
-    }
-}
-
-@Composable
-fun SettingsButton(button: String) {
-    Button(
-        onClick = { /* TODO: Jump to page */ },
-        modifier = Modifier.fillMaxWidth(),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Color(0xFF2E8B57),
-        )
-    ) {
-        Text(text = " $button " , fontSize = 20.sp)
     }
 }
 
