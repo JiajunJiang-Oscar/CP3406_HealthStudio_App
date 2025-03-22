@@ -20,10 +20,12 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -77,7 +79,8 @@ fun AccountPage() {
                         .verticalScroll(rememberScrollState()), // 这里启用滚动
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Box( // User photo
+                    Box(
+                        // User photo
                         modifier = Modifier
                             .fillMaxHeight()
                             .padding(end = 16.dp),
@@ -92,49 +95,16 @@ fun AccountPage() {
                                 .background(Color.Gray)
                         )
                     }
-                    UserInfoCard( // User Account Info
+                    UserInfoCard(
+                        // User Account Info
                         username = "TestUsername",
                         email = "Test.User.email@example.com"
                     )
-                    Button( // Get more info button
-                        onClick = { },
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF2E8B57),
-                        )
-                    ) {
-                        Text(stringResource(id = R.string.get_info), fontSize = 20.sp)
-                    }
-                    Button( // Unlock function button
-                        onClick = { },
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF2E8B57),
-                        )
-                    ) {
-                        Text(stringResource(id = R.string.unlock_more_function), fontSize = 20.sp)
-                    }
                     HorizontalDivider(color = Color.Gray, thickness = 1.dp)
-                    BodyMetricsForm() // Input Body Information
-                    Button( // Import button
-                        onClick = { },
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF2E8B57),
-                        )
-                    ) {
-                        Text(stringResource(id = R.string.import_button), fontSize = 20.sp)
-                    }
+                    BodyMetricsForm(
+                        // Input Body Information
+                    )
                     HorizontalDivider(color = Color.Gray, thickness = 1.dp)
-                    Button( // Go to setting button
-                        onClick = { },
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF2E8B57),
-                        )
-                    ) {
-                        Text(stringResource(id = R.string.go_to_setting), fontSize = 20.sp)
-                    }
                 }
             }
         }
@@ -162,8 +132,11 @@ fun AccountPageBar() {
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserInfoCard(username: String, email: String) {
+    var showSheet by remember { mutableStateOf(false) }
+
     Box(
         modifier = Modifier.fillMaxWidth(),
     ) {
@@ -173,6 +146,39 @@ fun UserInfoCard(username: String, email: String) {
             Text(text = "User Name: $username", fontSize = 22.sp, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = "Email: $email", fontSize = 18.sp)
+            Spacer(modifier = Modifier.height(20.dp))
+            Button(
+                // Get more info button
+                onClick = { showSheet = true },
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF2E8B57),
+                )
+            ) {
+                Text(stringResource(id = R.string.get_info), fontSize = 20.sp)
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Button(
+                // Unlock function button
+                onClick = { },
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF2E8B57),
+                )
+            ) {
+                Text(stringResource(id = R.string.unlock_more_function), fontSize = 20.sp)
+            }
+        }
+    }
+    if (showSheet) {
+        ModalBottomSheet(
+            onDismissRequest = { showSheet = false }, // **点击外部关闭**
+            sheetState = rememberModalBottomSheetState()
+        ) {
+            AccountDetailPage( // **弹窗内容**
+                username = "TestUsername",
+                email = "Test.User.email@example.com"
+            )
         }
     }
 }
@@ -240,6 +246,16 @@ fun BodyMetricsForm() {
             label = { Text("Enter Value") },
             modifier = Modifier.fillMaxWidth()
         )
+        Spacer(modifier = Modifier.height(20.dp))
+        Button( // Import button
+            onClick = { },
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF2E8B57),
+            )
+        ) {
+            Text(stringResource(id = R.string.import_button), fontSize = 20.sp)
+        }
     }
 }
 
