@@ -188,7 +188,6 @@ fun defaultFitnessData(): List<Pair<String, String>> {
         "Run time" to "-- Hrs",
         "Cycling time " to "-- Hrs",
         "Swimming time" to "-- Hrs",
-        "Unlock More function" to "Click me"
     )
 }
 
