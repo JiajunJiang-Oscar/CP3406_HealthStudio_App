@@ -135,7 +135,8 @@ fun AccountPageBar() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserInfoCard(username: String, email: String) {
-    var showSheet by remember { mutableStateOf(false) }
+    var showAccount by remember { mutableStateOf(false) }
+    var showPurchase by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier.fillMaxWidth(),
@@ -149,7 +150,7 @@ fun UserInfoCard(username: String, email: String) {
             Spacer(modifier = Modifier.height(20.dp))
             Button(
                 // Get more info button
-                onClick = { showSheet = true },
+                onClick = { showAccount = true },
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFF2E8B57),
@@ -160,7 +161,7 @@ fun UserInfoCard(username: String, email: String) {
             Spacer(modifier = Modifier.height(8.dp))
             Button(
                 // Unlock function button
-                onClick = { },
+                onClick = { showPurchase = true },
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFF2E8B57),
@@ -170,15 +171,25 @@ fun UserInfoCard(username: String, email: String) {
             }
         }
     }
-    if (showSheet) {
+    // Management account pop-up window
+    if (showAccount) {
         ModalBottomSheet(
-            onDismissRequest = { showSheet = false }, // **点击外部关闭**
+            onDismissRequest = { showAccount = false }, // **点击外部关闭**
             sheetState = rememberModalBottomSheetState()
         ) {
             AccountDetailPage( // **弹窗内容**
                 username = "TestUsername",
                 email = "Test.User.email@example.com"
             )
+        }
+    }
+    // Management unlock function pop-up window
+    if (showPurchase) {
+        ModalBottomSheet(
+            onDismissRequest = { showPurchase = false }, // **点击外部关闭**
+            sheetState = rememberModalBottomSheetState()
+        ) {
+            UnlockFunctionPage()
         }
     }
 }

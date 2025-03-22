@@ -47,10 +47,10 @@ import com.example.healthstudio.ui.theme.HealthStudioTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomePage() {
-    var showSheet by remember { mutableStateOf(false) } // 控制弹窗显示
+    var showAccount by remember { mutableStateOf(false) } // 控制弹窗显示
 
     Scaffold(
-        topBar = { HealthStudioBar { showSheet = true } }, // **点击头像，显示弹窗**
+        topBar = { HealthStudioBar { showAccount = true } }, // **点击头像，显示弹窗**
         content = { paddingValues ->
             Box(
                 modifier = Modifier
@@ -86,9 +86,9 @@ fun HomePage() {
             }
 
             // **底部弹窗**
-            if (showSheet) {
+            if (showAccount) {
                 ModalBottomSheet(
-                    onDismissRequest = { showSheet = false }, // **点击外部关闭**
+                    onDismissRequest = { showAccount = false }, // **点击外部关闭**
                     sheetState = rememberModalBottomSheetState()
                 ) {
                     AccountDetailPage( // **弹窗内容**
