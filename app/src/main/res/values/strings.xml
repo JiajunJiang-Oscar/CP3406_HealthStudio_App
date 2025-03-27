@@ -4,4 +4,14 @@
     <string name="unlock_more_function">Unlock More Function</string>
     <string name="import_button">Import</string>
     <string name="go_to_setting">Go To Setting</string>
+    <string name="import_health_data">Import your health data, and let us do the hard work of
+        tracking and evaluating it for you. Whether you re looking to improve your overall health
+        or simply stay on top of your wellness. We’ll provide insightful analysis, giving you the
+        tools you need to make informed decisions and live your healthiest life.</string>
+    <string name="import_fitness_data">Sync your fitness data effortlessly and take your workout
+        tracking to the next level. Our app helps you track calories burned, fitness minutes,
+        active hours, and more offering personalized insights tailored to your fitness goals.
+        Whether you re training for a marathon or just staying fit, we ll support you every step
+        of the way, helping you assess progress and achieve your fitness aspirations with
+        ease.</string>
 </resources>

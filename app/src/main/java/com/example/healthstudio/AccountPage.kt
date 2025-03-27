@@ -2,7 +2,6 @@ package com.example.healthstudio
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,7 +20,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -99,10 +97,6 @@ fun AccountPage() {
                         // User Account Info
                         username = "TestUsername",
                         email = "Test.User.email@example.com"
-                    )
-                    HorizontalDivider(color = Color.Gray, thickness = 1.dp)
-                    BodyMetricsForm(
-                        // Input Body Information
                     )
                     HorizontalDivider(color = Color.Gray, thickness = 1.dp)
                 }
@@ -190,82 +184,6 @@ fun UserInfoCard(username: String, email: String) {
             sheetState = rememberModalBottomSheetState()
         ) {
             UnlockFunctionPage()
-        }
-    }
-}
-
-@Composable
-fun BodyMetricsForm() {
-    var selectedMetric by remember { mutableStateOf("Choice Value Type") }
-    var expanded by remember { mutableStateOf(false) }
-    var metricValue by remember { mutableStateOf("") }
-
-    val metricOptions = listOf("Height (cm)", "Weight (kg)", "Heart Rate", "Sleep Time", "Steps")
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(20.dp),
-    ) {
-        Text(text = "Import Your Information", fontSize = 22.sp, fontWeight = FontWeight.Bold)
-        Spacer(modifier = Modifier.height(20.dp))
-        Text("Choice information type here")
-        // Choice type check box
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { expanded = true }
-                .background(
-                    Color.Black.copy(alpha = 0.2f),
-                    androidx.compose.foundation.shape.RoundedCornerShape(8.dp)
-                )
-                .padding(16.dp)
-        ) {
-            Text(text = selectedMetric, fontSize = 18.sp)
-        }
-        if (expanded) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(
-                        Color.White,
-                        androidx.compose.foundation.shape.RoundedCornerShape(8.dp)
-                    )
-                    .padding(10.dp)
-            ) {
-                metricOptions.forEach { option ->
-                    Text(
-                        text = option,
-                        fontSize = 18.sp,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                selectedMetric = option
-                                expanded = false
-                            }
-                            .padding(10.dp)
-                    )
-                }
-            }
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-        Text("Input the value here")
-        // Input Value
-        OutlinedTextField(
-            value = metricValue,
-            onValueChange = { metricValue = it },
-            label = { Text("Enter Value") },
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(20.dp))
-        Button( // Import button
-            onClick = { },
-            modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF2E8B57),
-            )
-        ) {
-            Text(stringResource(id = R.string.import_button), fontSize = 20.sp)
         }
     }
 }

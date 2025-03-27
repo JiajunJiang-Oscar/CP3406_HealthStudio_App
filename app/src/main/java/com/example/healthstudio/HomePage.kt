@@ -165,13 +165,12 @@ fun CardBox(title: String, content: String) {
                 color = Color(0xFFFFA500),
                 fontWeight = FontWeight.Bold
             )
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(10.dp))
             HorizontalDivider(color = Color.White, thickness = 1.dp)
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(10.dp))
             Text(
                 text = content,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
+                fontSize = 20.sp,
             )
         }
     }
@@ -183,7 +182,6 @@ fun defaultHealthData(): List<Pair<String, String>> {
         "Steps / Distance" to "Today: -- Steps\nDistance: -- Kilometre",
         "Heart Rate" to "Newest: -- Times / Minute\nTime: --",
         "Sleep" to "Sleep Time:\n-- Hours -- Minutes",
-        "Fitness Record" to "Activity: --/-- Kilocalorie\nFitness --/-- Minutes\nStand --/-- Hours",
         "Weight" to "-- KG",
         "Height" to "-- M"
     )

@@ -166,13 +166,12 @@ fun FitnessCardBox(title: String, content: String) {
                 color = Color(0xFF2196F3),
                 fontWeight = FontWeight.Bold
             )
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(10.dp))
             HorizontalDivider(color = Color.White, thickness = 1.dp)
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(10.dp))
             Text(
                 text = content,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
+                fontSize = 20.sp,
             )
         }
     }
@@ -182,9 +181,7 @@ fun FitnessCardBox(title: String, content: String) {
 fun defaultFitnessData(): List<Pair<String, String>> {
     // Default Value for the card information
     return listOf(
-        "Fitness progress" to "Active time: \nFitness time: \nStand time: ",
-        "Heart Rate" to "Newest: -- Times / Minute\nTime: --",
-        "Medal earned" to "",
+        "Fitness Record" to "Activity: --/-- Kilocalorie\nFitness --/-- Minutes\nStand --/-- Hours",        "Medal earned" to "",
         "Run time" to "-- Hrs",
         "Cycling time " to "-- Hrs",
         "Swimming time" to "-- Hrs",
