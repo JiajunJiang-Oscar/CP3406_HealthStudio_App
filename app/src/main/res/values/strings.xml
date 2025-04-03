@@ -14,4 +14,16 @@
         Whether you re training for a marathon or just staying fit, we ll support you every step
         of the way, helping you assess progress and achieve your fitness aspirations with
         ease.</string>
+    <string name="intro_title">The Introduction of Health Studio</string>
+    <string name="intro_text">Health Studio is a comprehensive record app that records various
+        data of your body and fitness. It helps you keep track of them by having users manually
+        input your physical health data. Thus, you do not need to download multiple apps to view
+        your various physical health data and fitness records! The mission of Health Studio is to
+        make your life more convenient!</string>
+    <string name="howto_title">Instructions of How to Use</string>
+    <string name="howto_text">Welcome! New user, I know you must be confused about how to use my
+        software. Here is an introduction to the App: On the Health page, your inputted health
+        indicators will be displayed. On the Fitness page, your inputted fitness records will be
+        shown. How to input the indicators or records? Just click on the indicator or record card
+        on the Health or Fitness page to start entering your data!</string>
 </resources>

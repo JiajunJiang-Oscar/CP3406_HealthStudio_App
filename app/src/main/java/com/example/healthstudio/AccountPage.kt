@@ -98,7 +98,39 @@ fun AccountPage() {
                         username = "TestUsername",
                         email = "Test.User.email@example.com"
                     )
-                    HorizontalDivider(color = Color.Gray, thickness = 1.dp)
+                    Box(
+                        modifier = Modifier.padding(20.dp)
+                    ) {
+                        HorizontalDivider(color = Color.Gray, thickness = 1.dp)
+                        Text(
+                            stringResource(id = R.string.howto_title),
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(top = 20.dp)
+                        )
+                        Text(
+                            stringResource(id = R.string.howto_text),
+                            fontSize = 20.sp,
+                            modifier = Modifier.padding(top = 60.dp)
+                        )
+                    }
+                    Box(
+                        modifier = Modifier.padding(20.dp)
+                    ) {
+                        HorizontalDivider(color = Color.Gray, thickness = 1.dp)
+                        Text(
+                            stringResource(id = R.string.intro_title),
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(top = 20.dp)
+                        )
+                        Text(
+                            stringResource(id = R.string.intro_text),
+                            fontSize = 20.sp,
+                            modifier = Modifier.padding(top = 60.dp)
+                        )
+                    }
+
                 }
             }
         }
@@ -133,7 +165,7 @@ fun UserInfoCard(username: String, email: String) {
     var showPurchase by remember { mutableStateOf(false) }
 
     Box(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
     ) {
         Column(
             modifier = Modifier.padding(20.dp)
