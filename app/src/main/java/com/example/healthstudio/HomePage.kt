@@ -27,6 +27,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,12 +43,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.healthstudio.data.HealthData
+import com.example.healthstudio.data.HealthViewModel
 import com.example.healthstudio.ui.theme.HealthStudioTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomePage() {
-    var showAccount by remember { mutableStateOf(false) } // 控制弹窗显示
+fun HomePage(viewModel: HealthViewModel = viewModel()) {
+    // 控制弹窗显示
+    var showAccount by remember { mutableStateOf(false) }
+    // **从数据库获取数据**
+    val healthData by viewModel.healthData.collectAsState(emptyList())
 
     Scaffold(
         topBar = { HealthStudioBar { showAccount = true } }, // **点击头像，显示弹窗**
@@ -72,6 +79,7 @@ fun HomePage() {
                         )
                 )
 
+                // **LazyColumn 动态加载数据库数据**
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                     modifier = Modifier
@@ -79,8 +87,11 @@ fun HomePage() {
                         .padding(bottom = 95.dp)
                         .padding(horizontal = 15.dp)
                 ) {
-                    items(defaultHealthData()) { card ->
-                        CardBox(title = card.first, content = card.second)
+//                    items(defaultHealthData()) { card ->
+//                        CardBox(title = card.first, content = card.second)
+//                    }
+                    items(healthData) { item ->
+                        CardBox(title = item.title, content = item.value)
                     }
                 }
             }
@@ -176,16 +187,16 @@ fun CardBox(title: String, content: String) {
     }
 }
 
-fun defaultHealthData(): List<Pair<String, String>> {
-    // Default Value for the card information
-    return listOf(
-        "Steps / Distance" to "Today: -- Steps\nDistance: -- Kilometre",
-        "Heart Rate" to "Newest: -- Times / Minute\nTime: --",
-        "Sleep" to "Sleep Time:\n-- Hours -- Minutes",
-        "Weight" to "-- KG",
-        "Height" to "-- M"
-    )
-}
+//fun defaultHealthData(): List<Pair<String, String>> {
+//    // Default Value for the card information
+//    return listOf(
+//        "Steps / Distance" to "Today: -- Steps\nDistance: -- Kilometre",
+//        "Heart Rate" to "Newest: -- Times / Minute\nTime: --",
+//        "Sleep" to "Sleep Time:\n-- Hours -- Minutes",
+//        "Weight" to "-- KG",
+//        "Height" to "-- M"
+//    )
+//}
 
 @Preview(showBackground = true)
 @Composable

@@ -1,14 +1,15 @@
 package com.example.healthstudio.data
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
-interface HealthDao {
-    @Insert
-    suspend fun insert(healthData: HealthData)
+interface HealthDataDao {
+    @Query("SELECT * FROM health_data")
+    suspend fun getAllHealthData(): List<HealthData>
 
-    @Query("SELECT * FROM health_data WHERE userId = :userId")
-    suspend fun getHealthDataForUser(userId: Int): List<HealthData>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertHealthData(healthData: HealthData)
+
+    @Update
+    suspend fun updateHealthData(healthData: HealthData)
 }
