@@ -23,22 +23,24 @@ abstract class HealthDatabase : RoomDatabase() {
                     context.applicationContext,
                     HealthDatabase::class.java,
                     "health_database"
-                ).addCallback(object : RoomDatabase.Callback() {
-                    override fun onCreate(db: SupportSQLiteDatabase) {
-                        super.onCreate(db)
-                        CoroutineScope(Dispatchers.IO).launch {
-                            INSTANCE?.healthDataDao()?.apply {
-                                insertHealthData(HealthData("Steps / Distance", "--/--"))
-                                insertHealthData(HealthData("Heart Rate", "--/--"))
-                                insertHealthData(HealthData("sleep Time", "--/--"))
-                                insertHealthData(HealthData("Weight", "--/--"))
-                                insertHealthData(HealthData("Height", "--/--"))
-                            }
-                        }
-                    }
-                }).build()
+                ).addCallback(DatabaseCallback())
+                    .build()
                 INSTANCE = instance
                 instance
+            }
+        }
+    }
+
+    // ✅ **修正的数据库回调**
+    private class DatabaseCallback : Callback() {
+        override fun onCreate(db: SupportSQLiteDatabase) {
+            super.onCreate(db)
+            CoroutineScope(Dispatchers.IO).launch {
+                INSTANCE?.healthDataDao()?.insertHealthData(HealthData("Steps / Distance", "--/--"))
+                INSTANCE?.healthDataDao()?.insertHealthData(HealthData("Heart Rate", "--/--"))
+                INSTANCE?.healthDataDao()?.insertHealthData(HealthData("Sleep Time", "--/--"))
+                INSTANCE?.healthDataDao()?.insertHealthData(HealthData("Weight", "--/--"))
+                INSTANCE?.healthDataDao()?.insertHealthData(HealthData("Height", "--/--"))
             }
         }
     }
