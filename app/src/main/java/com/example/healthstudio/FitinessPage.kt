@@ -40,6 +40,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -98,6 +99,19 @@ fun FitnessPage(viewModel: FitnessViewModel = viewModel()) {
                 ) {
                     items(healthData) { item ->
                         FitnessCardBox(title = item.title, content = item.value)
+                    }
+                    // Text of fitness is important
+                    item {
+                        HorizontalDivider(color = Color.Gray, thickness = 1.dp)
+
+                        Box(
+                            modifier = Modifier.padding(15.dp)
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.fitness_intro),
+                                fontSize = 20.sp,
+                            )
+                        }
                     }
                 }
             }

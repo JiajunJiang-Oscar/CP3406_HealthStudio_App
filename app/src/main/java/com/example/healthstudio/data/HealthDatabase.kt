@@ -44,6 +44,7 @@ abstract class HealthDatabase : RoomDatabase() {
                 dao.insertHealthData(HealthData("Steps / Distance", "--/--", "health"))
                 dao.insertHealthData(HealthData("Heart Rate", "--/--", "health"))
                 dao.insertHealthData(HealthData("Sleep Time", "--/--", "health"))
+                dao.insertHealthData(HealthData("Psychological States", "--/--", "health"))
                 dao.insertHealthData(HealthData("Weight", "--/--", "health"))
                 dao.insertHealthData(HealthData("Height", "--/--", "health"))
 

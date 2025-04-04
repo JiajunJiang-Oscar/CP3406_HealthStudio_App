@@ -4,6 +4,20 @@
     <string name="unlock_more_function">Unlock More Function</string>
     <string name="import_button">Import</string>
     <string name="go_to_setting">Go To Setting</string>
+    <string name="health_intro">In the fast pace of modern life, it is vital to maintain physical
+        health, health not only means the absence of disease, but also includes good physical
+        fitness, mental state and lifestyle, and through scientific management of health data and
+        regular recording of health indicators (such as heart rate steps) Sleep time, etc.), we can
+        better understand their physical condition, adjust life habits in time, improve the quality
+        of life, and find small changes in the body, take early measures, such as long-term lack of
+        sleep may affect the immune system, and irregular heart rate may be a signal of potential
+        health problems</string>
+    <string name="fitness_intro">Fitness can not only build muscle strength, improve heart and lung
+        function and promote new circulation, but also effectively relieve stress, improve sleep
+        quality, and enhance overall health. By scientifically recording exercise data (such as
+        step count, heart rate, calorie consumption, etc.), we can more intuitively understand our
+        own exercise, adjust training programs, improve exercise efficiency, while avoiding sports
+        injuries, and maintain long-term health and vitality.</string>
     <string name="import_health_data">Import your health data, and let us do the hard work of
         tracking and evaluating it for you. Whether you re looking to improve your overall health
         or simply stay on top of your wellness. We’ll provide insightful analysis, giving you the

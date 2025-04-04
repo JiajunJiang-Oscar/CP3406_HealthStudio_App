@@ -84,8 +84,8 @@ fun AccountPage() {
                         .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    // Box of user's photo
                     Box(
-                        // User photo
                         modifier = Modifier
                             .fillMaxHeight()
                             .padding(end = 16.dp),
@@ -100,11 +100,13 @@ fun AccountPage() {
                                 .background(Color.Gray)
                         )
                     }
+                    // Box of user info
                     UserInfoCard(
                         // User Account Info
                         username = "TestUsername",
                         email = "Test.User.email@example.com"
                     )
+                    // Box of some introduction with app
                     Box(
                         modifier = Modifier.padding(20.dp)
                     ) {
@@ -121,6 +123,7 @@ fun AccountPage() {
                             modifier = Modifier.padding(top = 60.dp)
                         )
                     }
+                    // Box of some introduction with app
                     Box(
                         modifier = Modifier.padding(20.dp)
                     ) {
