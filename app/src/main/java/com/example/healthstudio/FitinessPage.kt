@@ -27,6 +27,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,37 +44,52 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.healthstudio.data.HealthData
+import com.example.healthstudio.data.FitnessViewModel
 import com.example.healthstudio.ui.theme.BluePrimary
 import com.example.healthstudio.ui.theme.HealthStudioTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FitnessPage() {
-    var showSheet by remember { mutableStateOf(false) } // 控制弹窗显示
+fun FitnessPage(viewModel: FitnessViewModel = viewModel()) {
+    // Control popup display (Account)
+    var showSheet by remember { mutableStateOf(false) }
+
+    // Obtain fitness data from the database
+    LaunchedEffect(Unit) {
+        viewModel.loadFitnessData("fitness")
+    }
+    val healthData by viewModel.healthData.collectAsState(emptyList())
 
     Scaffold(
-        topBar = { FitnessPageBar { showSheet = true } }, // **点击头像，显示弹窗**
+        // Click avatar to display a pop-up window
+        topBar = { FitnessPageBar { showSheet = true } },
         content = { paddingValues ->
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.Gray.copy(alpha = 0.2f)) // **默认背景色**
+                    // Default background color
+                    .background(Color.Gray.copy(alpha = 0.2f))
             ) {
-                // **顶部渐变背景**
+                // Top gradient background
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(200.dp) // **只占据顶部 200dp**
+                        // Padding value to top: 200
+                        .height(200.dp)
                         .background(
                             Brush.verticalGradient(
                                 colors = listOf(
-                                    BluePrimary, // 顶部深色
-                                    Color.Transparent // 渐变到底部变透明
+                                    // Top color
+                                    BluePrimary,
+                                    // Gradually make the bottom transparent
+                                    Color.Transparent
                                 )
                             )
                         )
                 )
-
+                // LazyColumn dynamically loads database data
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                     modifier = Modifier
@@ -80,19 +97,20 @@ fun FitnessPage() {
                         .padding(bottom = 95.dp)
                         .padding(horizontal = 15.dp)
                 ) {
-                    items(defaultFitnessData()) { card ->
-                        FitnessCardBox(title = card.first, content = card.second)
+                    items(healthData) { item ->
+                        CardBox(title = item.title, content = item.value)
                     }
                 }
             }
-
-            // **底部弹窗**
+            // Rule of popup display
             if (showSheet) {
                 ModalBottomSheet(
-                    onDismissRequest = { showSheet = false }, // **点击外部关闭**
+                    // Click outside to close
+                    onDismissRequest = { showSheet = false },
                     sheetState = rememberModalBottomSheetState()
                 ) {
-                    AccountDetailPage( // **弹窗内容**
+                    AccountDetailPage(
+                        // Text of popup display
                         username = "TestUsername",
                         email = "Test.User.email@example.com"
                     )
@@ -143,50 +161,39 @@ fun FitnessPageBar(showAccountPage: () -> Unit) {
     )
 }
 
-@Composable
-fun FitnessCardBox(title: String, content: String) {
-    val context = LocalContext.current
-
-    Card(
-        modifier = Modifier
-            .clickable {
-                val intent = Intent(context, FitnessDetail::class.java)
-                context.startActivity(intent)
-            },
-        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.5f))
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(18.dp)
-        ) {
-            Text(
-                text = title,
-                fontSize = 25.sp,
-                color = Color(0xFF2196F3),
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-            HorizontalDivider(color = Color.White, thickness = 1.dp)
-            Spacer(modifier = Modifier.height(10.dp))
-            Text(
-                text = content,
-                fontSize = 20.sp,
-            )
-        }
-    }
-}
-
-
-fun defaultFitnessData(): List<Pair<String, String>> {
-    // Default Value for the card information
-    return listOf(
-        "Fitness Record" to "Activity: --/-- Kilocalorie\nFitness --/-- Minutes\nStand --/-- Hours",        "Medal earned" to "",
-        "Run time" to "-- Hrs",
-        "Cycling time " to "-- Hrs",
-        "Swimming time" to "-- Hrs",
-    )
-}
+//@Composable
+//fun FitnessCardBox(title: String, content: String) {
+//    val context = LocalContext.current
+//
+//    Card(
+//        modifier = Modifier
+//            .clickable {
+//                val intent = Intent(context, FitnessDetail::class.java)
+//                context.startActivity(intent)
+//            },
+//        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.5f))
+//    ) {
+//        Column(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .padding(18.dp)
+//        ) {
+//            Text(
+//                text = title,
+//                fontSize = 25.sp,
+//                color = Color(0xFF2196F3),
+//                fontWeight = FontWeight.Bold
+//            )
+//            Spacer(modifier = Modifier.height(10.dp))
+//            HorizontalDivider(color = Color.White, thickness = 1.dp)
+//            Spacer(modifier = Modifier.height(10.dp))
+//            Text(
+//                text = content,
+//                fontSize = 20.sp,
+//            )
+//        }
+//    }
+//}
 
 @Preview(showBackground = true)
 @Composable

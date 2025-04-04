@@ -5,6 +5,10 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "health_data")
 data class HealthData(
-    @PrimaryKey val title: String,  // 数据的标题，如 "heartrate"
-    val value: String               // 对应的数据，如 "--/--"
+    // Title of the data
+    @PrimaryKey val title: String,
+    // Corresponding data
+    val value: String,
+    // Data category
+    val category: String
 )

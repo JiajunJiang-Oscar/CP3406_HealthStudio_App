@@ -54,21 +54,21 @@ fun FitnessDetailPage() {
     Scaffold(
         topBar = { BackHomePage(onBackClick = { activity?.finish() }) },
         content = { paddingValues ->
+            // Same color setting with fitness page
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.Gray.copy(alpha = 0.2f)) // **默认背景色**
+                    .background(Color.Gray.copy(alpha = 0.2f))
             ) {
-                // **顶部渐变背景**
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(200.dp) // **只占据顶部 200dp**
+                        .height(200.dp)
                         .background(
                             Brush.verticalGradient(
                                 colors = listOf(
-                                    BluePrimary, // 顶部深色
-                                    Color.Transparent // 渐变到底部变透明
+                                    BluePrimary,
+                                    Color.Transparent
                                 )
                             )
                         )
@@ -158,7 +158,8 @@ fun ImportFitnessValues() {
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(20.dp))
-        Button( // Import button
+        Button(
+            // Import button
             onClick = { },
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(

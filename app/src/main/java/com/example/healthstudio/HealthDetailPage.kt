@@ -55,10 +55,10 @@ fun HealthDetailPage() {
     Scaffold(
         topBar = { BackHomePage(onBackClick = { activity?.finish() }) },
         content = { paddingValues ->
+            // Same color setting with health page
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    // Background color (except top)
                     .background(Color.Gray.copy(alpha = 0.2f))
             ) {
                 Box(
@@ -66,11 +66,9 @@ fun HealthDetailPage() {
                         .fillMaxWidth()
                         .height(200.dp)
                         .background(
-                            // Top background color
                             Brush.verticalGradient(
                                 colors = listOf(
                                     Color(0xFFFFA500),
-                                    // Gradient becomes transparent to the bottom
                                     Color.Transparent
                                 )
                             )
@@ -121,7 +119,7 @@ fun ImportHealthValues() {
     var expanded by remember { mutableStateOf(false) }
     var metricValue by remember { mutableStateOf("") }
 
-    val metricOptions = listOf("Walking Distance (m)", "Heart Rate", "Sleep Time", "Height (cm)", "Weight (kg)", )
+    val metricOptions = listOf("Walking Distance (m)", "Heart Rate", "Sleep Time", "Height (cm)", "Weight (kg)")
 
     Column(
         modifier = Modifier
@@ -184,7 +182,8 @@ fun ImportHealthValues() {
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(20.dp))
-        Button( // Import button
+        Button(
+            // Import button
             onClick = { },
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(

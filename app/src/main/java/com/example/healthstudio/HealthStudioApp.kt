@@ -32,12 +32,14 @@ class HealthStudioApp : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             HealthStudioTheme {
-                val navController = rememberNavController() // 初始化 NavController
+                // Initialize NavController
+                val navController = rememberNavController()
 
                 Scaffold(
                     bottomBar = { BottomBar(navController) }
                 ) { paddingValues -> Modifier.padding(paddingValues)
-                    NavHost( // 直接在 Main 里管理 NavController
+                    NavHost(
+                        // Manage NavController directly from home page
                         navController = navController,
                         startDestination = "home_page",
 
@@ -53,6 +55,7 @@ class HealthStudioApp : ComponentActivity() {
 }
 
 @Composable
+// Setting of bottom bar
 fun BottomBar(navController: NavController) {
     val items = listOf("home_page", "fitness_page", "account_page")
     val labels = listOf("Health", "Fitness", "Me")

@@ -51,18 +51,22 @@ fun AccountPage() {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.Gray.copy(alpha = 0.2f)) // **默认背景色**
+                    // Default background color
+                    .background(Color.Gray.copy(alpha = 0.2f))
             ) {
                 // **顶部渐变背景**
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(200.dp) // **只占据顶部 200dp**
+                        // Padding value to top: 200
+                        .height(200.dp)
                         .background(
                             Brush.verticalGradient(
                                 colors = listOf(
-                                    Color(0xFF2E8B57), // 顶部深色
-                                    Color.Transparent // 渐变到底部变透明
+                                    // Top color
+                                    Color(0xFF2E8B57),
+                                    // Gradually make the bottom transparent
+                                    Color.Transparent
                                 )
                             )
                         )
@@ -71,10 +75,13 @@ fun AccountPage() {
                 Column(
                     verticalArrangement = Arrangement.spacedBy(15.dp),
                     modifier = Modifier
-                        .padding(top = paddingValues.calculateTopPadding()) // 应用 `Scaffold` 提供的顶部 padding
-                        .padding(bottom = 100.dp) // 为 `BottomBar` 留出空间，防止遮挡(100dp)
+                        // Apply the top padding provided by 'Scaffold'
+                        .padding(top = paddingValues.calculateTopPadding())
+                        // Leave space for 'BottomBar' to prevent occlusion (100dp)
+                        .padding(bottom = 100.dp)
                         .padding(horizontal = 15.dp)
-                        .verticalScroll(rememberScrollState()), // 这里启用滚动
+                        // Enable scrollable widgets
+                        .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Box(
@@ -197,22 +204,25 @@ fun UserInfoCard(username: String, email: String) {
             }
         }
     }
-    // Management account pop-up window
+    // Management account popup window
     if (showAccount) {
         ModalBottomSheet(
-            onDismissRequest = { showAccount = false }, // **点击外部关闭**
+            // Click outside to close
+            onDismissRequest = { showAccount = false },
             sheetState = rememberModalBottomSheetState()
         ) {
-            AccountDetailPage( // **弹窗内容**
+            // Text of popup window
+            AccountDetailPage(
                 username = "TestUsername",
                 email = "Test.User.email@example.com"
             )
         }
     }
-    // Management unlock function pop-up window
+    // Management unlock function popup window
     if (showPurchase) {
         ModalBottomSheet(
-            onDismissRequest = { showPurchase = false }, // **点击外部关闭**
+            // Click outside to close
+            onDismissRequest = { showPurchase = false },
             sheetState = rememberModalBottomSheetState()
         ) {
             UnlockFunctionPage()

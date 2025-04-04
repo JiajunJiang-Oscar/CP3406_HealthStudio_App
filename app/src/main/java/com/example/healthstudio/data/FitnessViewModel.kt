@@ -8,17 +8,17 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class HealthViewModel : ViewModel() {
+class FitnessViewModel : ViewModel() {
     private val dao = HealthDatabase.getDatabase(App.instance).healthDataDao()
 
     private val _healthData = MutableStateFlow<List<HealthData>>(emptyList())
     val healthData: StateFlow<List<HealthData>> = _healthData.asStateFlow()
 
     init {
-        loadHealthData("health")
+        loadFitnessData("fitness")
     }
 
-    fun loadHealthData(category: String) {
+    fun loadFitnessData(category: String) {
         viewModelScope.launch {
             _healthData.value = dao.getHealthDataByCategory(category)
         }

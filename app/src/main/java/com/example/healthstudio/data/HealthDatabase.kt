@@ -9,7 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [HealthData::class], version = 1, exportSchema = false)
+@Database(entities = [HealthData::class], version = 2, exportSchema = false)
 abstract class HealthDatabase : RoomDatabase() {
     abstract fun healthDataDao(): HealthDataDao
 
@@ -23,7 +23,9 @@ abstract class HealthDatabase : RoomDatabase() {
                     context.applicationContext,
                     HealthDatabase::class.java,
                     "health_database"
-                ).addCallback(DatabaseCallback())
+                )
+                    .addCallback(DatabaseCallback())
+                    .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
                 instance
@@ -31,16 +33,69 @@ abstract class HealthDatabase : RoomDatabase() {
         }
     }
 
-    // ✅ **修正的数据库回调**
+    // Database callback
     private class DatabaseCallback : Callback() {
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
             CoroutineScope(Dispatchers.IO).launch {
-                INSTANCE?.healthDataDao()?.insertHealthData(HealthData("Steps / Distance", "--/--"))
-                INSTANCE?.healthDataDao()?.insertHealthData(HealthData("Heart Rate", "--/--"))
-                INSTANCE?.healthDataDao()?.insertHealthData(HealthData("Sleep Time", "--/--"))
-                INSTANCE?.healthDataDao()?.insertHealthData(HealthData("Weight", "--/--"))
-                INSTANCE?.healthDataDao()?.insertHealthData(HealthData("Height", "--/--"))
+                // Default health data
+                INSTANCE?.healthDataDao()?.insertHealthData(HealthData(
+                    "Steps / Distance",
+                    "--/--",
+                    "health"
+                ))
+                INSTANCE?.healthDataDao()?.insertHealthData(HealthData(
+                    "Heart Rate",
+                    "--/--",
+                    "health"
+                ))
+                INSTANCE?.healthDataDao()?.insertHealthData(HealthData(
+                    "Sleep Time",
+                    "--/--",
+                    "health"
+                ))
+                INSTANCE?.healthDataDao()?.insertHealthData(HealthData(
+                    "Weight",
+                    "--/--",
+                    "health"
+                ))
+                INSTANCE?.healthDataDao()?.insertHealthData(HealthData(
+                    "Height",
+                    "--/--",
+                    "health"
+                ))
+
+                // Default fitness data
+                INSTANCE?.healthDataDao()?.insertHealthData(HealthData(
+                    "Fitness Record - Activity",
+                    "--/--",
+                    "fitness"
+                ))
+                INSTANCE?.healthDataDao()?.insertHealthData(HealthData(
+                    "Fitness Record - Fitness",
+                    "--/--",
+                    "fitness"
+                ))
+                INSTANCE?.healthDataDao()?.insertHealthData(HealthData(
+                    "Fitness Record - Stand",
+                    "--/--",
+                    "fitness"
+                ))
+                INSTANCE?.healthDataDao()?.insertHealthData(HealthData(
+                    "Run time",
+                    "--/--",
+                    "fitness"
+                ))
+                INSTANCE?.healthDataDao()?.insertHealthData(HealthData(
+                    "Cycling time",
+                    "--/--",
+                    "fitness"
+                ))
+                INSTANCE?.healthDataDao()?.insertHealthData(HealthData(
+                    "Swimming time",
+                    "--/--",
+                    "fitness"
+                ))
             }
         }
     }

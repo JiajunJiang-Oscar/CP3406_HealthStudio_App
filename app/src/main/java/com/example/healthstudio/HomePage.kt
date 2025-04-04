@@ -27,6 +27,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -51,35 +52,43 @@ import com.example.healthstudio.ui.theme.HealthStudioTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomePage(viewModel: HealthViewModel = viewModel()) {
-    // 控制弹窗显示
+    // Control popup display (Account)
     var showAccount by remember { mutableStateOf(false) }
-    // **从数据库获取数据**
+
+    // Obtain health data from the database
+    LaunchedEffect(Unit) {
+        viewModel.loadHealthData("health")
+    }
     val healthData by viewModel.healthData.collectAsState(emptyList())
 
     Scaffold(
-        topBar = { HealthStudioBar { showAccount = true } }, // **点击头像，显示弹窗**
+        // Click avatar to display a pop-up window
+        topBar = { HealthStudioBar { showAccount = true } },
         content = { paddingValues ->
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.Gray.copy(alpha = 0.2f)) // **默认背景色**
+                    // Default background color
+                    .background(Color.Gray.copy(alpha = 0.2f))
             ) {
-                // **顶部渐变背景**
+                // Top gradient background
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(200.dp) // **只占据顶部 200dp**
+                        // Padding value to top: 200
+                        .height(200.dp)
                         .background(
                             Brush.verticalGradient(
                                 colors = listOf(
-                                    Color(0xFFFFA500), // 顶部深色
-                                    Color.Transparent // 渐变到底部变透明
+                                    // Top color
+                                    Color(0xFFFFA500),
+                                    // Gradually make the bottom transparent
+                                    Color.Transparent
                                 )
                             )
                         )
                 )
-
-                // **LazyColumn 动态加载数据库数据**
+                // LazyColumn dynamically loads database data
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                     modifier = Modifier
@@ -87,22 +96,20 @@ fun HomePage(viewModel: HealthViewModel = viewModel()) {
                         .padding(bottom = 95.dp)
                         .padding(horizontal = 15.dp)
                 ) {
-//                    items(defaultHealthData()) { card ->
-//                        CardBox(title = card.first, content = card.second)
-//                    }
                     items(healthData) { item ->
                         CardBox(title = item.title, content = item.value)
                     }
                 }
             }
-
-            // **底部弹窗**
+            // Rule of popup display
             if (showAccount) {
                 ModalBottomSheet(
-                    onDismissRequest = { showAccount = false }, // **点击外部关闭**
+                    // Click outside to close
+                    onDismissRequest = { showAccount = false },
                     sheetState = rememberModalBottomSheetState()
                 ) {
-                    AccountDetailPage( // **弹窗内容**
+                    AccountDetailPage(
+                        // Text of popup display
                         username = "TestUsername",
                         email = "Test.User.email@example.com"
                     )
@@ -114,7 +121,8 @@ fun HomePage(viewModel: HealthViewModel = viewModel()) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HealthStudioBar(showAccountPage: () -> Unit) { // 传递一个函数用于触发弹窗
+// Pass a function to trigger a popup
+fun HealthStudioBar(showAccountPage: () -> Unit) {
     TopAppBar(
         title = {
             Text(
@@ -186,17 +194,6 @@ fun CardBox(title: String, content: String) {
         }
     }
 }
-
-//fun defaultHealthData(): List<Pair<String, String>> {
-//    // Default Value for the card information
-//    return listOf(
-//        "Steps / Distance" to "Today: -- Steps\nDistance: -- Kilometre",
-//        "Heart Rate" to "Newest: -- Times / Minute\nTime: --",
-//        "Sleep" to "Sleep Time:\n-- Hours -- Minutes",
-//        "Weight" to "-- KG",
-//        "Height" to "-- M"
-//    )
-//}
 
 @Preview(showBackground = true)
 @Composable
