@@ -4,9 +4,9 @@ import androidx.room.*
 
 @Dao
 interface HealthDataDao {
-//    // Get all data
-//    @Query("SELECT * FROM health_data")
-//    suspend fun getAllHealthData(): List<HealthData>
+    // Get all data
+    @Query("SELECT * FROM health_data")
+    suspend fun getAllHealthData(): List<HealthData>
 
     // Get the data by category（such as "health" or "fitness"）
     @Query("SELECT * FROM health_data WHERE category = :category")

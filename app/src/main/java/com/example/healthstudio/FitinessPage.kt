@@ -98,7 +98,7 @@ fun FitnessPage(viewModel: FitnessViewModel = viewModel()) {
                         .padding(horizontal = 15.dp)
                 ) {
                     items(healthData) { item ->
-                        CardBox(title = item.title, content = item.value)
+                        FitnessCardBox(title = item.title, content = item.value)
                     }
                 }
             }
@@ -161,39 +161,39 @@ fun FitnessPageBar(showAccountPage: () -> Unit) {
     )
 }
 
-//@Composable
-//fun FitnessCardBox(title: String, content: String) {
-//    val context = LocalContext.current
-//
-//    Card(
-//        modifier = Modifier
-//            .clickable {
-//                val intent = Intent(context, FitnessDetail::class.java)
-//                context.startActivity(intent)
-//            },
-//        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.5f))
-//    ) {
-//        Column(
-//            modifier = Modifier
-//                .fillMaxSize()
-//                .padding(18.dp)
-//        ) {
-//            Text(
-//                text = title,
-//                fontSize = 25.sp,
-//                color = Color(0xFF2196F3),
-//                fontWeight = FontWeight.Bold
-//            )
-//            Spacer(modifier = Modifier.height(10.dp))
-//            HorizontalDivider(color = Color.White, thickness = 1.dp)
-//            Spacer(modifier = Modifier.height(10.dp))
-//            Text(
-//                text = content,
-//                fontSize = 20.sp,
-//            )
-//        }
-//    }
-//}
+@Composable
+fun FitnessCardBox(title: String, content: String) {
+    val context = LocalContext.current
+
+    Card(
+        modifier = Modifier
+            .clickable {
+                val intent = Intent(context, FitnessDetail::class.java)
+                context.startActivity(intent)
+            },
+        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.5f))
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(18.dp)
+        ) {
+            Text(
+                text = title,
+                fontSize = 25.sp,
+                color = Color(0xFF2196F3),
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            HorizontalDivider(color = Color.White, thickness = 1.dp)
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                text = content,
+                fontSize = 20.sp,
+            )
+        }
+    }
+}
 
 @Preview(showBackground = true)
 @Composable

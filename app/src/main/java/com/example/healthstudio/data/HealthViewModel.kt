@@ -16,6 +16,12 @@ class HealthViewModel : ViewModel() {
 
     init {
         loadHealthData("health")
+        viewModelScope.launch {
+            val allData = dao.getAllHealthData() // 获取数据库中所有数据
+            println("All Database Data: $allData") // 打印所有数据
+
+            loadHealthData("health")
+        }
     }
 
     fun loadHealthData(category: String) {

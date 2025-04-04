@@ -24,7 +24,7 @@ abstract class HealthDatabase : RoomDatabase() {
                     HealthDatabase::class.java,
                     "health_database"
                 )
-                    .addCallback(DatabaseCallback())
+                    .addCallback(DatabaseCallback(context))
                     .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
@@ -33,69 +33,27 @@ abstract class HealthDatabase : RoomDatabase() {
         }
     }
 
-    // Database callback
-    private class DatabaseCallback : Callback() {
-        override fun onCreate(db: SupportSQLiteDatabase) {
-            super.onCreate(db)
+    // **修正 DatabaseCallback**
+    private class DatabaseCallback(private val context: Context) : Callback() {
+        override fun onOpen(db: SupportSQLiteDatabase) {
+            super.onOpen(db)
             CoroutineScope(Dispatchers.IO).launch {
+                val dao = getDatabase(context).healthDataDao()
+
                 // Default health data
-                INSTANCE?.healthDataDao()?.insertHealthData(HealthData(
-                    "Steps / Distance",
-                    "--/--",
-                    "health"
-                ))
-                INSTANCE?.healthDataDao()?.insertHealthData(HealthData(
-                    "Heart Rate",
-                    "--/--",
-                    "health"
-                ))
-                INSTANCE?.healthDataDao()?.insertHealthData(HealthData(
-                    "Sleep Time",
-                    "--/--",
-                    "health"
-                ))
-                INSTANCE?.healthDataDao()?.insertHealthData(HealthData(
-                    "Weight",
-                    "--/--",
-                    "health"
-                ))
-                INSTANCE?.healthDataDao()?.insertHealthData(HealthData(
-                    "Height",
-                    "--/--",
-                    "health"
-                ))
+                dao.insertHealthData(HealthData("Steps / Distance", "--/--", "health"))
+                dao.insertHealthData(HealthData("Heart Rate", "--/--", "health"))
+                dao.insertHealthData(HealthData("Sleep Time", "--/--", "health"))
+                dao.insertHealthData(HealthData("Weight", "--/--", "health"))
+                dao.insertHealthData(HealthData("Height", "--/--", "health"))
 
                 // Default fitness data
-                INSTANCE?.healthDataDao()?.insertHealthData(HealthData(
-                    "Fitness Record - Activity",
-                    "--/--",
-                    "fitness"
-                ))
-                INSTANCE?.healthDataDao()?.insertHealthData(HealthData(
-                    "Fitness Record - Fitness",
-                    "--/--",
-                    "fitness"
-                ))
-                INSTANCE?.healthDataDao()?.insertHealthData(HealthData(
-                    "Fitness Record - Stand",
-                    "--/--",
-                    "fitness"
-                ))
-                INSTANCE?.healthDataDao()?.insertHealthData(HealthData(
-                    "Run time",
-                    "--/--",
-                    "fitness"
-                ))
-                INSTANCE?.healthDataDao()?.insertHealthData(HealthData(
-                    "Cycling time",
-                    "--/--",
-                    "fitness"
-                ))
-                INSTANCE?.healthDataDao()?.insertHealthData(HealthData(
-                    "Swimming time",
-                    "--/--",
-                    "fitness"
-                ))
+                dao.insertHealthData(HealthData("Fitness Record - Activity", "--/--", "fitness"))
+                dao.insertHealthData(HealthData("Fitness Record - Fitness", "--/--", "fitness"))
+                dao.insertHealthData(HealthData("Fitness Record - Stand", "--/--", "fitness"))
+                dao.insertHealthData(HealthData("Run time", "--/--", "fitness"))
+                dao.insertHealthData(HealthData("Cycling time", "--/--", "fitness"))
+                dao.insertHealthData(HealthData("Swimming time", "--/--", "fitness"))
             }
         }
     }
