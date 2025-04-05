@@ -32,6 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.healthstudio.data.HealthViewModel
 import com.example.healthstudio.ui.theme.BluePrimary
 import com.example.healthstudio.ui.theme.HealthStudioTheme
 
@@ -39,20 +40,21 @@ class FitnessDetail : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        val viewModel = HealthViewModel()
         setContent {
             HealthStudioTheme {
-                FitnessDetailPage()
+                FitnessDetailPage(viewModel)
             }
         }
     }
 }
 
 @Composable
-fun FitnessDetailPage() {
+fun FitnessDetailPage(viewModel: HealthViewModel) {
     val activity = LocalActivity.current
 
     Scaffold(
-        topBar = { BackHomePage(onBackClick = { activity?.finish() }) },
+        topBar = { BackHomePage(viewModel = viewModel, onBackClick = { activity?.finish() }) },
         content = { paddingValues ->
             // Same color setting with fitness page
             Box(
@@ -80,9 +82,7 @@ fun FitnessDetailPage() {
                         .padding(bottom = 95.dp)
                         .padding(horizontal = 15.dp)
                 ) {
-                    ImportFitnessValues(
-                        // Input Body Information
-                    )
+                    ImportFitnessValues(viewModel)
                 }
             }
         }
@@ -90,12 +90,19 @@ fun FitnessDetailPage() {
 }
 
 @Composable
-fun ImportFitnessValues() {
+fun ImportFitnessValues(viewModel: HealthViewModel) {
     var selectedMetric by remember { mutableStateOf("Choice Value Type") }
     var expanded by remember { mutableStateOf(false) }
     var metricValue by remember { mutableStateOf("") }
 
-    val metricOptions = listOf("Active Time (min)", "Fitness Time (min)", "Stand Time (min)", "Run Time", "Cycling Time", "Swimming Time")
+    val metricOptions = mapOf(
+        "Active Time (min)" to "Fitness Record - Activity",
+        "Fitness Time (min)" to "Fitness Record - Fitness",
+        "Stand Time (min)" to "Fitness Record - Stand",
+        "Run Time (min)" to "Run time (min)",
+        "Cycling Time (min)" to "Cycling time (min)",
+        "Swimming Time (min)" to "Swimming time (min)"
+    )
 
     Column(
         modifier = Modifier
@@ -133,7 +140,7 @@ fun ImportFitnessValues() {
                     )
                     .padding(10.dp)
             ) {
-                metricOptions.forEach { option ->
+                metricOptions.keys.forEach { option ->
                     Text(
                         text = option,
                         fontSize = 18.sp,
@@ -160,7 +167,10 @@ fun ImportFitnessValues() {
         Spacer(modifier = Modifier.height(20.dp))
         Button(
             // Import button
-            onClick = { },
+            onClick = {
+                val metricKey = metricOptions[selectedMetric] ?: return@Button
+                viewModel.updateHealthData(metricKey, metricValue)
+            },
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(
                 containerColor = BluePrimary
@@ -181,6 +191,7 @@ fun ImportFitnessValues() {
 @Composable
 fun ThirdPagePreview() {
     HealthStudioTheme {
-        FitnessDetailPage()
+        val fakeViewModel = HealthViewModel()
+        FitnessDetailPage(fakeViewModel)
     }
 }

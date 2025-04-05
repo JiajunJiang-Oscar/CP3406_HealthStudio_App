@@ -34,26 +34,28 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.healthstudio.data.HealthViewModel
 import com.example.healthstudio.ui.theme.HealthStudioTheme
 
 class HealthDetail : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        val viewModel = HealthViewModel()
         setContent {
             HealthStudioTheme {
-                HealthDetailPage()
+                HealthDetailPage(viewModel)
             }
         }
     }
 }
 
 @Composable
-fun HealthDetailPage() {
+fun HealthDetailPage(viewModel: HealthViewModel) {
     val activity = LocalActivity.current
 
     Scaffold(
-        topBar = { BackHomePage(onBackClick = { activity?.finish() }) },
+        topBar = { BackHomePage(viewModel = viewModel, onBackClick = { activity?.finish() }) },
         content = { paddingValues ->
             // Same color setting with health page
             Box(
@@ -81,9 +83,7 @@ fun HealthDetailPage() {
                         .padding(bottom = 95.dp)
                         .padding(horizontal = 15.dp)
                 ) {
-                    ImportHealthValues(
-                        // Input Body Information
-                    )
+                    ImportHealthValues(viewModel)
                 }
 
 
@@ -94,7 +94,7 @@ fun HealthDetailPage() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BackHomePage(onBackClick: () -> Unit) {
+fun BackHomePage(viewModel: HealthViewModel, onBackClick: () -> Unit) {
     TopAppBar(
         title = {
             Text(
@@ -104,7 +104,11 @@ fun BackHomePage(onBackClick: () -> Unit) {
                 color = Color.White,
                 modifier = Modifier
                     .padding(vertical = 20.dp)
-                    .clickable { onBackClick() }
+                    .clickable {
+                        // 退出前更新数据
+                        viewModel.refreshHealthData()
+                        onBackClick()
+                    }
             )
         },
         colors = androidx.compose.material3.TopAppBarDefaults.topAppBarColors(
@@ -114,17 +118,24 @@ fun BackHomePage(onBackClick: () -> Unit) {
 }
 
 @Composable
-fun ImportHealthValues() {
+fun ImportHealthValues(viewModel: HealthViewModel) {
     var selectedMetric by remember { mutableStateOf("Choice Value Type") }
     var expanded by remember { mutableStateOf(false) }
     var metricValue by remember { mutableStateOf("") }
 
-    val metricOptions = listOf("Walking Distance (m)", "Heart Rate", "Sleep Time", "Height (cm)", "Weight (kg)")
+    val metricOptions = mapOf(
+        "Walking Distance (m)" to "Steps / Distance",
+        "Heart Rate" to "Heart Rate",
+        "Sleep Time" to "Sleep Time",
+        "Psychological States" to "Psychological States",
+        "Height (cm)" to "Height",
+        "Weight (kg)" to "Weight"
+    )
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(20.dp),
+            .padding(20.dp)
     ) {
         Text(
             text = "Import Your Information",
@@ -157,7 +168,7 @@ fun ImportHealthValues() {
                     )
                     .padding(10.dp)
             ) {
-                metricOptions.forEach { option ->
+                metricOptions.keys.forEach { option ->
                     Text(
                         text = option,
                         fontSize = 18.sp,
@@ -182,9 +193,12 @@ fun ImportHealthValues() {
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(20.dp))
+        // Click the button to import data
         Button(
-            // Import button
-            onClick = { },
+            onClick = {
+                val metricKey = metricOptions[selectedMetric] ?: return@Button
+                viewModel.updateHealthData(metricKey, metricValue)
+            },
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFFFFA500),
@@ -204,7 +218,8 @@ fun ImportHealthValues() {
 @Preview(showBackground = true)
 @Composable
 fun SecondPagePreview() {
+    val fakeViewModel = HealthViewModel()
     HealthStudioTheme {
-        HealthDetailPage()
+        HealthDetailPage(fakeViewModel)
     }
 }

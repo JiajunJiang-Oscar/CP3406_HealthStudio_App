@@ -52,9 +52,9 @@ abstract class HealthDatabase : RoomDatabase() {
                 dao.insertHealthData(HealthData("Fitness Record - Activity", "--/--", "fitness"))
                 dao.insertHealthData(HealthData("Fitness Record - Fitness", "--/--", "fitness"))
                 dao.insertHealthData(HealthData("Fitness Record - Stand", "--/--", "fitness"))
-                dao.insertHealthData(HealthData("Run time", "--/--", "fitness"))
-                dao.insertHealthData(HealthData("Cycling time", "--/--", "fitness"))
-                dao.insertHealthData(HealthData("Swimming time", "--/--", "fitness"))
+                dao.insertHealthData(HealthData("Run time (min)", "--/--", "fitness"))
+                dao.insertHealthData(HealthData("Cycling time (min)", "--/--", "fitness"))
+                dao.insertHealthData(HealthData("Swimming time (min)", "--/--", "fitness"))
             }
         }
     }

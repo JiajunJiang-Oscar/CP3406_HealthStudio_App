@@ -29,4 +29,23 @@ class HealthViewModel : ViewModel() {
             _healthData.value = dao.getHealthDataByCategory(category)
         }
     }
+
+    fun updateHealthData(title: String, newValue: String) {
+        viewModelScope.launch {
+            val existingData = dao.getHealthDataByTitle(title)
+            if (existingData != null) {
+                val updatedData = existingData.copy(value = newValue)
+                dao.updateHealthData(updatedData)
+
+                // 重新加载数据，确保 UI 更新
+                _healthData.value = dao.getAllHealthData()
+            }
+        }
+    }
+
+    fun refreshHealthData() {
+        viewModelScope.launch {
+            _healthData.value = dao.getAllHealthData()
+        }
+    }
 }

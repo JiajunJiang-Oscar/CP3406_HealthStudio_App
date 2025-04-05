@@ -12,6 +12,9 @@ interface HealthDataDao {
     @Query("SELECT * FROM health_data WHERE category = :category")
     suspend fun getHealthDataByCategory(category: String): List<HealthData>
 
+    @Query("SELECT * FROM health_data WHERE title = :title LIMIT 1")
+    suspend fun getHealthDataByTitle(title: String): HealthData?
+
     // Insert data and replace if conflict occurs
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertHealthData(healthData: HealthData)
