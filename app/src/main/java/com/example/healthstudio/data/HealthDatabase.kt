@@ -25,7 +25,6 @@ abstract class HealthDatabase : RoomDatabase() {
                     "health_database"
                 )
                     .addCallback(DatabaseCallback(context))
-                    .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
                 instance
@@ -33,9 +32,9 @@ abstract class HealthDatabase : RoomDatabase() {
         }
     }
 
-    // **修正 DatabaseCallback**
+    // DatabaseCallback**
     private class DatabaseCallback(private val context: Context) : Callback() {
-        override fun onOpen(db: SupportSQLiteDatabase) {
+        override fun onCreate(db: SupportSQLiteDatabase) {
             super.onOpen(db)
             CoroutineScope(Dispatchers.IO).launch {
                 val dao = getDatabase(context).healthDataDao()

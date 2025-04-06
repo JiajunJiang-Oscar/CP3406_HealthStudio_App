@@ -17,8 +17,10 @@ class HealthViewModel : ViewModel() {
     init {
         loadHealthData("health")
         viewModelScope.launch {
-            val allData = dao.getAllHealthData() // 获取数据库中所有数据
-            println("All Database Data: $allData") // 打印所有数据
+            // Get all data in database
+            val allData = dao.getAllHealthData()
+            // Display all data
+            println("All Database Data: $allData")
 
             loadHealthData("health")
         }
@@ -37,7 +39,7 @@ class HealthViewModel : ViewModel() {
                 val updatedData = existingData.copy(value = newValue)
                 dao.updateHealthData(updatedData)
 
-                // 重新加载数据，确保 UI 更新
+                // Reload database
                 _healthData.value = dao.getAllHealthData()
             }
         }
@@ -45,7 +47,9 @@ class HealthViewModel : ViewModel() {
 
     fun refreshHealthData() {
         viewModelScope.launch {
-            _healthData.value = dao.getAllHealthData()
+            val updatedData = dao.getAllHealthData()
+            // Use emit to let the UI listen for changes
+            _healthData.emit(updatedData)
         }
     }
 }

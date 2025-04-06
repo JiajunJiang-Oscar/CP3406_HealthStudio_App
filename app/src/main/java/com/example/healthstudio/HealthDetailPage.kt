@@ -1,6 +1,7 @@
 package com.example.healthstudio
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
@@ -35,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.healthstudio.data.HealthViewModel
+import androidx.compose.ui.platform.LocalContext
 import com.example.healthstudio.ui.theme.HealthStudioTheme
 
 class HealthDetail : ComponentActivity() {
@@ -122,6 +124,7 @@ fun ImportHealthValues(viewModel: HealthViewModel) {
     var selectedMetric by remember { mutableStateOf("Choice Value Type") }
     var expanded by remember { mutableStateOf(false) }
     var metricValue by remember { mutableStateOf("") }
+    val context = LocalContext.current
 
     val metricOptions = mapOf(
         "Walking Distance (m)" to "Steps / Distance",
@@ -197,7 +200,23 @@ fun ImportHealthValues(viewModel: HealthViewModel) {
         Button(
             onClick = {
                 val metricKey = metricOptions[selectedMetric] ?: return@Button
-                viewModel.updateHealthData(metricKey, metricValue)
+                // Popup window to show data import state
+                if (metricValue.isBlank()) {
+                    // Error check
+                    Toast.makeText(
+                        context,
+                        "Your data can not be empty!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    // Successful import
+                    viewModel.updateHealthData(metricKey, metricValue)
+                    Toast.makeText(
+                        context,
+                        "Your data import is successful!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             },
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(

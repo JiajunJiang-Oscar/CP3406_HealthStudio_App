@@ -59,7 +59,7 @@ fun HomePage(viewModel: HealthViewModel = viewModel()) {
     LaunchedEffect(Unit) {
         viewModel.loadHealthData("health")
     }
-    val healthData by viewModel.healthData.collectAsState(emptyList())
+    val healthData by viewModel.healthData.collectAsState()
 
     Scaffold(
         // Click avatar to display a pop-up window
