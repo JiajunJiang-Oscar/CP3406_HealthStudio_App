@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -54,7 +55,8 @@ fun FitnessDetailPage(viewModel: HealthViewModel) {
     val activity = LocalActivity.current
 
     Scaffold(
-        topBar = { BackHomePage(viewModel = viewModel, onBackClick = { activity?.finish() }) },
+        topBar = { BackHomePage(viewModel = viewModel,
+            onBackClick = { activity?.finish() }) },
         content = { paddingValues ->
             // Same color setting with fitness page
             Box(
@@ -96,12 +98,18 @@ fun ImportFitnessValues(viewModel: HealthViewModel) {
     var metricValue by remember { mutableStateOf("") }
 
     val metricOptions = mapOf(
-        "Active Time (min)" to "Fitness Record - Activity",
-        "Fitness Time (min)" to "Fitness Record - Fitness",
-        "Stand Time (min)" to "Fitness Record - Stand",
-        "Run Time (min)" to "Run time (min)",
-        "Cycling Time (min)" to "Cycling time (min)",
-        "Swimming Time (min)" to "Swimming time (min)"
+        "Active record in calorie \n300 calorie = active 1 hour"
+                to "Fitness Record - Activity",
+        "Fitness record in calorie \n300-700 calorie = fitness 1 hour"
+                to "Fitness Record - Fitness",
+        "Stand record in calorie \n60 calorie = stand 1 hour"
+                to "Fitness Record - Stand",
+        "Run time in min"
+                to "Run time (min)",
+        "Cycling time in min"
+                to "Cycling time (min)",
+        "Swimming time in min"
+                to "Swimming time (min)"
     )
 
     Column(
@@ -151,6 +159,10 @@ fun ImportFitnessValues(viewModel: HealthViewModel) {
                                 expanded = false
                             }
                             .padding(10.dp)
+                    )
+                    HorizontalDivider(
+                        color = Color.Black.copy(alpha = 0.1f),
+                        thickness = 1.dp
                     )
                 }
             }

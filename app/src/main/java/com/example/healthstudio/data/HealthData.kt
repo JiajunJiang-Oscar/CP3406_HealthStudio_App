@@ -10,5 +10,7 @@ data class HealthData(
     // Corresponding data
     val value: String,
     // Data category
-    val category: String
+    val category: String,
+    // Unit category
+    val unit: String
 )

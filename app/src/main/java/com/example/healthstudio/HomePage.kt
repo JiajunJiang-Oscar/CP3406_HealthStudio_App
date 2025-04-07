@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -97,7 +98,7 @@ fun HomePage(viewModel: HealthViewModel = viewModel()) {
                         .padding(horizontal = 15.dp)
                 ) {
                     items(healthData) { item ->
-                        CardBox(title = item.title, content = item.value)
+                        CardBox(title = item.title, content = item.value, unit = item.unit)
                     }
                     // Text of health is important
                     item {
@@ -175,7 +176,7 @@ fun HealthStudioBar(showAccountPage: () -> Unit) {
 }
 
 @Composable
-fun CardBox(title: String, content: String) {
+fun CardBox(title: String, content: String, unit: String) {
     val context = LocalContext.current
 
     Card(
@@ -200,10 +201,20 @@ fun CardBox(title: String, content: String) {
             Spacer(modifier = Modifier.height(10.dp))
             HorizontalDivider(color = Color.White, thickness = 1.dp)
             Spacer(modifier = Modifier.height(10.dp))
-            Text(
-                text = content,
-                fontSize = 20.sp,
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                // Have content and units distributed on both ends
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = content,
+                    fontSize = 20.sp,
+                )
+                Text(
+                    text = unit,
+                    fontSize = 20.sp,
+                )
+            }
         }
     }
 }

@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -57,7 +58,8 @@ fun HealthDetailPage(viewModel: HealthViewModel) {
     val activity = LocalActivity.current
 
     Scaffold(
-        topBar = { BackHomePage(viewModel = viewModel, onBackClick = { activity?.finish() }) },
+        topBar = { BackHomePage(viewModel = viewModel,
+            onBackClick = { activity?.finish() }) },
         content = { paddingValues ->
             // Same color setting with health page
             Box(
@@ -107,7 +109,7 @@ fun BackHomePage(viewModel: HealthViewModel, onBackClick: () -> Unit) {
                 modifier = Modifier
                     .padding(vertical = 20.dp)
                     .clickable {
-                        // 退出前更新数据
+                        // Update data before exit this page
                         viewModel.refreshHealthData()
                         onBackClick()
                     }
@@ -127,12 +129,18 @@ fun ImportHealthValues(viewModel: HealthViewModel) {
     val context = LocalContext.current
 
     val metricOptions = mapOf(
-        "Walking Distance (m)" to "Steps / Distance",
-        "Heart Rate" to "Heart Rate",
-        "Sleep Time" to "Sleep Time",
-        "Psychological States" to "Psychological States",
-        "Height (cm)" to "Height",
-        "Weight (kg)" to "Weight"
+        "Walking distance in km \n(1000m = 1km)"
+                to "Walk Distance Today",
+        "Heart rate"
+                to "Heart Rate",
+        "Sleep time"
+                to "Sleep Time",
+        "Psychological states \n(0 low - 100 high)"
+                to "Psychological States",
+        "Height in cm"
+                to "Height",
+        "Weight in kg"
+                to "Weight"
     )
 
     Column(
@@ -182,6 +190,10 @@ fun ImportHealthValues(viewModel: HealthViewModel) {
                                 expanded = false
                             }
                             .padding(10.dp)
+                    )
+                    HorizontalDivider(
+                        color = Color.Black.copy(alpha = 0.1f),
+                        thickness = 1.dp
                     )
                 }
             }
