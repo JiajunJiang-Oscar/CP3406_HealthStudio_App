@@ -54,7 +54,6 @@ fun AccountPage() {
                     // Default background color
                     .background(Color.Gray.copy(alpha = 0.2f))
             ) {
-                // **顶部渐变背景**
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
