@@ -178,6 +178,27 @@ fun HealthStudioBar(showAccountPage: () -> Unit) {
 @Composable
 fun CardBox(title: String, content: String, unit: String) {
     val context = LocalContext.current
+    val numericValue = content.filter { it.isDigit() }.toIntOrNull()
+
+    // Generate health alerts based on the title
+    val healthTip = when {
+        "Heart Rate" in title && numericValue != null -> when {
+            numericValue > 100
+                -> "！！Heart rate is currently high, so it is recommended to pay attention to " +
+                    "rest and relaxation！！"
+            numericValue < 50
+                -> "！！Heart rate is low, may be fatigue or low blood pressure, please pay" +
+                    " attention to health condition!！"
+            else -> null
+        }
+        "Walk Distance Today" in title && numericValue != null && numericValue < 3000 -> {
+            "The number of steps today is low, it is recommended to move more to stay active!"
+        }
+        "Sleep Time" in title && numericValue != null && numericValue < 6 -> {
+            "You are a short sleeper, so it is recommended to sleep at least 6 hours a day."
+        }
+        else -> null
+    }
 
     Card(
         modifier = Modifier
@@ -213,6 +234,15 @@ fun CardBox(title: String, content: String, unit: String) {
                 Text(
                     text = unit,
                     fontSize = 20.sp,
+                )
+            }
+            healthTip?.let {
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    text = it,
+                    fontSize = 16.sp,
+                    color = Color.Red,
+                    fontWeight = FontWeight.Bold
                 )
             }
         }

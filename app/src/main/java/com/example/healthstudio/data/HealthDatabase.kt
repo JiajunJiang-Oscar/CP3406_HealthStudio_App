@@ -102,13 +102,13 @@ abstract class HealthDatabase : RoomDatabase() {
                     "min"
                 ))
                 dao.insertHealthData(HealthData(
-                    "Cycling time (min)",
+                    "Cycling time",
                     "--/--",
                     "fitness",
                     "min"
                 ))
                 dao.insertHealthData(HealthData(
-                    "Swimming time (min)",
+                    "Swimming time",
                     "--/--",
                     "fitness",
                     "min"

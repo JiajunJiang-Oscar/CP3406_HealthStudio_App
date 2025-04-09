@@ -178,6 +178,38 @@ fun FitnessPageBar(showAccountPage: () -> Unit) {
 @Composable
 fun FitnessCardBox(title: String, content: String, unit: String) {
     val context = LocalContext.current
+    val numericValue = content.filter { it.isDigit() }.toIntOrNull()
+
+    // Generate health alerts based on the title
+    val healthTip = when {
+        "Fitness Record - Activity" in title && numericValue != null -> when {
+            numericValue > 1000
+                -> "Excessive calorie consumption may indicate a slowdown in the renewal process," +
+                    " which might lead to obesity."
+            numericValue < 500
+                -> "Excessive calorie consumption can lead to energy deficiency and weakened " +
+                    "immunity."
+            else -> null
+        }
+        "Fitness Record - Fitness" in title && numericValue != null -> when {
+            numericValue > 1800
+                -> "The excessive calorie consumption caused by intense workouts can undermine " +
+                    "one's health. Therefore, we suggest that one should not exceed three " +
+                    "hours of exercise per day."
+            numericValue < 400
+                -> "If the calories burned during fitness activities are too low, it may lead to " +
+                    "poor results."
+            else -> null
+        }
+        "Fitness Record - Stand" in title && numericValue != null -> when {
+            numericValue > 800
+                -> "Excessive standing time can lead to lumbar muscle strain."
+            numericValue < 400
+                -> "Excessive short standing periods can lead to problems with muscles and bones."
+            else -> null
+        }
+        else -> null
+    }
 
     Card(
         modifier = Modifier
@@ -213,6 +245,15 @@ fun FitnessCardBox(title: String, content: String, unit: String) {
                 Text(
                     text = unit,
                     fontSize = 20.sp,
+                )
+            }
+            healthTip?.let {
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    text = it,
+                    fontSize = 16.sp,
+                    color = Color.Red,
+                    fontWeight = FontWeight.Bold
                 )
             }
         }
