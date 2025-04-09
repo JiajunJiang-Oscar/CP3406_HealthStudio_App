@@ -1,6 +1,7 @@
 package com.example.healthstudio
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
@@ -28,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -96,6 +98,7 @@ fun ImportFitnessValues(viewModel: HealthViewModel) {
     var selectedMetric by remember { mutableStateOf("Choice Value Type") }
     var expanded by remember { mutableStateOf(false) }
     var metricValue by remember { mutableStateOf("") }
+    val context = LocalContext.current
 
     val metricOptions = mapOf(
         "Active record in calorie \n300 calorie = active 1 hour"
@@ -181,7 +184,23 @@ fun ImportFitnessValues(viewModel: HealthViewModel) {
             // Import button
             onClick = {
                 val metricKey = metricOptions[selectedMetric] ?: return@Button
-                viewModel.updateHealthData(metricKey, metricValue)
+                // Popup window to show data import state
+                if (metricValue.isBlank()) {
+                    // Error check
+                    Toast.makeText(
+                        context,
+                        "Your data can not be empty!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    // Successful import
+                    viewModel.updateHealthData(metricKey, metricValue)
+                    Toast.makeText(
+                        context,
+                        "Your data import is successful!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             },
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(
