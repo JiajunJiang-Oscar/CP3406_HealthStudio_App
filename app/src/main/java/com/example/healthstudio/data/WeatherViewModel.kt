@@ -13,11 +13,11 @@ class WeatherViewModel : ViewModel() {
 
     // API key
     companion object {
-        private const val API_KEY = "https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}"
+        private const val API_KEY = "06984ea4210022fad9455cadaad62cf4"
     }
 
     init {
-        // 初始化 Retrofit
+        // Example Initialize Retrofit
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.openweathermap.org/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -33,11 +33,11 @@ class WeatherViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     onResult(response.body())
                 } else {
-                    Log.e("WeatherViewModel", "API 请求失败: ${response.errorBody()?.string()}")
+                    Log.e("WeatherViewModel", "API request failed: ${response.errorBody()?.string()}")
                     onResult(null)
                 }
             } catch (e: Exception) {
-                Log.e("WeatherViewModel", "请求天气数据时出错: ${e.message}")
+                Log.e("WeatherViewModel", "An error occurred while requesting weather data: ${e.message}")
                 onResult(null)
             }
         }

@@ -6,9 +6,11 @@ data class WeatherResponse(
 )
 
 data class Main(
-    val temp: Float // 当前温度（单位：摄氏度）
+    // Current temperature (unit: Celsius)
+    val temp: Float
 )
 
 data class Weather(
-    val description: String // 天气描述（如 "clear sky", "rainy"）
+    // Weather description (e.g. "clear sky", "rainy")
+    val description: String
 )

@@ -8,8 +8,11 @@ import retrofit2.http.Query
 interface WeatherService {
     @GET("data/2.5/weather")
     fun getCurrentWeather(
-        @Query("q") city: String,     // 城市名
-        @Query("appid") apiKey: String, // API Key
-        @Query("units") units: String = "metric" // 设置单位为摄氏度
+        // CIty name
+        @Query("q") city: String,
+        // API Key
+        @Query("appid") apiKey: String,
+        // Set the unit to Celsius
+        @Query("units") units: String = "metric"
     ): Call<WeatherResponse>
 }
