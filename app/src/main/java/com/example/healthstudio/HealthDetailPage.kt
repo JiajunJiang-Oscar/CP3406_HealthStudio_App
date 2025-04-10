@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -15,6 +16,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -31,13 +34,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.example.healthstudio.data.HealthViewModel
-import androidx.compose.ui.platform.LocalContext
 import com.example.healthstudio.ui.theme.HealthStudioTheme
 
 class HealthDetail : ComponentActivity() {
@@ -84,8 +88,7 @@ fun HealthDetailPage(viewModel: HealthViewModel) {
                 Box(
                     modifier = Modifier
                         .padding(top = paddingValues.calculateTopPadding())
-                        .padding(bottom = 95.dp)
-                        .padding(horizontal = 15.dp)
+                        .padding(horizontal = 10.dp)
                 ) {
                     ImportHealthValues(viewModel)
                 }
@@ -129,24 +132,19 @@ fun ImportHealthValues(viewModel: HealthViewModel) {
     val context = LocalContext.current
 
     val metricOptions = mapOf(
-        "Walking distance in km \n(1000m = 1km)"
-                to "Walk Distance Today",
-        "Heart rate"
-                to "Heart Rate",
-        "Sleep time"
-                to "Sleep Time",
-        "Psychological states \n(0 low - 100 high)"
-                to "Psychological States",
-        "Height in cm"
-                to "Height",
-        "Weight in kg"
-                to "Weight"
+        "Walking distance in km \n(1000m = 1km)" to "Walk Distance Today",
+        "Heart rate" to "Heart Rate",
+        "Sleep time" to "Sleep Time",
+        "Psychological states \n(0 low - 100 high)" to "Psychological States",
+        "Height in cm" to "Height",
+        "Weight in kg" to "Weight"
     )
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(20.dp)
+            .verticalScroll(rememberScrollState()),
     ) {
         Text(
             text = "Import Your Information",
@@ -241,7 +239,26 @@ fun ImportHealthValues(viewModel: HealthViewModel) {
                 fontWeight = FontWeight.Bold
             )
         }
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(10.dp))
+        HorizontalDivider(color = Color.Black.copy(alpha = 0.1f), thickness = 1.dp)
+        Spacer(modifier = Modifier.height(10.dp))
+        Text(stringResource(
+            id = R.string.import_health_title),
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold
+        )
+        Spacer(modifier = Modifier.height(10.dp))
+        // Load image from internet
+        Image(
+            painter = rememberAsyncImagePainter(
+                "https://lh3.googleusercontent.com/proxy/_hBig1dYuX9rOfYgYoW2-aWgZicruKPFCiJFl6B1cQjjVUmcMqg4TBWdq2YMk2wQOwlsg2XgLTB-6FD0NPF12Twy_C8IjLGSIUv7dABmot7ed4K4LVAAKkTfrfn-HIStM5Z0-Ah6GxOwjGitCNaPd4rq1xvbaXsUcolUZq8"
+            ),
+            contentDescription = "Fitness Image",
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(220.dp)
+        )
+        Spacer(modifier = Modifier.height(10.dp))
         Text(stringResource(id = R.string.import_health_data), fontSize = 20.sp)
     }
 }

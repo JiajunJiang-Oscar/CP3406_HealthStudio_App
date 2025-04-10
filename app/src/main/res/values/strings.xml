@@ -17,12 +17,14 @@
         step count, heart rate, calorie consumption, etc.), we can more intuitively understand our
         own exercise, adjust training programs, improve exercise efficiency, while avoiding sports
         injuries, and maintain long-term health and vitality.</string>
-    <string name="import_health_data">Import your health data, and let us do the hard work of
-        tracking and evaluating it for you. Whether you re looking to improve your overall health
+    <string name="import_health_title">Import your health data, and let us do the hard work of
+        tracking and evaluating it for you. </string>
+    <string name="import_health_data">Whether you re looking to improve your overall health
         or simply stay on top of your wellness. We’ll provide insightful analysis, giving you the
         tools you need to make informed decisions and live your healthiest life.</string>
-    <string name="import_fitness_data">Sync your fitness data effortlessly and take your workout
-        tracking to the next level. Our app helps you track calories burned, fitness minutes,
+    <string name="import_fitness_title">Sync your fitness data effortlessly and take your workout
+        tracking to the next level. </string>
+    <string name="import_fitness_data">Our app helps you track calories burned, fitness minutes,
         active hours, and more offering personalized insights tailored to your fitness goals.
         Whether you re training for a marathon or just staying fit, we ll support you every step
         of the way, helping you assess progress and achieve your fitness aspirations with

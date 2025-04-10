@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -48,6 +49,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.rememberAsyncImagePainter
 import com.example.healthstudio.data.FitnessViewModel
 import com.example.healthstudio.data.WeatherViewModel
 import com.example.healthstudio.ui.theme.BluePrimary
@@ -110,9 +112,18 @@ fun FitnessPage(
                     // Text of fitness is important
                     item {
                         HorizontalDivider(color = Color.Gray, thickness = 1.dp)
-
+                        Image(
+                            painter = rememberAsyncImagePainter(
+                                "https://play-lh.googleusercontent.com/Lv-fXYSg2DGC2NtR-88dQ-jFEZyA9PtxsGqPS9_Oo7VlmfrrwcEI-SnLwVPbM30-spaS=w648-h364-rw"
+                            ),
+                            contentDescription = "Fitness Image",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(220.dp)
+                                .clip(RoundedCornerShape(25.dp))
+                        )
                         Box(
-                            modifier = Modifier.padding(15.dp)
+                            modifier = Modifier.padding(5.dp)
                         ) {
                             Text(
                                 text = stringResource(id = R.string.fitness_intro),
@@ -206,21 +217,16 @@ fun FitnessCardBox(title: String, content: String, unit: String) {
     val healthTip = when {
         "Fitness Record - Activity" in title && numericValue != null -> when {
             numericValue > 1000
-                -> "Excessive calorie consumption may indicate a slowdown in the renewal process," +
-                    " which might lead to obesity."
+                -> "Excessive calorie consumption may indicate a slowdown in the renewal process, which might lead to obesity."
             numericValue < 500
-                -> "Excessive calorie consumption can lead to energy deficiency and weakened " +
-                    "immunity."
+                -> "Excessive calorie consumption can lead to energy deficiency and weakened immunity."
             else -> null
         }
         "Fitness Record - Fitness" in title && numericValue != null -> when {
             numericValue > 1800
-                -> "The excessive calorie consumption caused by intense workouts can undermine " +
-                    "one's health. Therefore, we suggest that one should not exceed three " +
-                    "hours of exercise per day."
+                -> "The excessive calorie consumption caused by intense workouts can undermine one's health. Therefore, we suggest that one should not exceed three hours of exercise per day."
             numericValue < 400
-                -> "If the calories burned during fitness activities are too low, it may lead to " +
-                    "poor results."
+                -> "If the calories burned during fitness activities are too low, it may lead to poor results."
             else -> null
         }
         "Fitness Record - Stand" in title && numericValue != null -> when {

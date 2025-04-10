@@ -70,4 +70,7 @@ dependencies {
     // API weather
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+
+    // Picture from internet
+    implementation(libs.coil.compose)
 }

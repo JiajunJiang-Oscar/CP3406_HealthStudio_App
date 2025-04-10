@@ -15,9 +15,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -47,8 +49,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.rememberAsyncImagePainter
 import com.example.healthstudio.data.HealthViewModel
 import com.example.healthstudio.ui.theme.HealthStudioTheme
+import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -103,9 +107,16 @@ fun HomePage(viewModel: HealthViewModel = viewModel()) {
                     // Text of health is important
                     item {
                         HorizontalDivider(color = Color.Gray, thickness = 1.dp)
-
+                        Image(
+                            painter = rememberAsyncImagePainter("https://img.doooor.com/img/forum/202105/30/111213vjsisvp6s8lrper3.jpg"),
+                            contentDescription = "Fitness Image",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(220.dp)
+                                .clip(RoundedCornerShape(25.dp))
+                        )
                         Box(
-                            modifier = Modifier.padding(15.dp)
+                            modifier = Modifier.padding(5.dp)
                         ) {
                             Text(
                                 text = stringResource(id = R.string.health_intro),
@@ -139,14 +150,30 @@ fun HomePage(viewModel: HealthViewModel = viewModel()) {
 fun HealthStudioBar(showAccountPage: () -> Unit) {
     TopAppBar(
         title = {
-            Text(
-                text ="Health Studio",
-                fontSize = 30.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White,
-                modifier = Modifier
-                    .padding(vertical = 40.dp)
-            )
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Spacer(modifier = Modifier.height(30.dp))
+                Text(
+                    text ="Health Studio",
+                    fontSize = 30.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
+                )
+                Spacer(modifier = Modifier.height(5.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Spacer(modifier = Modifier.width(5.dp))
+                    Text(
+                        // Show weather data
+                        text = getGreetingMessage(),
+                        fontSize = 18.sp,
+                        color = Color.White
+                    )
+                }
+            }
         },
         actions = {
             Box(
@@ -246,6 +273,15 @@ fun CardBox(title: String, content: String, unit: String) {
                 )
             }
         }
+    }
+}
+
+fun getGreetingMessage(): String {
+    val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+    return when (hour) {
+        in 5..11 -> "Good Morning!"
+        in 12..17 -> "Good Afternoon!"
+        else -> "Good Evening!"
     }
 }
 

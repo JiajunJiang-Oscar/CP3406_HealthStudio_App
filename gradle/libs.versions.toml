@@ -1,6 +1,6 @@
 [versions]
 agp = "8.8.2"
-#coilCompose = "2.4.0"
+coilCompose = "2.2.2"
 converterGson = "2.9.0"
 retrofit = "2.9.0"
 room = "2.7.0"
@@ -18,7 +18,7 @@ navigationComposeVersion = "2.8.9"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-navigation-compose-v289 = { module = "androidx.navigation:navigation-compose", version.ref = "navigationComposeVersion" }
-#coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
