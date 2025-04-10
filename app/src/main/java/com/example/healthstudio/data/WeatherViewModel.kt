@@ -17,7 +17,6 @@ class WeatherViewModel : ViewModel() {
     }
 
     init {
-        // Example Initialize Retrofit
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.openweathermap.org/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -31,6 +30,7 @@ class WeatherViewModel : ViewModel() {
             try {
                 val response = weatherService.getCurrentWeather(city, API_KEY).execute()
                 if (response.isSuccessful) {
+                    Log.d("WeatherViewModel", "API响应成功：${response.body()}")
                     onResult(response.body())
                 } else {
                     Log.e("WeatherViewModel", "API request failed: ${response.errorBody()?.string()}")

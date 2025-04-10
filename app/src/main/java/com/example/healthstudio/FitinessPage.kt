@@ -67,10 +67,6 @@ fun FitnessPage(
         viewModel.loadFitnessData("fitness")
     }
 
-    // Obtain fitness data from the database
-    LaunchedEffect(Unit) {
-        viewModel.loadFitnessData("fitness")
-    }
     val healthData by viewModel.healthData.collectAsState(emptyList())
 
     Scaffold(
@@ -291,7 +287,7 @@ fun fetchWeatherInfo(viewModel: WeatherViewModel): String {
     var weatherInfo by remember { mutableStateOf("Loading...") }
 
     LaunchedEffect(Unit) {
-        viewModel.fetchWeather("Brisbane") { response ->
+        viewModel.fetchWeather("Singapore") { response ->
             weatherInfo = if (response != null) {
                 "${response.main.temp}°C - ${response.weather.firstOrNull()?.description ?: "Unknown"}"
             } else {
