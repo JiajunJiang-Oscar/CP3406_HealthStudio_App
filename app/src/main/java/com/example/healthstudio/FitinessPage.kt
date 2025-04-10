@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -48,14 +49,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.healthstudio.data.FitnessViewModel
+import com.example.healthstudio.data.WeatherViewModel
 import com.example.healthstudio.ui.theme.BluePrimary
 import com.example.healthstudio.ui.theme.HealthStudioTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FitnessPage(viewModel: FitnessViewModel = viewModel()) {
+fun FitnessPage(
+    viewModel: FitnessViewModel = viewModel(),
+    weatherViewModel: WeatherViewModel = viewModel()
+) {
     // Control popup display (Account)
     var showSheet by remember { mutableStateOf(false) }
+    val weatherInfo = fetchWeatherInfo(weatherViewModel)
+
+    LaunchedEffect(Unit) {
+        viewModel.loadFitnessData("fitness")
+    }
 
     // Obtain fitness data from the database
     LaunchedEffect(Unit) {
@@ -65,7 +75,7 @@ fun FitnessPage(viewModel: FitnessViewModel = viewModel()) {
 
     Scaffold(
         // Click avatar to display a pop-up window
-        topBar = { FitnessPageBar { showSheet = true } },
+        topBar = { FitnessPageBar(weatherInfo = weatherInfo) { showSheet = true } },
         content = { paddingValues ->
             Box(
                 modifier = Modifier
@@ -136,17 +146,33 @@ fun FitnessPage(viewModel: FitnessViewModel = viewModel()) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FitnessPageBar(showAccountPage: () -> Unit) {
+fun FitnessPageBar(weatherInfo: String, showAccountPage: () -> Unit) {
     TopAppBar(
         title = {
-            Text(
-                text ="Fitness Studio",
-                fontSize = 30.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White,
-                modifier = Modifier
-                    .padding(vertical = 40.dp)
-            )
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Spacer(modifier = Modifier.height(30.dp))
+                Text(
+                    text ="Fitness Studio",
+                    fontSize = 30.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
+                )
+                Spacer(modifier = Modifier.height(5.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Spacer(modifier = Modifier.width(5.dp))
+                    Text(
+                        // Show weather data
+                        text = weatherInfo,
+                        fontSize = 18.sp,
+                        color = Color.White
+                    )
+                }
+            }
         },
         actions = {
             Box(
@@ -258,6 +284,22 @@ fun FitnessCardBox(title: String, content: String, unit: String) {
             }
         }
     }
+}
+
+@Composable
+fun fetchWeatherInfo(viewModel: WeatherViewModel): String {
+    var weatherInfo by remember { mutableStateOf("Loading...") }
+
+    LaunchedEffect(Unit) {
+        viewModel.fetchWeather("Brisbane") { response ->
+            weatherInfo = if (response != null) {
+                "${response.main.temp}°C - ${response.weather.firstOrNull()?.description ?: "Unknown"}"
+            } else {
+                "Weather unavailable"
+            }
+        }
+    }
+    return weatherInfo
 }
 
 @Preview(showBackground = true)

@@ -66,4 +66,8 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
+
+    // API weather
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
 }
