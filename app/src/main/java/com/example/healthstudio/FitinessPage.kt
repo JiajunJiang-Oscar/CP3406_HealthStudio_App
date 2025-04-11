@@ -161,7 +161,7 @@ fun FitnessPageBar(weatherInfo: String, showAccountPage: () -> Unit) {
             ) {
                 Spacer(modifier = Modifier.height(30.dp))
                 Text(
-                    text ="Fitness Studio",
+                    text = stringResource(R.string.fitness_page),
                     fontSize = 30.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White
@@ -216,24 +216,18 @@ fun FitnessCardBox(title: String, content: String, unit: String) {
     // Generate health alerts based on the title
     val healthTip = when {
         "Fitness Record - Activity" in title && numericValue != null -> when {
-            numericValue > 1000
-                -> "Excessive calorie consumption may indicate a slowdown in the renewal process, which might lead to obesity."
-            numericValue < 500
-                -> "Excessive calorie consumption can lead to energy deficiency and weakened immunity."
+            numericValue > 1000 -> stringResource(R.string.h_activity)
+            numericValue < 500 -> stringResource(R.string.l_activity)
             else -> null
         }
         "Fitness Record - Fitness" in title && numericValue != null -> when {
-            numericValue > 1800
-                -> "The excessive calorie consumption caused by intense workouts can undermine one's health. Therefore, we suggest that one should not exceed three hours of exercise per day."
-            numericValue < 400
-                -> "If the calories burned during fitness activities are too low, it may lead to poor results."
+            numericValue > 1800 -> stringResource(R.string.h_fitness)
+            numericValue < 400 -> stringResource(R.string.l_fitness)
             else -> null
         }
         "Fitness Record - Stand" in title && numericValue != null -> when {
-            numericValue > 800
-                -> "Excessive standing time can lead to lumbar muscle strain."
-            numericValue < 400
-                -> "Excessive short standing periods can lead to problems with muscles and bones."
+            numericValue > 800 -> stringResource(R.string.h_stand)
+            numericValue < 400 -> stringResource(R.string.l_stand)
             else -> null
         }
         else -> null

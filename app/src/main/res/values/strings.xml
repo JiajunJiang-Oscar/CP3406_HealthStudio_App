@@ -1,8 +1,42 @@
 <resources>
-    <string name="app_name">HealthStudio</string>
+    // App name and top bar name
+    <string name="app_name">Health Studio</string>
+    <string name="fitness_page">Fitness Studio</string>
+    <string name="account_page">Your Account</string>
+
+    // Top bar greetings
+    <string name="morning">Good Morning!</string>
+    <string name="afternoon">Good Afternoon!</string>
+    <string name="night">Good Evening!</string>
+
+    // Button's text
     <string name="get_info">Get More Info</string>
     <string name="unlock_more_function">Unlock More Function</string>
     <string name="import_button">Import</string>
+
+    // Data exception alert
+    <string name="h_heart_rate">！！Heart rate is currently high, so it is recommended to pay
+        attention to rest and relaxation！！</string>
+    <string name="l_heart_rate">！！Heart rate is low, may be fatigue or low blood pressure, please
+        pay attention to health condition!！</string>
+    <string name="l_walk_distance">The number of steps today is low, it is recommended to move
+        more to stay active!</string>
+    <string name="l_sleep_time">You are a short sleeper, so it is recommended to sleep at least
+        6 hours a day.</string>
+    <string name="h_activity">Excessive calorie consumption may indicate a slowdown in the renewal
+        process, which might lead to obesity.</string>
+    <string name="l_activity">Excessive calorie consumption can lead to energy deficiency and
+        weakened immunity.</string>
+    <string name="h_fitness">The excessive calorie consumption caused by intense workouts can
+        undermine the health. Therefore, we suggest that one should not exceed three hours of
+        exercise per day.</string>
+    <string name="l_fitness">If the calories burned during fitness activities are too low, it may
+        lead to poor results.</string>
+    <string name="h_stand">Excessive standing time can lead to lumbar muscle strain.</string>
+    <string name="l_stand">Excessive short standing periods can lead to problems with muscles and
+        bones.</string>
+
+    // The documents in app
     <string name="health_intro">In the fast pace of modern life, it is vital to maintain physical
         health, health not only means the absence of disease, but also includes good physical
         fitness, mental state and lifestyle, and through scientific management of health data and

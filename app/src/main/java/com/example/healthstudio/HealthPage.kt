@@ -108,7 +108,9 @@ fun HomePage(viewModel: HealthViewModel = viewModel()) {
                     item {
                         HorizontalDivider(color = Color.Gray, thickness = 1.dp)
                         Image(
-                            painter = rememberAsyncImagePainter("https://img.doooor.com/img/forum/202105/30/111213vjsisvp6s8lrper3.jpg"),
+                            painter = rememberAsyncImagePainter(
+                                "https://img.doooor.com/img/forum/202105/30/111213vjsisvp6s8lrper3.jpg"
+                            ),
                             contentDescription = "Fitness Image",
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -155,7 +157,7 @@ fun HealthStudioBar(showAccountPage: () -> Unit) {
             ) {
                 Spacer(modifier = Modifier.height(30.dp))
                 Text(
-                    text ="Health Studio",
+                    text = stringResource(R.string.app_name),
                     fontSize = 30.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White
@@ -210,20 +212,14 @@ fun CardBox(title: String, content: String, unit: String) {
     // Generate health alerts based on the title
     val healthTip = when {
         "Heart Rate" in title && numericValue != null -> when {
-            numericValue > 100
-                -> "！！Heart rate is currently high, so it is recommended to pay attention to " +
-                    "rest and relaxation！！"
-            numericValue < 50
-                -> "！！Heart rate is low, may be fatigue or low blood pressure, please pay" +
-                    " attention to health condition!！"
+            numericValue > 100 -> stringResource(R.string.h_heart_rate)
+            numericValue < 50 -> stringResource(R.string.l_heart_rate)
             else -> null
         }
-        "Walk Distance Today" in title && numericValue != null && numericValue < 3000 -> {
-            "The number of steps today is low, it is recommended to move more to stay active!"
-        }
-        "Sleep Time" in title && numericValue != null && numericValue < 6 -> {
-            "You are a short sleeper, so it is recommended to sleep at least 6 hours a day."
-        }
+        "Walk Distance Today" in title && numericValue != null && numericValue < 3000
+            -> { stringResource(R.string.l_walk_distance) }
+        "Sleep Time" in title && numericValue != null && numericValue < 6
+            -> { stringResource(R.string.l_sleep_time) }
         else -> null
     }
 
@@ -276,12 +272,13 @@ fun CardBox(title: String, content: String, unit: String) {
     }
 }
 
+@Composable
 fun getGreetingMessage(): String {
     val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
     return when (hour) {
-        in 5..11 -> "Good Morning!"
-        in 12..17 -> "Good Afternoon!"
-        else -> "Good Evening!"
+        in 5..11 -> stringResource(R.string.morning)
+        in 12..17 -> stringResource(R.string.afternoon)
+        else -> stringResource(R.string.night)
     }
 }
 

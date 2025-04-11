@@ -152,7 +152,7 @@ fun AccountPageBar() {
     TopAppBar(
         title = {
             Text(
-                text ="Your Account",
+                text = stringResource(R.string.account_page),
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
