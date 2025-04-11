@@ -103,7 +103,11 @@ fun HomePage(viewModel: HealthViewModel = viewModel()) {
                         .padding(horizontal = 15.dp)
                 ) {
                     items(healthData) { item ->
-                        CardBox(title = item.title, content = item.value, unit = item.unit)
+                        CardBox(
+                            title = item.title,
+                            content = item.value,
+                            unit = item.unit,
+                        )
                     }
                     // Text of health is important
                     item {
