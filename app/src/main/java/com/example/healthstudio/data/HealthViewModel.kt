@@ -38,16 +38,13 @@ class HealthViewModel : ViewModel() {
             if (existingData != null) {
                 val updatedData = existingData.copy(value = newValue)
                 dao.updateHealthData(updatedData)
-
-                // Reload database
-                _healthData.value = dao.getAllHealthData()
             }
         }
     }
 
-    fun refreshHealthData() {
+    fun refreshHealthData(category: String) {
         viewModelScope.launch {
-            val updatedData = dao.getAllHealthData()
+            val updatedData = dao.getHealthDataByCategory(category)
             // Use emit to let the UI listen for changes
             _healthData.emit(updatedData)
         }

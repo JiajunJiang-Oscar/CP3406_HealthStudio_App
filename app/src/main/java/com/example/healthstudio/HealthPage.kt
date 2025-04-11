@@ -62,8 +62,9 @@ fun HomePage(viewModel: HealthViewModel = viewModel()) {
 
     // Obtain health data from the database
     LaunchedEffect(Unit) {
-        viewModel.loadHealthData("health")
+        viewModel.refreshHealthData("health")
     }
+
     val healthData by viewModel.healthData.collectAsState()
 
     Scaffold(

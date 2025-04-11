@@ -62,8 +62,7 @@ fun HealthDetailPage(viewModel: HealthViewModel) {
     val activity = LocalActivity.current
 
     Scaffold(
-        topBar = { BackHomePage(viewModel = viewModel,
-            onBackClick = { activity?.finish() }) },
+        topBar = { BackHomePage(onBackClick = { activity?.finish() }) },
         content = { paddingValues ->
             // Same color setting with health page
             Box(
@@ -101,7 +100,7 @@ fun HealthDetailPage(viewModel: HealthViewModel) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BackHomePage(viewModel: HealthViewModel, onBackClick: () -> Unit) {
+fun BackHomePage(onBackClick: () -> Unit) {
     TopAppBar(
         title = {
             Text(
@@ -112,8 +111,6 @@ fun BackHomePage(viewModel: HealthViewModel, onBackClick: () -> Unit) {
                 modifier = Modifier
                     .padding(vertical = 20.dp)
                     .clickable {
-                        // Update data before exit this page
-                        viewModel.refreshHealthData()
                         onBackClick()
                     }
             )

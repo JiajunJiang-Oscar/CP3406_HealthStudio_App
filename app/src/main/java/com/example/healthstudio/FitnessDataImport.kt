@@ -61,8 +61,7 @@ fun FitnessDetailPage(viewModel: HealthViewModel) {
     val activity = LocalActivity.current
 
     Scaffold(
-        topBar = { BackHomePage(viewModel = viewModel,
-            onBackClick = { activity?.finish() }) },
+        topBar = { BackHomePage(onBackClick = { activity?.finish() }) },
         content = { paddingValues ->
             // Same color setting with fitness page
             Box(
