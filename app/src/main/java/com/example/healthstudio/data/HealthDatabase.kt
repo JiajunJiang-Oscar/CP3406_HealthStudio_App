@@ -44,7 +44,7 @@ abstract class HealthDatabase : RoomDatabase() {
                     "Walk Distance Today",
                     "--/--",
                     "health",
-                    "km"
+                    "m"
                 ))
                 dao.insertHealthData(HealthData(
                     "Heart Rate",

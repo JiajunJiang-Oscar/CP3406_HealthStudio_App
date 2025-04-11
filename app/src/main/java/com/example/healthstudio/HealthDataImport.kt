@@ -132,7 +132,7 @@ fun ImportHealthValues(viewModel: HealthViewModel) {
     val context = LocalContext.current
 
     val metricOptions = mapOf(
-        "Walking distance in km \n(1000m = 1km)" to "Walk Distance Today",
+        "Walking distance in m \n(1000m = 1km)" to "Walk Distance Today",
         "Heart rate" to "Heart Rate",
         "Sleep time" to "Sleep Time",
         "Psychological states \n(0 low - 100 high)" to "Psychological States",
