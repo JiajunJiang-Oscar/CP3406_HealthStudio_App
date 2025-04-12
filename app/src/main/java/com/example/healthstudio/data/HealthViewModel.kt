@@ -14,19 +14,7 @@ class HealthViewModel : ViewModel() {
     private val _healthData = MutableStateFlow<List<HealthData>>(emptyList())
     val healthData: StateFlow<List<HealthData>> = _healthData.asStateFlow()
 
-    init {
-        loadHealthData("health")
-        viewModelScope.launch {
-            // Get all data in database
-            val allData = dao.getAllHealthData()
-            // Display all data
-            println("All Database Data: $allData")
-
-            loadHealthData("health")
-        }
-    }
-
-    fun loadHealthData(category: String) {
+    fun loadData(category: String) {
         viewModelScope.launch {
             _healthData.value = dao.getHealthDataByCategory(category)
         }
@@ -42,7 +30,7 @@ class HealthViewModel : ViewModel() {
         }
     }
 
-    fun refreshHealthData(category: String) {
+    fun refreshData(category: String) {
         viewModelScope.launch {
             val updatedData = dao.getHealthDataByCategory(category)
             // Use emit to let the UI listen for changes

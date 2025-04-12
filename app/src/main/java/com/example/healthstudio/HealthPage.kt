@@ -1,6 +1,9 @@
 package com.example.healthstudio
 
+import android.app.Activity
 import android.content.Intent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -57,15 +60,23 @@ import java.util.Calendar
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomePage(viewModel: HealthViewModel = viewModel()) {
-    // Control popup display (Account)
-    var showAccount by remember { mutableStateOf(false) }
-
-    // Obtain health data from the database
     LaunchedEffect(Unit) {
-        viewModel.refreshHealthData("health")
+        viewModel.loadData("health")
     }
 
+    // Control popup display (Account)
+    var showAccount by remember { mutableStateOf(false) }
     val healthData by viewModel.healthData.collectAsState()
+    val context = LocalContext.current
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            // Return and refresh the database
+            viewModel.refreshData("health")
+        }
+    }
 
     Scaffold(
         // Click avatar to display a pop-up window
@@ -107,6 +118,10 @@ fun HomePage(viewModel: HealthViewModel = viewModel()) {
                             title = item.title,
                             content = item.value,
                             unit = item.unit,
+                            onClick = {
+                                val intent = Intent(context, HealthDetail::class.java)
+                                launcher.launch(intent)
+                            }
                         )
                     }
                     // Text of health is important
@@ -210,8 +225,12 @@ fun HealthStudioBar(showAccountPage: () -> Unit) {
 }
 
 @Composable
-fun CardBox(title: String, content: String, unit: String) {
-    val context = LocalContext.current
+fun CardBox(
+    title: String,
+    content: String,
+    unit: String,
+    onClick: () -> Unit
+) {
     val numericValue = content.filter { it.isDigit() }.toIntOrNull()
 
     // Generate health alerts based on the title
@@ -231,8 +250,7 @@ fun CardBox(title: String, content: String, unit: String) {
     Card(
         modifier = Modifier
             .clickable {
-                val intent = Intent(context, HealthDetail::class.java)
-                context.startActivity(intent)
+                onClick()
             },
         colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.5f))
     ) {

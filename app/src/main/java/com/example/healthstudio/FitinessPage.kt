@@ -1,6 +1,9 @@
 package com.example.healthstudio
 
+import android.app.Activity
 import android.content.Intent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -50,7 +53,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
-import com.example.healthstudio.data.FitnessViewModel
+import com.example.healthstudio.data.HealthViewModel
 import com.example.healthstudio.data.WeatherViewModel
 import com.example.healthstudio.ui.theme.BluePrimary
 import com.example.healthstudio.ui.theme.HealthStudioTheme
@@ -58,18 +61,28 @@ import com.example.healthstudio.ui.theme.HealthStudioTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FitnessPage(
-    viewModel: FitnessViewModel = viewModel(),
+    viewModel: HealthViewModel = viewModel(),
     weatherViewModel: WeatherViewModel = viewModel()
 ) {
-    // Control popup display (Account)
-    var showSheet by remember { mutableStateOf(false) }
-    val weatherInfo = fetchWeatherInfo(weatherViewModel)
-
     LaunchedEffect(Unit) {
-        viewModel.loadFitnessData("fitness")
+        viewModel.loadData("fitness")
     }
 
-    val healthData by viewModel.healthData.collectAsState(emptyList())
+    // Control popup display (Account)
+    var showSheet by remember { mutableStateOf(false) }
+    // Weather info display
+    val weatherInfo = fetchWeatherInfo(weatherViewModel)
+    val healthData by viewModel.healthData.collectAsState()
+    val context = LocalContext.current
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            // Return and refresh the database
+            viewModel.refreshData("fitness")
+        }
+    }
 
     Scaffold(
         // Click avatar to display a pop-up window
@@ -107,7 +120,15 @@ fun FitnessPage(
                         .padding(horizontal = 15.dp)
                 ) {
                     items(healthData) { item ->
-                        FitnessCardBox(title = item.title, content = item.value, unit = item.unit)
+                        FitnessCardBox(
+                            title = item.title,
+                            content = item.value,
+                            unit = item.unit,
+                            onClick = {
+                                val intent = Intent(context, FitnessDetail::class.java)
+                                launcher.launch(intent)
+                            }
+                        )
                     }
                     // Text of fitness is important
                     item {
@@ -209,8 +230,12 @@ fun FitnessPageBar(weatherInfo: String, showAccountPage: () -> Unit) {
 }
 
 @Composable
-fun FitnessCardBox(title: String, content: String, unit: String) {
-    val context = LocalContext.current
+fun FitnessCardBox(
+    title: String,
+    content: String,
+    unit: String,
+    onClick: () -> Unit
+) {
     val numericValue = content.filter { it.isDigit() }.toIntOrNull()
 
     // Generate health alerts based on the title
@@ -236,8 +261,7 @@ fun FitnessCardBox(title: String, content: String, unit: String) {
     Card(
         modifier = Modifier
             .clickable {
-                val intent = Intent(context, FitnessDetail::class.java)
-                context.startActivity(intent)
+                onClick()
             },
         colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.5f))
     ) {

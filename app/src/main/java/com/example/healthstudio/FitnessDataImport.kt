@@ -106,9 +106,9 @@ fun ImportFitnessValues(viewModel: HealthViewModel) {
         "Active record in calorie \n300 calorie = active 1 hour" to "Fitness Record - Activity",
         "Fitness record in calorie \n300-700 calorie = fitness 1 hour" to "Fitness Record - Fitness",
         "Stand record in calorie \n60 calorie = stand 1 hour" to "Fitness Record - Stand",
-        "Run time in min" to "Run time (min)",
-        "Cycling time in min" to "Cycling time (min)",
-        "Swimming time in min" to "Swimming time (min)"
+        "Run time in min" to "Run time",
+        "Cycling time in min" to "Cycling time",
+        "Swimming time in min" to "Swimming time"
     )
 
     Column(

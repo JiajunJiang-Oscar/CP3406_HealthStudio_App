@@ -1,5 +1,6 @@
 package com.example.healthstudio
 
+import android.app.Activity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -101,6 +102,7 @@ fun HealthDetailPage(viewModel: HealthViewModel) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BackHomePage(onBackClick: () -> Unit) {
+    val activity = LocalActivity.current
     TopAppBar(
         title = {
             Text(
@@ -111,6 +113,7 @@ fun BackHomePage(onBackClick: () -> Unit) {
                 modifier = Modifier
                     .padding(vertical = 20.dp)
                     .clickable {
+                        activity?.setResult(Activity.RESULT_OK)
                         onBackClick()
                     }
             )
