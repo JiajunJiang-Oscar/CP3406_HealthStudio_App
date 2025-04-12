@@ -7,7 +7,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -41,11 +40,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberAsyncImagePainter
 import com.example.healthstudio.data.HealthViewModel
 import com.example.healthstudio.ui.theme.HealthStudioTheme
 
-class HealthDetail : ComponentActivity() {
+class HealthImport : ComponentActivity() {
+    // Class for health data import
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -60,6 +59,7 @@ class HealthDetail : ComponentActivity() {
 
 @Composable
 fun HealthDetailPage(viewModel: HealthViewModel) {
+    // Function of build this page
     val activity = LocalActivity.current
 
     Scaffold(
@@ -92,8 +92,6 @@ fun HealthDetailPage(viewModel: HealthViewModel) {
                 ) {
                     ImportHealthValues(viewModel)
                 }
-
-
             }
         }
     )
@@ -102,6 +100,7 @@ fun HealthDetailPage(viewModel: HealthViewModel) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BackHomePage(onBackClick: () -> Unit) {
+    // Function of back home page in top bar
     val activity = LocalActivity.current
     TopAppBar(
         title = {
@@ -126,6 +125,7 @@ fun BackHomePage(onBackClick: () -> Unit) {
 
 @Composable
 fun ImportHealthValues(viewModel: HealthViewModel) {
+    // Function of import data part
     var selectedMetric by remember { mutableStateOf("Choice Value Type") }
     var expanded by remember { mutableStateOf(false) }
     var metricValue by remember { mutableStateOf("") }
@@ -147,13 +147,13 @@ fun ImportHealthValues(viewModel: HealthViewModel) {
             .verticalScroll(rememberScrollState()),
     ) {
         Text(
-            text = "Import Your Information",
+            text = stringResource(id = R.string.import_title),
             fontSize = 30.sp,
             fontWeight = FontWeight.Bold,
             color = Color.White
         )
         Spacer(modifier = Modifier.height(30.dp))
-        Text("Choice information type here")
+        Text(stringResource(id = R.string.import_text_field_title))
         // Choice type check box
         Box(
             modifier = Modifier
@@ -197,12 +197,12 @@ fun ImportHealthValues(viewModel: HealthViewModel) {
             }
         }
         Spacer(modifier = Modifier.height(20.dp))
-        Text("Input the value here")
+        Text(stringResource(id = R.string.import_value_title))
         // Input Value
         OutlinedTextField(
             value = metricValue,
             onValueChange = { metricValue = it },
-            label = { Text("Enter Value") },
+            label = { Text(stringResource(id = R.string.enter_value)) },
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(20.dp))
@@ -229,9 +229,7 @@ fun ImportHealthValues(viewModel: HealthViewModel) {
                 }
             },
             modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFFFFA500),
-            )
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFA500))
         ) {
             Text(
                 stringResource(id = R.string.import_button),
@@ -239,27 +237,13 @@ fun ImportHealthValues(viewModel: HealthViewModel) {
                 fontWeight = FontWeight.Bold
             )
         }
-        Spacer(modifier = Modifier.height(10.dp))
-        HorizontalDivider(color = Color.Black.copy(alpha = 0.1f), thickness = 1.dp)
-        Spacer(modifier = Modifier.height(10.dp))
-        Text(stringResource(
-            id = R.string.import_health_title),
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold
+        HalvingLineSpace()
+        // Import health article
+        Article(
+            title = stringResource(id = R.string.import_health_title),
+            content = stringResource(id = R.string.import_health_data),
+            imageUrl = "https://lh3.googleusercontent.com/proxy/_hBig1dYuX9rOfYgYoW2-aWgZicruKPFCiJFl6B1cQjjVUmcMqg4TBWdq2YMk2wQOwlsg2XgLTB-6FD0NPF12Twy_C8IjLGSIUv7dABmot7ed4K4LVAAKkTfrfn-HIStM5Z0-Ah6GxOwjGitCNaPd4rq1xvbaXsUcolUZq8"
         )
-        Spacer(modifier = Modifier.height(10.dp))
-        // Load image from internet
-        Image(
-            painter = rememberAsyncImagePainter(
-                "https://lh3.googleusercontent.com/proxy/_hBig1dYuX9rOfYgYoW2-aWgZicruKPFCiJFl6B1cQjjVUmcMqg4TBWdq2YMk2wQOwlsg2XgLTB-6FD0NPF12Twy_C8IjLGSIUv7dABmot7ed4K4LVAAKkTfrfn-HIStM5Z0-Ah6GxOwjGitCNaPd4rq1xvbaXsUcolUZq8"
-            ),
-            contentDescription = "Fitness Image",
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(220.dp)
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        Text(stringResource(id = R.string.import_health_data), fontSize = 20.sp)
     }
 }
 

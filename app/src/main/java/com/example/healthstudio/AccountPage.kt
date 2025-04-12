@@ -106,41 +106,19 @@ fun AccountPage() {
                     }
                     // Box of user info
                     UserInfoCard()
-                    // Box of some introduction with app
-                    Box(
-                        modifier = Modifier.padding(20.dp)
-                    ) {
-                        HorizontalDivider(color = Color.Gray, thickness = 1.dp)
-                        Text(
-                            stringResource(id = R.string.howto_title),
-                            fontSize = 22.sp,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(top = 20.dp)
-                        )
-                        Text(
-                            stringResource(id = R.string.howto_text),
-                            fontSize = 20.sp,
-                            modifier = Modifier.padding(top = 60.dp)
-                        )
-                    }
-                    // Box of some introduction with app
-                    Box(
-                        modifier = Modifier.padding(20.dp)
-                    ) {
-                        HorizontalDivider(color = Color.Gray, thickness = 1.dp)
-                        Text(
-                            stringResource(id = R.string.intro_title),
-                            fontSize = 22.sp,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(top = 20.dp)
-                        )
-                        Text(
-                            stringResource(id = R.string.intro_text),
-                            fontSize = 20.sp,
-                            modifier = Modifier.padding(top = 60.dp)
-                        )
-                    }
-
+                    // How to use app article
+                    Article(
+                        title = stringResource(id = R.string.howto_title),
+                        content = stringResource(id = R.string.howto_text),
+                        imageUrl = "https://assets-eu-01.kc-usercontent.com/80e06f8f-fc39-0158-c90c-a3da02f900f2/87545b77-ac1d-4eb3-83ca-2ffd9540c2a6/Inside%20Health%20Tile%20iStock-1459130407.jpg"
+                    )
+                    HorizontalDivider(color = Color.Gray, thickness = 1.dp)
+                    // App intro article
+                    Article(
+                        title = stringResource(id = R.string.intro_title),
+                        content = stringResource(id = R.string.intro_text),
+                        imageUrl = "https://assets-eu-01.kc-usercontent.com/80e06f8f-fc39-0158-c90c-a3da02f900f2/87545b77-ac1d-4eb3-83ca-2ffd9540c2a6/Inside%20Health%20Tile%20iStock-1459130407.jpg"
+                    )
                 }
             }
         }
@@ -171,12 +149,13 @@ fun AccountPageBar() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserInfoCard(viewModel: HealthViewModel = viewModel()) {
-    var showAccount by remember { mutableStateOf(false) }
     var showPurchase by remember { mutableStateOf(false) }
-    var inputUsername by remember { mutableStateOf("") }
-    val context = LocalContext.current
 
-    val currentUsername by viewModel.username.collectAsState()
+    var inputUsername by remember { mutableStateOf("") }
+    var inputGender by remember { mutableStateOf("") }
+    var inputAge by remember { mutableStateOf("") }
+
+    val userSettings by viewModel.userSettings.collectAsState()
 
     Box(
         modifier = Modifier.fillMaxWidth()
@@ -184,43 +163,39 @@ fun UserInfoCard(viewModel: HealthViewModel = viewModel()) {
         Column(
             modifier = Modifier.padding(20.dp)
         ) {
-            Text(text = "User Name: $currentUsername", fontSize = 22.sp, fontWeight = FontWeight.Bold)
-            // Space between show info and set info
-            Spacer(modifier = Modifier.height(10.dp))
-            HorizontalDivider(color = Color.Gray, thickness = 1.dp)
-            Spacer(modifier = Modifier.height(10.dp))
+            LabeledText(label = "User Name", value = userSettings.username)
+            LabeledText(label = "Gender", value = userSettings.gender)
+            LabeledText(label = "Age", value = userSettings.age.toString())
+            HalvingLineSpace()
+
             // Set info
-            OutlinedTextField(
+            LabeledTextField(
                 value = inputUsername,
                 onValueChange = { inputUsername = it },
-                label = { Text("Enter Your New Name") },
-                modifier = Modifier.fillMaxWidth()
+                label = "Enter New Username"
+            )
+            LabeledTextField(
+                value = inputGender,
+                onValueChange = { inputGender = it },
+                label = "Enter Gender"
+            )
+            LabeledTextField(
+                value = inputAge,
+                onValueChange = { inputAge = it },
+                label = "Enter Age"
             )
             Spacer(modifier = Modifier.height(10.dp))
-            Button(
-                onClick = {
-                    if (inputUsername.isNotBlank()) {
-                        viewModel.updateUsername(inputUsername)
-                        Toast.makeText(
-                            context,
-                            "Username updated to $inputUsername",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        inputUsername = "" // 清空输入框
-                    } else {
-                        Toast.makeText(
-                            context,
-                            "Username cannot be empty!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                },
-                modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2E8B57))
-            ) {
-                Text("Set Username", fontSize = 20.sp)
-            }
-            Spacer(modifier = Modifier.height(10.dp))
+            SaveAllUserSettingsButton(
+                inputUsername = inputUsername,
+                inputGender = inputGender,
+                inputAge = inputAge,
+                viewModel = viewModel,
+                onSuccess = {
+                    inputUsername = ""
+                    inputGender = ""
+                    inputAge = ""
+                }
+            )
             // About member in health studio (unlock)
             Button(
                 onClick = { showPurchase = true },
@@ -233,20 +208,6 @@ fun UserInfoCard(viewModel: HealthViewModel = viewModel()) {
             }
         }
     }
-    // Management account popup window
-    if (showAccount) {
-        ModalBottomSheet(
-            // Click outside to close
-            onDismissRequest = { showAccount = false },
-            sheetState = rememberModalBottomSheetState()
-        ) {
-            // Text of popup window
-            AccountDetailPage(
-                username = "TestUsername",
-                email = "Test.User.email@example.com"
-            )
-        }
-    }
     // Management unlock function popup window
     if (showPurchase) {
         ModalBottomSheet(
@@ -254,9 +215,81 @@ fun UserInfoCard(viewModel: HealthViewModel = viewModel()) {
             onDismissRequest = { showPurchase = false },
             sheetState = rememberModalBottomSheetState()
         ) {
-            UnlockFunctionPage()
+            MemberShipPopup()
         }
     }
+}
+
+@Composable
+fun LabeledText(
+    label: String,
+    value: String,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = "$label: $value",
+        fontSize = 22.sp,
+        fontWeight = FontWeight.Bold,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp)
+    )
+}
+
+@Composable
+fun LabeledTextField(value: String, onValueChange: (String) -> Unit, label: String) {
+    // Function of text field to get user info
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        label = { Text(label) },
+        modifier = Modifier.fillMaxWidth()
+    )
+}
+
+@Composable
+fun SaveAllUserSettingsButton(
+    // Function of save user info button
+    inputUsername: String,
+    inputGender: String,
+    inputAge: String,
+    onSuccess: () -> Unit,
+    viewModel: HealthViewModel
+) {
+    val context = LocalContext.current
+
+    Button(
+        onClick = {
+            val isAllFilled = inputUsername.isNotBlank() && inputGender.isNotBlank() && inputAge.isNotBlank()
+            val ageInt = inputAge.toIntOrNull()
+
+            if (!isAllFilled) {
+                Toast.makeText(
+                    context,
+                    "Please fill in all fields",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@Button
+            }
+            if (ageInt == null) {
+                Toast.makeText(context,
+                    "Please enter a valid number for age",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@Button
+            }
+            viewModel.updateUsername(inputUsername)
+            viewModel.updateGender(inputGender)
+            viewModel.updateAge(ageInt)
+            onSuccess()
+        },
+        modifier = Modifier.fillMaxWidth(),
+        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2E8B57))
+    ) {
+        Text("Save All", fontSize = 18.sp)
+    }
+
+    Spacer(modifier = Modifier.height(10.dp))
 }
 
 @Preview(showBackground = true)

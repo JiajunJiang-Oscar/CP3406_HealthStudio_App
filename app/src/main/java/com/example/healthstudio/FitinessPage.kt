@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -52,7 +51,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import coil.compose.rememberAsyncImagePainter
 import com.example.healthstudio.data.HealthViewModel
 import com.example.healthstudio.data.WeatherViewModel
 import com.example.healthstudio.ui.theme.BluePrimary
@@ -125,32 +123,19 @@ fun FitnessPage(
                             content = item.value,
                             unit = item.unit,
                             onClick = {
-                                val intent = Intent(context, FitnessDetail::class.java)
+                                val intent = Intent(context, FitnessImport::class.java)
                                 launcher.launch(intent)
                             }
                         )
                     }
-                    // Text of fitness is important
+                    // Fitness article
                     item {
                         HorizontalDivider(color = Color.Gray, thickness = 1.dp)
-                        Image(
-                            painter = rememberAsyncImagePainter(
-                                "https://play-lh.googleusercontent.com/Lv-fXYSg2DGC2NtR-88dQ-jFEZyA9PtxsGqPS9_Oo7VlmfrrwcEI-SnLwVPbM30-spaS=w648-h364-rw"
-                            ),
-                            contentDescription = "Fitness Image",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(220.dp)
-                                .clip(RoundedCornerShape(25.dp))
+                        Article(
+                            title = stringResource(id = R.string.howto_title),
+                            content = stringResource(id = R.string.fitness_intro),
+                            imageUrl = "https://play-lh.googleusercontent.com/Lv-fXYSg2DGC2NtR-88dQ-jFEZyA9PtxsGqPS9_Oo7VlmfrrwcEI-SnLwVPbM30-spaS=w648-h364-rw"
                         )
-                        Box(
-                            modifier = Modifier.padding(5.dp)
-                        ) {
-                            Text(
-                                text = stringResource(id = R.string.fitness_intro),
-                                fontSize = 20.sp,
-                            )
-                        }
                     }
                 }
             }
@@ -175,6 +160,7 @@ fun FitnessPage(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FitnessPageBar(weatherInfo: String, showAccountPage: () -> Unit) {
+    // Function of top bar in fitness page and pass a function to trigger a popup
     TopAppBar(
         title = {
             Column(
@@ -209,7 +195,6 @@ fun FitnessPageBar(weatherInfo: String, showAccountPage: () -> Unit) {
                     .padding(end = 16.dp),
                 contentAlignment = Alignment.Center
             ){
-
                 Image(
                     painter = painterResource(id = R.drawable.default_user),
                     contentDescription = "User profile",
@@ -230,12 +215,8 @@ fun FitnessPageBar(weatherInfo: String, showAccountPage: () -> Unit) {
 }
 
 @Composable
-fun FitnessCardBox(
-    title: String,
-    content: String,
-    unit: String,
-    onClick: () -> Unit
-) {
+fun FitnessCardBox(title: String, content: String, unit: String, onClick: () -> Unit) {
+    // Function of definition the fitness content in card
     val numericValue = content.filter { it.isDigit() }.toIntOrNull()
 
     // Generate health alerts based on the title
@@ -276,9 +257,7 @@ fun FitnessCardBox(
                 color = Color(0xFF2196F3),
                 fontWeight = FontWeight.Bold
             )
-            Spacer(modifier = Modifier.height(10.dp))
-            HorizontalDivider(color = Color.White, thickness = 1.dp)
-            Spacer(modifier = Modifier.height(10.dp))
+            HalvingLineSpace_Card()
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 // Have content and units distributed on both ends
@@ -308,6 +287,7 @@ fun FitnessCardBox(
 
 @Composable
 fun fetchWeatherInfo(viewModel: WeatherViewModel): String {
+    // Function of show the weather in top bar
     var weatherInfo by remember { mutableStateOf("Loading...") }
 
     LaunchedEffect(Unit) {

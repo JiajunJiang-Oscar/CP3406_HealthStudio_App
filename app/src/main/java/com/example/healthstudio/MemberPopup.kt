@@ -7,11 +7,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
-fun UnlockFunctionPage() {
+fun MemberShipPopup() {
+    // The function of build membership popup
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -19,9 +22,9 @@ fun UnlockFunctionPage() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Get Health+ & Fitness+ Now!",
-            fontWeight = FontWeight.Bold,
-            style = MaterialTheme.typography.headlineMedium
+            text = stringResource(id = R.string.member_title),
+            fontSize = 25.sp,
+            fontWeight = FontWeight.Bold
         )
         Spacer(modifier = Modifier.height(20.dp))
         Image(
@@ -32,24 +35,16 @@ fun UnlockFunctionPage() {
                 .height(200.dp)
         )
         Spacer(modifier = Modifier.height(20.dp))
-        Text("Unlock Your Best Self with Health+ & Fitness+! \n" +
-                "\nWhy settle for average when you can achieve more? With Health+ & " +
-                "Fitness+, you’ll unlock premium features designed to help you track！\n" +
-                "\nHealth+ Features:\n" +
-                "Sleep Tracking – Improve your rest quality. \n" +
-                "Hearing Monitoring – Protect your ears from loud noise. \n" +
-                "Resting Heart Rate – Understand your heart trends. \n" +
-                "Annual Health Report – Get a full-year health summary. \n" +
-                "\nFitness+ Perks: \n" +
-                "Personalized Fitness Advice – Get workouts tailored to you! \n" +
-                "\nUpgrade now for a healthier, stronger you!"
-                )
+        Text(
+            text = stringResource(id = R.string.member_text),
+            modifier = Modifier.padding(16.dp)
+        )
         Spacer(modifier = Modifier.height(20.dp))
         Button(
-            onClick = { /* Buy function */ }
+            onClick = {}
         ) {
             Text(
-                text = "To be continue...",
+                text = stringResource(id = R.string.to_be_continue),
                 fontWeight = FontWeight.Bold
             )
         }

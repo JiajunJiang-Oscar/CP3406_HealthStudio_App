@@ -119,32 +119,19 @@ fun HomePage(viewModel: HealthViewModel = viewModel()) {
                             content = item.value,
                             unit = item.unit,
                             onClick = {
-                                val intent = Intent(context, HealthDetail::class.java)
+                                val intent = Intent(context, HealthImport::class.java)
                                 launcher.launch(intent)
                             }
                         )
                     }
-                    // Text of health is important
+                    // Health article
                     item {
                         HorizontalDivider(color = Color.Gray, thickness = 1.dp)
-                        Image(
-                            painter = rememberAsyncImagePainter(
-                                "https://img.doooor.com/img/forum/202105/30/111213vjsisvp6s8lrper3.jpg"
-                            ),
-                            contentDescription = "Fitness Image",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(220.dp)
-                                .clip(RoundedCornerShape(25.dp))
+                        Article(
+                            title = stringResource(id = R.string.howto_title),
+                            content = stringResource(id = R.string.health_intro),
+                            imageUrl = "https://img.doooor.com/img/forum/202105/30/111213vjsisvp6s8lrper3.jpg"
                         )
-                        Box(
-                            modifier = Modifier.padding(5.dp)
-                        ) {
-                            Text(
-                                text = stringResource(id = R.string.health_intro),
-                                fontSize = 20.sp,
-                            )
-                        }
                     }
                 }
             }
@@ -168,8 +155,8 @@ fun HomePage(viewModel: HealthViewModel = viewModel()) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-// Pass a function to trigger a popup
 fun HealthStudioBar(showAccountPage: () -> Unit) {
+    // Function of top bar in health page and pass a function to trigger a popup
     TopAppBar(
         title = {
             Column(
@@ -225,12 +212,8 @@ fun HealthStudioBar(showAccountPage: () -> Unit) {
 }
 
 @Composable
-fun CardBox(
-    title: String,
-    content: String,
-    unit: String,
-    onClick: () -> Unit
-) {
+fun CardBox(title: String, content: String, unit: String, onClick: () -> Unit) {
+    // Function of definition the health content in card
     val numericValue = content.filter { it.isDigit() }.toIntOrNull()
 
     // Generate health alerts based on the title
@@ -265,22 +248,14 @@ fun CardBox(
                 color = Color(0xFFFFA500),
                 fontWeight = FontWeight.Bold
             )
-            Spacer(modifier = Modifier.height(10.dp))
-            HorizontalDivider(color = Color.White, thickness = 1.dp)
-            Spacer(modifier = Modifier.height(10.dp))
+            HalvingLineSpace_Card()
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 // Have content and units distributed on both ends
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(
-                    text = content,
-                    fontSize = 20.sp,
-                )
-                Text(
-                    text = unit,
-                    fontSize = 20.sp,
-                )
+                Text(text = content, fontSize = 20.sp)
+                Text(text = unit, fontSize = 20.sp)
             }
             healthTip?.let {
                 Spacer(modifier = Modifier.height(10.dp))
@@ -297,12 +272,59 @@ fun CardBox(
 
 @Composable
 fun getGreetingMessage(): String {
+    // Function to decide greeting message
     val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
     return when (hour) {
         in 5..11 -> stringResource(R.string.morning)
         in 12..17 -> stringResource(R.string.afternoon)
         else -> stringResource(R.string.night)
     }
+}
+
+@Composable
+fun Article(title: String, content: String, imageUrl: String) {
+    // function to create article
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        Text(
+            text = title,
+            fontSize = 22.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(top = 20.dp)
+        )
+
+        Image(
+            painter = rememberAsyncImagePainter(imageUrl),
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(220.dp)
+                .clip(RoundedCornerShape(25.dp))
+        )
+
+        Text(
+            text = content,
+            fontSize = 20.sp
+        )
+    }
+}
+
+@Composable
+fun HalvingLineSpace() {
+    Spacer(modifier = Modifier.height(10.dp))
+    HorizontalDivider(color = Color.Gray, thickness = 1.dp)
+    Spacer(modifier = Modifier.height(10.dp))
+}
+
+@Composable
+fun HalvingLineSpace_Card() {
+    Spacer(modifier = Modifier.height(10.dp))
+    HorizontalDivider(color = Color.Gray.copy(alpha = 0.2f), thickness = 1.dp)
+    Spacer(modifier = Modifier.height(10.dp))
 }
 
 @Preview(showBackground = true)

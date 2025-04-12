@@ -14,6 +14,12 @@
     <string name="unlock_more_function">Unlock More Function</string>
     <string name="import_button">Import</string>
 
+    // Import page title
+    <string name="import_title">Import Your Information</string>
+    <string name="import_text_field_title">Choice your information type here</string>
+    <string name="import_value_title">Input the value here</string>
+    <string name="enter_value">Enter Value</string>
+
     // Data exception alert
     <string name="h_heart_rate">！！Heart rate is currently high, so it is recommended to pay
         attention to rest and relaxation！！</string>
@@ -75,4 +81,15 @@
         indicators will be displayed. On the Fitness page, your inputted fitness records will be
         shown. How to input the indicators or records? Just click on the indicator or record card
         on the Health or Fitness page to start entering your data!</string>
+
+    // Documents for membership popup
+    <string name="member_title">Get Health+ and Fitness+ Now!</string>
+    <string name="member_text">Unlock Your Best Self with Health+ and Fitness+! Why settle for
+        average? When you can achieve more? With Health+ and Fitness+, you’ll unlock premium
+        features designed to help you track! Health+ Features: Sleep Tracking – Improve your rest
+        quality. Hearing Monitoring – Protect your ears from loud noise. Resting Heart Rate –
+        Understand your heart trends. Annual Health Report – Get a full-year health summary.
+        Fitness+ Perks: Personalized Fitness Advice – Get workouts tailored to you! Upgrade now
+        for a healthier, stronger you!</string>
+    <string name="to_be_continue">Coming Soon…</string>
 </resources>

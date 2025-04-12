@@ -27,12 +27,12 @@
         </activity>
 
         <activity
-            android:name=".HealthDetail"
+            android:name=".HealthImport"
             android:exported="true"
             android:theme="@style/Theme.HealthStudio" />
 
         <activity
-            android:name=".FitnessDetail"
+            android:name=".FitnessImport"
             android:exported="true"
             android:theme="@style/Theme.HealthStudio" />
 

@@ -6,7 +6,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -38,12 +37,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberAsyncImagePainter
 import com.example.healthstudio.data.HealthViewModel
 import com.example.healthstudio.ui.theme.BluePrimary
 import com.example.healthstudio.ui.theme.HealthStudioTheme
 
-class FitnessDetail : ComponentActivity() {
+class FitnessImport : ComponentActivity() {
+    // Class for health data import
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -58,6 +57,7 @@ class FitnessDetail : ComponentActivity() {
 
 @Composable
 fun FitnessDetailPage(viewModel: HealthViewModel) {
+    // Function of build this page
     val activity = LocalActivity.current
 
     Scaffold(
@@ -97,6 +97,7 @@ fun FitnessDetailPage(viewModel: HealthViewModel) {
 
 @Composable
 fun ImportFitnessValues(viewModel: HealthViewModel) {
+    // Function of import data part
     var selectedMetric by remember { mutableStateOf("Choice Value Type") }
     var expanded by remember { mutableStateOf(false) }
     var metricValue by remember { mutableStateOf("") }
@@ -118,13 +119,13 @@ fun ImportFitnessValues(viewModel: HealthViewModel) {
             .verticalScroll(rememberScrollState()),
     ) {
         Text(
-            text = "Import Your Information",
+            text = stringResource(id = R.string.import_title),
             fontSize = 30.sp,
             fontWeight = FontWeight.Bold,
             color = Color.White
         )
         Spacer(modifier = Modifier.height(30.dp))
-        Text("Choice information type here")
+        Text(stringResource(id = R.string.import_text_field_title))
         // Choice type check box
         Box(
             modifier = Modifier
@@ -168,12 +169,12 @@ fun ImportFitnessValues(viewModel: HealthViewModel) {
             }
         }
         Spacer(modifier = Modifier.height(20.dp))
-        Text("Input the value here")
+        Text(stringResource(R.string.import_value_title))
         // Input Value
         OutlinedTextField(
             value = metricValue,
             onValueChange = { metricValue = it },
-            label = { Text("Enter Value") },
+            label = { Text(stringResource(id = R.string.enter_value)) },
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(20.dp))
@@ -210,27 +211,13 @@ fun ImportFitnessValues(viewModel: HealthViewModel) {
                 fontWeight = FontWeight.Bold
             )
         }
-        Spacer(modifier = Modifier.height(10.dp))
-        HorizontalDivider(color = Color.Black.copy(alpha = 0.1f), thickness = 1.dp)
-        Spacer(modifier = Modifier.height(10.dp))
-        Text(stringResource(
-            id = R.string.import_fitness_title),
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold
+        HalvingLineSpace()
+        // Import fitness article
+        Article(
+            title = stringResource(id = R.string.import_fitness_title),
+            content = stringResource(id = R.string.import_fitness_data),
+            imageUrl = "https://bpic.588ku.com/video_listen/588ku_pic/22/07/28/62e292abc8c10.jpeg!/fw/800"
         )
-        Spacer(modifier = Modifier.height(10.dp))
-        // Load image from internet
-        Image(
-            painter = rememberAsyncImagePainter(
-                "https://bpic.588ku.com/video_listen/588ku_pic/22/07/28/62e292abc8c10.jpeg!/fw/800"
-            ),
-            contentDescription = "Fitness Image",
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        Text(stringResource(id = R.string.import_fitness_data), fontSize = 20.sp)
     }
 }
 

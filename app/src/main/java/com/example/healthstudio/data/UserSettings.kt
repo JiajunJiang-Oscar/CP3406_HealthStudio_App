@@ -6,5 +6,10 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "user_settings")
 data class UserSettings(
     @PrimaryKey val id: Int = 1,
-    val username: String
+    // User name
+    val username: String,
+    // User gender
+    val gender: String = "Unknown",
+    // User age
+    val age: Int = 0
 )
