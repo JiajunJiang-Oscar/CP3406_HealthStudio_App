@@ -73,4 +73,10 @@ dependencies {
 
     // Picture from internet
     implementation(libs.coil.compose)
+
+    // Unit testing
+    testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.androidx.core.testing)
+    testImplementation(libs.mockito.kotlin)
 }

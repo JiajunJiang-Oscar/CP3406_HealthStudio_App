@@ -8,10 +8,14 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class HealthViewModel : ViewModel() {
+class HealthViewModel(
+    private val dao: HealthDataDao = HealthDatabase.getDatabase(App.instance).healthDataDao(),
+    private val userDao: UserSettingsDao = HealthDatabase.getDatabase(App.instance).userSettingsDao()
+) : ViewModel() {
+
     // Dao value
-    private val dao = HealthDatabase.getDatabase(App.instance).healthDataDao()
-    private val userDao = HealthDatabase.getDatabase(App.instance).userSettingsDao()
+//    private val dao = HealthDatabase.getDatabase(App.instance).healthDataDao()
+//    private val userDao = HealthDatabase.getDatabase(App.instance).userSettingsDao()
 
     // Data value
     private val _healthData = MutableStateFlow<List<HealthData>>(emptyList())
