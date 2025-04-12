@@ -1,5 +1,6 @@
 package com.example.healthstudio
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -20,11 +21,13 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,17 +37,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.healthstudio.data.HealthViewModel
 import com.example.healthstudio.ui.theme.HealthStudioTheme
 
 @Composable
 fun AccountPage() {
-
     Scaffold(
         topBar = { AccountPageBar() },
         content = { paddingValues ->
@@ -100,11 +105,7 @@ fun AccountPage() {
                         )
                     }
                     // Box of user info
-                    UserInfoCard(
-                        // User Account Info
-                        username = "TestUsername",
-                        email = "Test.User.email@example.com"
-                    )
+                    UserInfoCard()
                     // Box of some introduction with app
                     Box(
                         modifier = Modifier.padding(20.dp)
@@ -169,9 +170,13 @@ fun AccountPageBar() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UserInfoCard(username: String, email: String) {
+fun UserInfoCard(viewModel: HealthViewModel = viewModel()) {
     var showAccount by remember { mutableStateOf(false) }
     var showPurchase by remember { mutableStateOf(false) }
+    var inputUsername by remember { mutableStateOf("") }
+    val context = LocalContext.current
+
+    val currentUsername by viewModel.username.collectAsState()
 
     Box(
         modifier = Modifier.fillMaxWidth()
@@ -179,23 +184,45 @@ fun UserInfoCard(username: String, email: String) {
         Column(
             modifier = Modifier.padding(20.dp)
         ) {
-            Text(text = "User Name: $username", fontSize = 22.sp, fontWeight = FontWeight.Bold)
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = "Email: $email", fontSize = 18.sp)
-            Spacer(modifier = Modifier.height(20.dp))
+            Text(text = "User Name: $currentUsername", fontSize = 22.sp, fontWeight = FontWeight.Bold)
+            // Space between show info and set info
+            Spacer(modifier = Modifier.height(10.dp))
+            HorizontalDivider(color = Color.Gray, thickness = 1.dp)
+            Spacer(modifier = Modifier.height(10.dp))
+            // Set info
+            OutlinedTextField(
+                value = inputUsername,
+                onValueChange = { inputUsername = it },
+                label = { Text("Enter Your New Name") },
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(10.dp))
             Button(
-                // Get more info button
-                onClick = { showAccount = true },
+                onClick = {
+                    if (inputUsername.isNotBlank()) {
+                        viewModel.updateUsername(inputUsername)
+                        Toast.makeText(
+                            context,
+                            "Username updated to $inputUsername",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        inputUsername = "" // 清空输入框
+                    } else {
+                        Toast.makeText(
+                            context,
+                            "Username cannot be empty!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                },
                 modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF2E8B57),
-                )
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2E8B57))
             ) {
-                Text(stringResource(id = R.string.get_info), fontSize = 20.sp)
+                Text("Set Username", fontSize = 20.sp)
             }
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(10.dp))
+            // About member in health studio (unlock)
             Button(
-                // Unlock function button
                 onClick = { showPurchase = true },
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(

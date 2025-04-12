@@ -14,6 +14,36 @@ class HealthViewModel : ViewModel() {
     private val _healthData = MutableStateFlow<List<HealthData>>(emptyList())
     val healthData: StateFlow<List<HealthData>> = _healthData.asStateFlow()
 
+    private val userDao = HealthDatabase.getDatabase(App.instance).userSettingsDao()
+
+    private val _username = MutableStateFlow("default")
+    val username: StateFlow<String> = _username.asStateFlow()
+
+    init {
+        loadData("health")
+        loadUsername()
+
+        viewModelScope.launch {
+            println("All Database Data: ${dao.getAllHealthData()}")
+        }
+    }
+
+    private fun loadUsername() {
+        viewModelScope.launch {
+            val user = userDao.getUserSettings()
+            _username.value = user?.username ?: "default"
+        }
+    }
+
+    fun updateUsername(newName: String) {
+        viewModelScope.launch {
+            val current = userDao.getUserSettings() ?: UserSettings(username = "default")
+            val updated = current.copy(username = newName)
+            userDao.updateUserSettings(updated)
+            _username.value = updated.username
+        }
+    }
+
     fun loadData(category: String) {
         viewModelScope.launch {
             _healthData.value = dao.getHealthDataByCategory(category)

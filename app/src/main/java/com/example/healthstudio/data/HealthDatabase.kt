@@ -9,9 +9,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [HealthData::class], version = 3, exportSchema = false)
+@Database(entities = [HealthData::class, UserSettings::class], version = 4, exportSchema = false)
 abstract class HealthDatabase : RoomDatabase() {
     abstract fun healthDataDao(): HealthDataDao
+    abstract fun userSettingsDao(): UserSettingsDao
 
     companion object {
         @Volatile
