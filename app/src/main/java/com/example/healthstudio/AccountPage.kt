@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.healthstudio.data.HealthViewModel
 import com.example.healthstudio.ui.theme.HealthStudioTheme
+import androidx.compose.ui.platform.testTag
 
 @Composable
 fun AccountPage() {
@@ -191,17 +192,23 @@ fun UserInfoCard(viewModel: HealthViewModel = viewModel()) {
             LabeledTextField(
                 value = inputUsername,
                 onValueChange = { inputUsername = it },
-                label = stringResource(id = R.string.enter_name)
+                label = stringResource(id = R.string.enter_name),
+                modifier = Modifier.testTag("usernameField"),
+                tag = "usernameField"
             )
             LabeledTextField(
                 value = inputGender,
                 onValueChange = { inputGender = it },
-                label = stringResource(id = R.string.enter_gender)
+                label = stringResource(id = R.string.enter_gender),
+                modifier = Modifier.testTag("genderField"),
+                tag = "genderField"
             )
             LabeledTextField(
                 value = inputAge,
                 onValueChange = { inputAge = it },
-                label = stringResource(id = R.string.enter_age)
+                label = stringResource(id = R.string.enter_age),
+                modifier = Modifier.testTag("ageField"),
+                tag = "ageField"
             )
             Spacer(modifier = Modifier.height(10.dp))
             SaveAllUserSettingsButton(
@@ -256,13 +263,21 @@ fun LabeledText(
 }
 
 @Composable
-fun LabeledTextField(value: String, onValueChange: (String) -> Unit, label: String) {
+fun LabeledTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    label: String,
+    modifier: Modifier = Modifier,
+    tag: String
+) {
     // Function of text field to get user info
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
         label = { Text(label) },
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
+            .testTag(tag)
     )
 }
 
@@ -304,7 +319,9 @@ fun SaveAllUserSettingsButton(
             )
             onSuccess()
         },
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag("saveButton"),
         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2E8B57))
     ) {
         Text(text = stringResource(id = R.string.save), fontSize = 18.sp)
