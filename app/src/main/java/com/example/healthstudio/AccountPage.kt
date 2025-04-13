@@ -3,6 +3,7 @@ package com.example.healthstudio
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -95,14 +96,22 @@ fun AccountPage() {
                             .padding(end = 16.dp),
                         contentAlignment = Alignment.Center
                     ){
-                        Image(
-                            painter = painterResource(id = R.drawable.default_user),
-                            contentDescription = "User profile",
+                        Box(
                             modifier = Modifier
-                                .size(100.dp)
+                                .size(200.dp)
                                 .clip(CircleShape)
-                                .background(Color.Gray)
-                        )
+                                .border(width = 4.dp, color = Color.White, shape = CircleShape)
+                                .background(Color.Gray),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.health_studio_user2),
+                                contentDescription = "User profile",
+                                modifier = Modifier
+                                    .size(200.dp) // 稍微小一点，避免和边框重叠
+                                    .clip(CircleShape)
+                            )
+                        }
                     }
                     // Box of user info
                     UserInfoCard()

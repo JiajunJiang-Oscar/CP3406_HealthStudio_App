@@ -12,11 +12,6 @@ class HealthViewModel(
     private val dao: HealthDataDao = HealthDatabase.getDatabase(App.instance).healthDataDao(),
     private val userDao: UserSettingsDao = HealthDatabase.getDatabase(App.instance).userSettingsDao()
 ) : ViewModel() {
-
-    // Dao value
-//    private val dao = HealthDatabase.getDatabase(App.instance).healthDataDao()
-//    private val userDao = HealthDatabase.getDatabase(App.instance).userSettingsDao()
-
     // Data value
     private val _healthData = MutableStateFlow<List<HealthData>>(emptyList())
     val healthData: StateFlow<List<HealthData>> = _healthData.asStateFlow()
@@ -40,7 +35,7 @@ class HealthViewModel(
     private fun loadUserSettings() {
         // Function of load user information
         viewModelScope.launch {
-            val user = userDao.getUserSettings() ?: UserSettings(username = "default")
+            val user = userDao.getUserSettings() ?: UserSettings(username = "Default", gender = "Unknown")
             _userSettings.value = user
         }
     }
@@ -48,7 +43,7 @@ class HealthViewModel(
     fun updateUsername(newName: String) {
         // Function of update user name
         viewModelScope.launch {
-            val current = userDao.getUserSettings() ?: UserSettings(username = "default")
+            val current = userDao.getUserSettings() ?: UserSettings(username = "default", gender = "Unknown")
             val updated = current.copy(username = newName)
             userDao.updateUserSettings(updated)
             _userSettings.value = updated
@@ -58,7 +53,7 @@ class HealthViewModel(
     fun updateGender(newGender: String) {
         // Function of update user gender
         viewModelScope.launch {
-            val current = userDao.getUserSettings() ?: UserSettings(username = "default")
+            val current = userDao.getUserSettings() ?: UserSettings(username = "default", gender = "Unknown")
             val updated = current.copy(gender = newGender)
             userDao.updateUserSettings(updated)
             _userSettings.value = updated
@@ -68,7 +63,7 @@ class HealthViewModel(
     fun updateAge(newAge: Int) {
         // Function of update user age
         viewModelScope.launch {
-            val current = userDao.getUserSettings() ?: UserSettings(username = "default")
+            val current = userDao.getUserSettings() ?: UserSettings(username = "default", gender = "Unknown")
             val updated = current.copy(age = newAge)
             userDao.updateUserSettings(updated)
             _userSettings.value = updated

@@ -6,6 +6,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -128,7 +129,7 @@ fun HomePage(viewModel: HealthViewModel = viewModel()) {
                     item {
                         HorizontalDivider(color = Color.Gray, thickness = 1.dp)
                         Article(
-                            title = stringResource(id = R.string.howto_title),
+                            title = stringResource(id = R.string.health_title),
                             content = stringResource(id = R.string.health_intro),
                             imageUrl = "https://img.doooor.com/img/forum/202105/30/111213vjsisvp6s8lrper3.jpg"
                         )
@@ -142,11 +143,7 @@ fun HomePage(viewModel: HealthViewModel = viewModel()) {
                     onDismissRequest = { showAccount = false },
                     sheetState = rememberModalBottomSheetState()
                 ) {
-                    AccountDetailPage(
-                        // Text of popup display
-                        username = "TestUsername",
-                        email = "Test.User.email@example.com"
-                    )
+                    AccountDetailPage()
                 }
             }
         }
@@ -191,18 +188,24 @@ fun HealthStudioBar(showAccountPage: () -> Unit) {
                     .padding(end = 16.dp),
                 contentAlignment = Alignment.Center
             ){
-
-                Image(
-                    painter = painterResource(id = R.drawable.default_user),
-                    contentDescription = "User profile",
+                Box(
                     modifier = Modifier
                         .size(50.dp)
                         .clip(CircleShape)
-                        .background(Color.Gray)
-                        .clickable { showAccountPage() }
-                )
+                        .border(width = 1.dp, color = Color.White, shape = CircleShape)
+                        .background(Color.Gray),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.health_studio_user2),
+                        contentDescription = "User profile",
+                        modifier = Modifier
+                            .size(50.dp)
+                            .clip(CircleShape)
+                            .clickable { showAccountPage() }
+                    )
+                }
             }
-
         },
         modifier = Modifier.height(150.dp),
         colors = androidx.compose.material3.TopAppBarDefaults.topAppBarColors(

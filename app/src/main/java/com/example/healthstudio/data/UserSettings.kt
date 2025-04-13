@@ -9,7 +9,7 @@ data class UserSettings(
     // User name
     val username: String,
     // User gender
-    val gender: String = "Unknown",
+    val gender: String,
     // User age
     val age: Int = 0
 )

@@ -43,6 +43,7 @@
         bones.</string>
 
     // The documents in app
+    <string name="health_title">About the Health Studio</string>
     <string name="health_intro">In the fast pace of modern life, it is vital to maintain physical
         health, health not only means the absence of disease, but also includes good physical
         fitness, mental state and lifestyle, and through scientific management of health data and
@@ -51,6 +52,7 @@
         of life, and find small changes in the body, take early measures, such as long-term lack of
         sleep may affect the immune system, and irregular heart rate may be a signal of potential
         health problems</string>
+    <string name="fitness_title">About the Fitness Studio</string>
     <string name="fitness_intro">Fitness can not only build muscle strength, improve heart and lung
         function and promote new circulation, but also effectively relieve stress, improve sleep
         quality, and enhance overall health. By scientifically recording exercise data (such as
@@ -92,4 +94,7 @@
         Fitness+ Perks: Personalized Fitness Advice – Get workouts tailored to you! Upgrade now
         for a healthier, stronger you!</string>
     <string name="to_be_continue">Coming Soon…</string>
+
+    // Texts for account popup
+    <string name="account_pop_title">Your Account Detail</string>
 </resources>

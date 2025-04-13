@@ -6,6 +6,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -132,7 +133,7 @@ fun FitnessPage(
                     item {
                         HorizontalDivider(color = Color.Gray, thickness = 1.dp)
                         Article(
-                            title = stringResource(id = R.string.howto_title),
+                            title = stringResource(id = R.string.fitness_title),
                             content = stringResource(id = R.string.fitness_intro),
                             imageUrl = "https://play-lh.googleusercontent.com/Lv-fXYSg2DGC2NtR-88dQ-jFEZyA9PtxsGqPS9_Oo7VlmfrrwcEI-SnLwVPbM30-spaS=w648-h364-rw"
                         )
@@ -146,11 +147,7 @@ fun FitnessPage(
                     onDismissRequest = { showSheet = false },
                     sheetState = rememberModalBottomSheetState()
                 ) {
-                    AccountDetailPage(
-                        // Text of popup display
-                        username = "TestUsername",
-                        email = "Test.User.email@example.com"
-                    )
+                    AccountDetailPage()
                 }
             }
         }
@@ -195,15 +192,23 @@ fun FitnessPageBar(weatherInfo: String, showAccountPage: () -> Unit) {
                     .padding(end = 16.dp),
                 contentAlignment = Alignment.Center
             ){
-                Image(
-                    painter = painterResource(id = R.drawable.default_user),
-                    contentDescription = "User profile",
+                Box(
                     modifier = Modifier
                         .size(50.dp)
                         .clip(CircleShape)
-                        .background(Color.Gray)
-                        .clickable { showAccountPage() }
-                )
+                        .border(width = 1.dp, color = Color.White, shape = CircleShape)
+                        .background(Color.Gray),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.health_studio_user2),
+                        contentDescription = "User profile",
+                        modifier = Modifier
+                            .size(50.dp)
+                            .clip(CircleShape)
+                            .clickable { showAccountPage() }
+                    )
+                }
             }
 
         },
