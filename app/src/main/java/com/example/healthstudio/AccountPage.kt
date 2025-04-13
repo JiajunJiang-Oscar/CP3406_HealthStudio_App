@@ -172,26 +172,36 @@ fun UserInfoCard(viewModel: HealthViewModel = viewModel()) {
         Column(
             modifier = Modifier.padding(20.dp)
         ) {
-            LabeledText(label = "User Name", value = userSettings.username)
-            LabeledText(label = "Gender", value = userSettings.gender)
-            LabeledText(label = "Age", value = userSettings.age.toString())
+            LabeledText(
+                label = stringResource(id = R.string.name),
+                value = userSettings.username
+            )
+            LabeledText(
+                label = stringResource(id = R.string.gender),
+                value = userSettings.gender
+            )
+            LabeledText(
+                label = stringResource(id = R.string.age),
+                value = userSettings.age
+                    .toString()
+            )
             HalvingLineSpace()
 
             // Set info
             LabeledTextField(
                 value = inputUsername,
                 onValueChange = { inputUsername = it },
-                label = "Enter New Username"
+                label = stringResource(id = R.string.enter_name)
             )
             LabeledTextField(
                 value = inputGender,
                 onValueChange = { inputGender = it },
-                label = "Enter Gender"
+                label = stringResource(id = R.string.enter_gender)
             )
             LabeledTextField(
                 value = inputAge,
                 onValueChange = { inputAge = it },
-                label = "Enter Age"
+                label = stringResource(id = R.string.enter_age)
             )
             Spacer(modifier = Modifier.height(10.dp))
             SaveAllUserSettingsButton(
@@ -287,15 +297,17 @@ fun SaveAllUserSettingsButton(
                 ).show()
                 return@Button
             }
-            viewModel.updateUsername(inputUsername)
-            viewModel.updateGender(inputGender)
-            viewModel.updateAge(ageInt)
+            viewModel.updateUserSettings(
+                username = inputUsername,
+                gender = inputGender,
+                age = ageInt
+            )
             onSuccess()
         },
         modifier = Modifier.fillMaxWidth(),
         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2E8B57))
     ) {
-        Text("Save All", fontSize = 18.sp)
+        Text(text = stringResource(id = R.string.save), fontSize = 18.sp)
     }
 
     Spacer(modifier = Modifier.height(10.dp))

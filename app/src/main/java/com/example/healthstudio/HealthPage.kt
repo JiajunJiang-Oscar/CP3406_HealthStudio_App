@@ -61,6 +61,7 @@ import java.util.Calendar
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomePage(viewModel: HealthViewModel = viewModel()) {
+    // Load Data
     LaunchedEffect(Unit) {
         viewModel.loadData("health")
     }
@@ -143,7 +144,7 @@ fun HomePage(viewModel: HealthViewModel = viewModel()) {
                     onDismissRequest = { showAccount = false },
                     sheetState = rememberModalBottomSheetState()
                 ) {
-                    AccountDetailPage()
+                    AccountDetailPage(viewModel = viewModel)
                 }
             }
         }

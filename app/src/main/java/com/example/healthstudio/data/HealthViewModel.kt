@@ -40,31 +40,18 @@ class HealthViewModel(
         }
     }
 
-    fun updateUsername(newName: String) {
-        // Function of update user name
+    fun updateUserSettings(
+        username: String? = null,
+        gender: String? = null,
+        age: Int? = null
+    ) {
         viewModelScope.launch {
-            val current = userDao.getUserSettings() ?: UserSettings(username = "default", gender = "Unknown")
-            val updated = current.copy(username = newName)
-            userDao.updateUserSettings(updated)
-            _userSettings.value = updated
-        }
-    }
-
-    fun updateGender(newGender: String) {
-        // Function of update user gender
-        viewModelScope.launch {
-            val current = userDao.getUserSettings() ?: UserSettings(username = "default", gender = "Unknown")
-            val updated = current.copy(gender = newGender)
-            userDao.updateUserSettings(updated)
-            _userSettings.value = updated
-        }
-    }
-
-    fun updateAge(newAge: Int) {
-        // Function of update user age
-        viewModelScope.launch {
-            val current = userDao.getUserSettings() ?: UserSettings(username = "default", gender = "Unknown")
-            val updated = current.copy(age = newAge)
+            val current = userDao.getUserSettings() ?: UserSettings(username = "Default", gender = "Unknown")
+            val updated = current.copy(
+                username = username ?: current.username,
+                gender = gender ?: current.gender,
+                age = age ?: current.age
+            )
             userDao.updateUserSettings(updated)
             _userSettings.value = updated
         }

@@ -63,6 +63,7 @@ fun FitnessPage(
     viewModel: HealthViewModel = viewModel(),
     weatherViewModel: WeatherViewModel = viewModel()
 ) {
+    // Load Data
     LaunchedEffect(Unit) {
         viewModel.loadData("fitness")
     }
@@ -147,7 +148,7 @@ fun FitnessPage(
                     onDismissRequest = { showSheet = false },
                     sheetState = rememberModalBottomSheetState()
                 ) {
-                    AccountDetailPage()
+                    AccountDetailPage(viewModel = viewModel)
                 }
             }
         }

@@ -10,6 +10,7 @@
     <string name="night">Good Evening!</string>
 
     // Button's text
+    <string name="save">Save All Information</string>
     <string name="get_info">Get More Info</string>
     <string name="unlock_more_function">Unlock More Function</string>
     <string name="import_button">Import</string>
@@ -19,6 +20,14 @@
     <string name="import_text_field_title">Choice your information type here</string>
     <string name="import_value_title">Input the value here</string>
     <string name="enter_value">Enter Value</string>
+
+    // Account Page
+    <string name="name">User Name</string>
+    <string name="gender">Gender</string>
+    <string name="age">Age</string>
+    <string name="enter_name">Enter New Username</string>
+    <string name="enter_gender">Enter Your Gender</string>
+    <string name="enter_age">Enter Your Age</string>
 
     // Data exception alert
     <string name="h_heart_rate">！！Heart rate is currently high, so it is recommended to pay
