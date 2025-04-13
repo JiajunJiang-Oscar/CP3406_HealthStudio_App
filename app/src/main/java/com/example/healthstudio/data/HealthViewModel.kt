@@ -32,7 +32,7 @@ class HealthViewModel(
         }
     }
 
-    private fun loadUserSettings() {
+    fun loadUserSettings() {
         // Function of load user information
         viewModelScope.launch {
             val user = userDao.getUserSettings() ?: UserSettings(username = "Default", gender = "Unknown")

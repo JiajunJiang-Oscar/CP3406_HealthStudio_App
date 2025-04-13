@@ -83,7 +83,7 @@ fun HomePage(viewModel: HealthViewModel = viewModel()) {
 
     Scaffold(
         // Click avatar to display a pop-up window
-        topBar = { HealthStudioBar { showAccount = true } },
+        topBar = { HealthStudioBar(viewModel) { showAccount = true } },
         content = { paddingValues ->
             Box(
                 modifier = Modifier
@@ -157,7 +157,7 @@ fun HomePage(viewModel: HealthViewModel = viewModel()) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HealthStudioBar(showAccountPage: () -> Unit) {
+fun HealthStudioBar(viewModel: HealthViewModel, showAccountPage: () -> Unit) {
     // Function of top bar in health page and pass a function to trigger a popup
     TopAppBar(
         title = {
@@ -207,7 +207,10 @@ fun HealthStudioBar(showAccountPage: () -> Unit) {
                         modifier = Modifier
                             .size(50.dp)
                             .clip(CircleShape)
-                            .clickable { showAccountPage() }
+                            .clickable {
+                                showAccountPage()
+                                viewModel.loadUserSettings()
+                            }
                     )
                 }
             }
