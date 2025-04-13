@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -23,6 +24,10 @@ import com.example.healthstudio.data.HealthViewModel
 @Composable
 fun AccountDetailPage(viewModel: HealthViewModel) {
     val userSettings by viewModel.userSettings.collectAsState()
+
+    LaunchedEffect(userSettings) {
+        println("AccountDetailPage recomposed with new userSettings: $userSettings")
+    }
 
     Column(
         modifier = Modifier
