@@ -1,3 +1,5 @@
+package com.example.healthstudio
+
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.healthstudio.data.UserSettings
 import com.example.healthstudio.data.UserSettingsDao
@@ -32,10 +34,18 @@ class HealthViewModelTest {
 
     @Test
     fun testUpdateUsername_updatesCorrectly() = runTest {
-        val initialSettings = UserSettings(username = "default")
+        val initialSettings = UserSettings(
+            username = "default",
+            gender = "Unknown",
+            age = 0
+        )
         whenever(userSettingsDao.getUserSettings()).thenReturn(initialSettings)
 
-        viewModel.updateUsername("Oscar")
+        viewModel.updateUserSettings(
+            username = "Oscar",
+            gender = "Unknown",
+            age = 0
+        )
         testDispatcher.scheduler.advanceUntilIdle()
 
         verify(userSettingsDao).updateUserSettings(check {

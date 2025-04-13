@@ -20,7 +20,7 @@ class AccountPageTest {
     fun setup() {
         composeTestRule.setContent {
             HealthStudioTheme {
-                AccountPage()  // 确保测试的是这个页面
+                AccountPage()
             }
         }
     }
@@ -41,7 +41,6 @@ class AccountPageTest {
 
         composeTestRule.onNodeWithTag("saveButton").performClick()
 
-        // 检查是否更新
         composeTestRule.waitUntil(timeoutMillis = 5_000) {
             composeTestRule
                 .onAllNodesWithText("User Name: Test User")
